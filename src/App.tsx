@@ -1,9 +1,27 @@
+import { RouterProvider, createMemoryRouter } from "react-router-dom";
+import Layout from "./layouts/Layout";
+import LoginPage from "./pages/LoginPage";
+import HomePage from "./pages/HomePage";
+
+const router = createMemoryRouter([
+    {
+        path: "/",
+        element: <Layout />,
+        children: [
+            {
+                path: "/",
+                element: <LoginPage />,
+            },
+            {
+                path: "/home",
+                element: <HomePage />,
+            },
+        ],
+    },
+]);
+
 function App() {
-    return (
-        <div className="App">
-            <header className="App-header">React</header>
-        </div>
-    );
+    return <RouterProvider router={router} />;
 }
 
 export default App;
