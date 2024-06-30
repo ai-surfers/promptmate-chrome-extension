@@ -1,9 +1,26 @@
 {
     "manifest_version": 3,
     "version": "1.0.0",
-    "short_name": "React App YSYS",
-    "name": "Create React App Sample YSYS",
+    "short_name": "Prompt mate",
+    "name": "Prompt mate",
     "action": {
         "default_popup": "index.html"
+    },
+    "permissions": ["identity"],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["content.js"]
+        }
+    ],
+    "oauth2": {
+        "client_id": "1005663016022-c6urpqu7g0ceucl5ibumq9276d6c8t88.apps.googleusercontent.com",
+        "scopes": [
+            "https://www.googleapis.com/auth/userinfo.profile",
+            "https://www.googleapis.com/auth/userinfo.email"
+        ]
     }
 }
