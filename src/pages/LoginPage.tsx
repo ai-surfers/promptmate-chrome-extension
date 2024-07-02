@@ -1,10 +1,9 @@
 import styled from "styled-components";
-import { auth, provider, signInWithPopup } from "../firebase/firebase";
-import { GoogleAuthProvider, signInWithCredential } from "firebase/auth";
 import { useState } from "react";
 
 export default function LoginPage() {
-    const [res, setRes] = useState("");
+    const [token, setToken] = useState("");
+
     async function login() {
         console.log("CLik!");
         // try {
@@ -38,14 +37,29 @@ export default function LoginPage() {
                 return;
             }
             console.log("signed in!", token);
-            setRes(token);
+            setToken(token);
         });
+    };
+
+    const [msg, setMsg] = useState("");
+    const callAPI = () => {
+        fetch("https://promptmate.site/login")
+            .then((res) => {
+                console.log(res);
+                setMsg(String(res.ok));
+            })
+            .catch((err) => {
+                console.error(err);
+                setMsg(err);
+            });
     };
 
     return (
         <>
             <Button onClick={loginWithGoogle}>Login</Button>
-            <div>Token - {res}</div>
+            <div>Token - {token}</div>
+            <Button onClick={callAPI}>API Test</Button>
+            <div>Msg - {msg}</div>
         </>
     );
 }
