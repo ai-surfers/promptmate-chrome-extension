@@ -1,20 +1,58 @@
 // chrome/storage.ts
+// https://developer.chrome.com/docs/extensions/reference/api/storage
 
-export const getAccessTokenFromStorage = (
-    callback: (token: string) => void
+/**
+ * Chrome Local Storage Getter
+ * @param key
+ * @param callback
+ */
+export const getFromStorage = (
+    key: string,
+    callback: (value: string) => void
 ) => {
-    chrome.storage.local.get("access_token", function (result) {
-        console.log("Value currently is " + result.access_token);
-        callback(result.access_token);
+    chrome.storage.local.get(key, (result) => {
+        const value = result[key];
+        console.log(`🟢 [Chrome Storage] get - ${key}: ${value}`);
+        callback(value);
     });
 };
 
-export const setAccessTokenInStorage = (
-    accessToken: string,
+/**
+ * Chrome Local Storage Setter
+ * @param key
+ * @param value
+ * @param callback
+ */
+export const setToStorage = (
+    key: string,
+    value: string,
     callback: () => void
 ) => {
-    chrome.storage.local.set({ access_token: accessToken }, function () {
-        console.log("Value is set to " + accessToken);
+    chrome.storage.local.set({ key: value }, function () {
+        console.log(`🟢 [Chrome Storage] set - ${key}: ${value}`);
+        callback();
+    });
+};
+
+/**
+ * Chrome Local Storage Remover
+ * @param key
+ * @param callback
+ */
+export const removeFromStorage = (key: string, callback: () => void) => {
+    chrome.storage.local.remove(key, function () {
+        console.log(`🟢 [Chrome Storage] remove - ${key}`);
+        callback();
+    });
+};
+
+/**
+ * Chrome Local Storage Clear
+ * @param callback
+ */
+export const clearStorage = (callback: () => void) => {
+    chrome.storage.local.clear(function () {
+        console.log(`🟢 [Chrome Storage] clear`);
         callback();
     });
 };

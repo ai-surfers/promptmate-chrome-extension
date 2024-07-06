@@ -1,13 +1,10 @@
 import styled from "styled-components";
 import { useState } from "react";
 import { login } from "../../service/auth/auth";
-import {
-    getAccessTokenFromStorage,
-    setAccessTokenInStorage,
-} from "../../service/chrome/storage";
+import { getFromStorage, setToStorage } from "../../service/chrome/storage";
 import { getAuthToken } from "../../service/chrome/identity";
-import { LoginResponse } from "../../service/auth/auth.model";
 import { useNavigate } from "react-router-dom";
+import { ACCESS_TOKEN } from "../../service/chrome/storage.keys";
 
 export default function LoginPage() {
     const [token, setToken] = useState("");
@@ -16,29 +13,29 @@ export default function LoginPage() {
     const [accessToken2, setAccessToken2] = useState("");
 
     const getAccessToken = () => {
-        getAccessTokenFromStorage((token) => {
+        getFromStorage(ACCESS_TOKEN, (token) => {
             setAccessToken2(token);
         });
     };
 
     const callAPI = async () => {
         getAuthToken((token) => {
+            if (token === "") {
+                alert("Failed!");
+                return;
+            }
+
             setToken(token);
+            login(token).then((res) => {
+                console.log(res);
+                if (res.data.access_token) {
+                    setMsg(res.message);
 
-            login(token).then(
-                (res: {
-                    data: {
-                        access_token: string;
-                    };
-                }) => {
-                    console.log(res);
-                    setMsg(res.data.access_token || "성공");
-
-                    setAccessTokenInStorage(res.data.access_token, () => {
+                    setToStorage(ACCESS_TOKEN, res.data.access_token, () => {
                         setAccessToken1(res.data.access_token);
                     });
                 }
-            );
+            });
         });
     };
 

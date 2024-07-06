@@ -44,10 +44,14 @@ export const POST = async <T>(
     url: string,
     data?: any,
     config?: AxiosRequestConfig
-): Promise<AxiosResponse> => {
-    // <BaseResponse<T>
-    const response: AxiosResponse = await API.post(url, data, config);
-    return response;
+): Promise<BaseResponse<T>> => {
+    const response: AxiosResponse<BaseResponse<T>> = await API.post(
+        url,
+        data,
+        config
+    );
+    console.log(">> ", response);
+    return response.data;
 };
 
 // const PUT = async <T>(

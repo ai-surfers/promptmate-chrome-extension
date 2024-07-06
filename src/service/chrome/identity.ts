@@ -6,9 +6,13 @@ export const getAuthToken = (callback: (token: string) => void) => {
             chrome.tabs.create({
                 url: "https://accounts.google.com/signin",
             });
+
+            callback("");
             return;
         }
         console.log("signed in!", token);
+
+        console.log(`🟠 [Chrome Identity] getAuthToken - ${token}`);
         callback(token);
     });
 };
