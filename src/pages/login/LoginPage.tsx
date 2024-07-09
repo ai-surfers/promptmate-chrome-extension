@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN } from "../../service/chrome/storage.keys";
 import GoogleLogin from "../../components/login/GoogleButton";
 import { useAlert } from "../../hooks/useAlert";
+import Button from "../../components/common/Button";
 
 export default function LoginPage() {
     const navigate = useNavigate();
@@ -61,6 +62,10 @@ export default function LoginPage() {
     return (
         <LoginPageContainer>
             <GoogleLogin onClick={loginWithGoogle} />
+            <Button
+                title="프롬프트 페이지"
+                onClick={() => navigate("/prompt")}
+            />
         </LoginPageContainer>
     );
 }
