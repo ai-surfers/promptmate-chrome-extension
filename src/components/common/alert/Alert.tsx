@@ -1,19 +1,26 @@
 import styled from "styled-components";
-import Button from "./Button";
+import Button from "../Button";
+import { useAlert } from "../../../hooks/useAlert";
 
-interface AlertProps {
-    msg: string;
-    onClick?: () => void;
-}
+const Alert = () => {
+    const { alertData, closeAlert } = useAlert();
 
-const Alert = ({ msg, onClick }: AlertProps) => {
+    function handleOnClick() {
+        if (alertData.callBack) alertData.callBack();
+        else closeAlert();
+    }
+
     return (
         <>
-            <Overlay />
-            <AlertContainer>
-                <div>{msg}</div>
-                <Button title="확인" onClick={onClick} />
-            </AlertContainer>
+            {alertData.isOpen && (
+                <>
+                    <Overlay />
+                    <AlertContainer>
+                        <div>{alertData.content}</div>
+                        <Button title="확인" onClick={handleOnClick} />
+                    </AlertContainer>
+                </>
+            )}
         </>
     );
 };

@@ -5,13 +5,11 @@ import { getAuthToken } from "../../service/chrome/identity";
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN } from "../../service/chrome/storage.keys";
 import GoogleLogin from "../../components/login/GoogleButton";
-import Alert from "../../components/common/Alert";
-import { useState } from "react";
+import { useAlert } from "../../hooks/useAlert";
 
 export default function LoginPage() {
     const navigate = useNavigate();
-    const [showSuccessAlert, setShowSuccessAlert] = useState(false);
-    const [showFailAlert, setShowFailAlert] = useState(false);
+    const { openAlert, closeAlert } = useAlert();
 
     /**
      * Login With Google
@@ -30,26 +28,22 @@ export default function LoginPage() {
 
                 if (res.data.access_token) {
                     setToStorage(ACCESS_TOKEN, res.data.access_token, () => {
-                        setShowSuccessAlert(true);
+                        openAlert({
+                            content: "로그인에 성공하였습니다.",
+                            callback: () => {
+                                navigate("/home");
+                                closeAlert();
+                            },
+                        });
                     });
                 }
             });
         });
     };
 
-    function success() {
-        setShowSuccessAlert(false);
-        navigate("/home");
-    }
-
     return (
         <LoginPageContainer>
             <GoogleLogin onClick={loginWithGoogle} />
-
-            {showSuccessAlert && (
-                <Alert msg="로그인에 성공하였습니다." onClick={success} />
-            )}
-            {showFailAlert && <Alert msg="로그인에 실패하였습니다." />}
         </LoginPageContainer>
     );
 }
