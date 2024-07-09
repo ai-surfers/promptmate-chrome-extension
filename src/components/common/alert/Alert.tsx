@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import Button from "../Button";
+import Button from "../button/Button";
 import { useAlert } from "../../../hooks/useAlert";
 
 const Alert = () => {
@@ -58,4 +58,5 @@ const AlertContainer = styled.div`
 
 const AlertContent = styled.div`
     ${({ theme }) => theme.mixins.flexBox()};
+    white-space: pre-wrap;
 `;

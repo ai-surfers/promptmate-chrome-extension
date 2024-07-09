@@ -5,7 +5,7 @@ const colors = {
     white: "#FFFFFF",
     black: "#1E1E1E",
     gray: "#94A3B8",
-    light_gray: "#F9F9F9",
+    light_gray: "#F3F4F6",
     deep_gray: "#727272",
     main: "#070944",
     main_light: "#5D5A88",
@@ -47,7 +47,7 @@ const fonts = {
     `,
     button: css`
         font-family: Pretendard;
-        font-size: 14px;
+        font-size: 16px;
         font-style: normal;
         font-weight: 700;
         line-height: 100%;
@@ -59,6 +59,41 @@ const fonts = {
         font-style: normal;
         line-height: 160%; /* 1.8rem */
         text-align: center;
+    `,
+    h3: css`
+        font-family: Pretendard;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 160%; /* 1.8rem */
+    `,
+    input: css`
+        font-family: Pretendard;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 160%; /* 1.8rem */
+    `,
+    placeholder: css`
+        font-family: Pretendard;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 300;
+        line-height: 130%; /* 1.8rem */
+    `,
+    select: css`
+        font-family: Pretendard;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 300;
+        line-height: 100%;
+    `,
+    option: css`
+        font-family: Pretendard;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 300;
+        line-height: 100%;
     `,
     heading_01: css`
         font-family: Pretendard;

@@ -5,7 +5,7 @@ import { getFromStorage, setToStorage } from "../../service/chrome/storage";
 import { getAuthToken } from "../../service/chrome/identity";
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN } from "../../service/chrome/storage.keys";
-import Button from "../../components/common/Button";
+import Button from "../../components/common/button/Button";
 import GoogleLogin from "../../components/login/GoogleButton";
 
 export default function LoginPage() {

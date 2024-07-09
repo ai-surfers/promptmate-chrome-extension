@@ -48,6 +48,19 @@ ${reset}
     margin-bottom: 6.4rem;
 }
 
+button,
+input,
+textarea {
+    -webkit-appearance: button; 
+    cursor: pointer; 
+    border: none;
+    line-height: normal;
+}
+
+input, textarea, select {
+  outline: none;
+}
+
 // body {
 //     max-width: 100vw;
 //     max-height: 600px;

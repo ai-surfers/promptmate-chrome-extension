@@ -25,11 +25,11 @@ const ButtonContainer = styled.button<{
     width: ${({ width = "100%" }) => width};
     border-radius: 40px;
     border: 1px solid #5d5a88;
-    padding: 12px 0;
+    padding: 15px 0;
     margin: 5px 0;
 
-    background: ${({ theme }) => theme.colors.white};
-    color: ${({ theme }) => theme.colors.main_light};
+    background: ${({ theme }) => theme.colors.main};
+    color: ${({ theme }) => theme.colors.white};
 
     &:hover {
         background: ${({ theme }) => theme.colors.main_light};
