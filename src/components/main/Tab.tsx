@@ -1,26 +1,19 @@
-import React, { useState } from "react";
 import styled from "styled-components";
 import { TabList } from "../../core/Tab";
 
 interface TabProps {
-    onChange: (tab: string) => void;
+    current: number;
+    onChange: (tabIdx: number) => void;
     onAdd: () => void;
 }
 
-export default function Tab({ onChange, onAdd }: TabProps) {
-    const [currentTab, setCurrentTab] = useState<string>(TabList[0]);
-
-    function handleOnClick(tab: string) {
-        setCurrentTab(tab);
-        onChange(tab);
-    }
-
+export default function Tab({ current, onChange, onAdd }: TabProps) {
     return (
         <TabContainer>
-            {TabList.map((tab) => (
+            {TabList.map((tab, idx) => (
                 <TabItem
-                    selected={currentTab === tab}
-                    onClick={() => handleOnClick(tab)}
+                    selected={current === idx}
+                    onClick={() => onChange(idx)}
                 >
                     {tab}
                 </TabItem>
@@ -42,6 +35,7 @@ const TabContainer = styled.div`
 
     width: 100%;
     max-width: 452px;
+    height: 50px;
     padding-right: 80px;
 
     position: fixed;
@@ -55,7 +49,6 @@ const TabContainer = styled.div`
 const TabItem = styled.div<{ selected: boolean }>`
     flex: 1;
     text-align: center;
-    padding: 20px;
 
     cursor: pointer;
     color: ${({ selected, theme }) =>

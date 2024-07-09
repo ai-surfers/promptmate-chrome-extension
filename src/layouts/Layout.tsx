@@ -28,6 +28,5 @@ const Container = styled.div`
 const Wrapper = styled.div`
     width: 100%;
     height: calc(600px - 60px);
-    padding: 20px 40px;
     background: #fff;
 `;

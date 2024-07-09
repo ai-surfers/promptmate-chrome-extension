@@ -1,25 +1,40 @@
 import { useNavigate } from "react-router-dom";
 import Tab from "../../components/main/Tab";
 import styled from "styled-components";
+import All from "../../components/main/All";
+import My from "../../components/main/My";
+import Favorite from "../../components/main/Favorite";
+import { useState } from "react";
 
 export default function HomePage() {
     const navigate = useNavigate();
 
-    function onCurrentTabChanged(tab: string) {
-        alert(tab);
-    }
+    const components = [<All />, <My />, <Favorite />];
+    const [tabIdx, setTabIdx] = useState(0);
+
     return (
-        <HomeContainer>
+        <HomePageContainer>
             <Tab
-                onChange={onCurrentTabChanged}
+                current={tabIdx}
+                onChange={(idx) => setTabIdx(idx)}
                 onAdd={() => navigate("/prompt")}
             />
-        </HomeContainer>
+
+            <ComponentContainer>{components[tabIdx]}</ComponentContainer>
+        </HomePageContainer>
     );
 }
 
-const HomeContainer = styled.div`
+const HomePageContainer = styled.div`
     position: relative;
     width: 100%;
     height: 100%;
+
+    padding-top: 50px;
+`;
+
+const ComponentContainer = styled.div`
+    width: 100%;
+    height: calc(600px - (60px + 50px));
+    padding: 40px;
 `;
