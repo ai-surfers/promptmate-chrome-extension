@@ -10,7 +10,7 @@ export const getFromStorage = (
     key: string,
     callback: (value: string) => void
 ) => {
-    chrome.storage.local.get(key, (result) => {
+    chrome.storage.local.get([key], (result) => {
         const value = result[key];
         console.log(`🟢 [Chrome Storage] get - ${key}: ${value}`);
         callback(value);
@@ -28,7 +28,7 @@ export const setToStorage = (
     value: string,
     callback: () => void
 ) => {
-    chrome.storage.local.set({ key: value }, function () {
+    chrome.storage.local.set({ [key]: value }, function () {
         console.log(`🟢 [Chrome Storage] set - ${key}: ${value}`);
         callback();
     });
