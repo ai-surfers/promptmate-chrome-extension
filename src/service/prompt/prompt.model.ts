@@ -1,12 +1,10 @@
-import { Visibility } from "../../core/Prompt";
-
 /**
  * PromptRequest
  */
 export interface PromptRequest {
     title: string;
     description: string;
-    visibility: Visibility;
+    visibility: string;
     category: string;
     prompt_template: string;
 }

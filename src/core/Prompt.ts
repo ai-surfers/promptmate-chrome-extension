@@ -1,11 +1,12 @@
-export enum Visibility {
-    PUBLIC = "public",
-    PRIVATE = "private",
-}
+// export enum Visibility {
+//     PUBLIC = "public",
+//     PRIVATE = "private",
+// }
 
-// export enum Category {}
+// export type Visibility = "public" | "private";
 
-export const Category: readonly string[] = [
+export const Visibility: string[] = ["public", "private"];
+export const Category: string[] = [
     "branding",
     "business",
     "data",

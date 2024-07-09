@@ -88,6 +88,13 @@ const fonts = {
         font-weight: 300;
         line-height: 100%;
     `,
+    option: css`
+        font-family: Pretendard;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 300;
+        line-height: 100%;
+    `,
     heading_01: css`
         font-family: Pretendard;
         font-size: 16px;

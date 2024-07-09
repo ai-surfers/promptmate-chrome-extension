@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN } from "../../service/chrome/storage.keys";
 import GoogleLogin from "../../components/login/GoogleButton";
 import { useAlert } from "../../hooks/useAlert";
-import Button from "../../components/common/Button";
+import Button from "../../components/common/button/Button";
 
 export default function LoginPage() {
     const navigate = useNavigate();

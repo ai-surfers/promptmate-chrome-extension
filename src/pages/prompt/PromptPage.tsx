@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import Button from "../../components/common/Button";
+import Button from "../../components/common/button/Button";
 import Input from "../../components/common/input/Input";
 import { useState } from "react";
 import TextArea from "../../components/common/input/TextArea";
@@ -9,26 +9,34 @@ import { PromptRequest } from "../../service/prompt/prompt.model";
 import { Category, Visibility } from "../../core/Prompt";
 import { useAlert } from "../../hooks/useAlert";
 import SelectBox from "../../components/common/input/SelectBox";
+import OptionBox from "../../components/common/input/OptionBox";
 
 export default function PromptPage() {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [category, setCategory] = useState(Category[0]);
+    const [visibility, setVisibility] = useState(Visibility[0]);
+
     const [prompt, setPrompt] = useState("");
 
     const navigate = useNavigate();
     const { openAlert, closeAlert } = useAlert();
 
     function savePrompt() {
-        const prompt: PromptRequest = {
-            title: "마케팅 카피라이트 만들기",
-            description: "마케팅 카피라이팅을 만드는 프롬프트",
-            visibility: Visibility.PUBLIC,
-            category: "marketing",
-            prompt_template:
-                "너는 마케팅 전문가야. $상품 이름$에 대한 마케팅 카피라이팅을 만들어줘. 예상 청중은 $예상 청중$이고 상품의 특징은 $상품 특징$. \n\n이들의 마음을 사로잡을 수 있는 매력적이고 센스있는 카피라이팅을 각기 다른 컨셉으로 총 3개 만들어줘",
+        if (!title || !description || !category || !prompt) {
+            showErrorAlert("필수 입력 사항을 \n모두 입력해주세요.");
+            return;
+        }
+
+        const promptData: PromptRequest = {
+            title: title,
+            description: description,
+            visibility: visibility,
+            category: category,
+            prompt_template: prompt,
         };
-        createPrompt(prompt)
+
+        createPrompt(promptData)
             .then((res) => {
                 const { success, detail, data } = res.data;
 
@@ -62,10 +70,6 @@ export default function PromptPage() {
 
     return (
         <>
-            <div className="button" onClick={() => navigate(-1)}>
-                Prompt
-            </div>
-
             <SubTitle>제목</SubTitle>
             <Input
                 value={title}
@@ -83,6 +87,11 @@ export default function PromptPage() {
             <OptionContainer>
                 <Option>
                     <SubTitle>공개 범위</SubTitle>
+                    <OptionBox
+                        value={visibility}
+                        options={Visibility}
+                        onChange={(vis) => setVisibility(vis)}
+                    />
                 </Option>
                 <Option>
                     <SubTitle>분야</SubTitle>
@@ -117,6 +126,7 @@ const SubTitle = styled.h3`
 
 const OptionContainer = styled.div`
     ${({ theme }) => theme.mixins.flexBox("row", "flex-start", "center")};
+    margin-bottom: 30px;
 `;
 
 const Option = styled.div`
