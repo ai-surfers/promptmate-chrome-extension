@@ -2,19 +2,14 @@ import axios, { AxiosRequestConfig, AxiosResponse } from "axios";
 
 interface BaseResponse<T> {
     success: boolean;
-    status_code: number;
-    message: string;
+    detail: string;
     data: T;
-    access_token?: string;
 }
 
 const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const API = axios.create({
     baseURL: BASE_URL,
-    validateStatus: function (status) {
-        return true;
-    },
 });
 
 API.interceptors.request.use(
@@ -34,24 +29,16 @@ API.interceptors.request.use(
 export const GET = async <T>(
     url: string,
     config?: AxiosRequestConfig
-): Promise<BaseResponse<T>> => {
-    const response: AxiosResponse<BaseResponse<T>> = await API.get(url, config);
-    return response.data;
+): Promise<AxiosResponse<BaseResponse<T>>> => {
+    return API.get(url, config);
 };
 
-// [TODO] Response 원복 필요
 export const POST = async <T>(
     url: string,
     data?: any,
     config?: AxiosRequestConfig
-): Promise<BaseResponse<T>> => {
-    const response: AxiosResponse<BaseResponse<T>> = await API.post(
-        url,
-        data,
-        config
-    );
-    console.log(">> ", response);
-    return response.data;
+): Promise<AxiosResponse<BaseResponse<T>>> => {
+    return API.post(url, data, config);
 };
 
 // const PUT = async <T>(

@@ -9,37 +9,37 @@ import Button from "../../components/common/Button";
 import GoogleLogin from "../../components/login/GoogleButton";
 
 export default function LoginPage() {
-    const [token, setToken] = useState("");
-    const [msg, setMsg] = useState("");
-    const [accessToken1, setAccessToken1] = useState("");
-    const [accessToken2, setAccessToken2] = useState("");
+    // const [token, setToken] = useState("");
+    // const [msg, setMsg] = useState("");
+    // const [accessToken1, setAccessToken1] = useState("");
+    // const [accessToken2, setAccessToken2] = useState("");
 
-    const getAccessToken = () => {
-        getFromStorage(ACCESS_TOKEN, (token) => {
-            setAccessToken2(token);
-        });
-    };
+    // const getAccessToken = () => {
+    //     getFromStorage(ACCESS_TOKEN, (token) => {
+    //         setAccessToken2(token);
+    //     });
+    // };
 
-    const callAPI = async () => {
-        getAuthToken((token) => {
-            if (token === "") {
-                alert("Failed!");
-                return;
-            }
+    // const callAPI = async () => {
+    //     getAuthToken((token) => {
+    //         if (token === "") {
+    //             alert("Failed!");
+    //             return;
+    //         }
 
-            setToken(token);
-            login(token).then((res) => {
-                console.log(res);
-                if (res.data.access_token) {
-                    setMsg(res.message);
+    //         setToken(token);
+    //         login(token).then((res) => {
+    //             console.log(res);
+    //             if (res.data.access_token) {
+    //                 setMsg(res.message);
 
-                    setToStorage(ACCESS_TOKEN, res.data.access_token, () => {
-                        setAccessToken1(res.data.access_token);
-                    });
-                }
-            });
-        });
-    };
+    //                 setToStorage(ACCESS_TOKEN, res.data.access_token, () => {
+    //                     setAccessToken1(res.data.access_token);
+    //                 });
+    //             }
+    //         });
+    //     });
+    // };
 
     const navigate = useNavigate();
 

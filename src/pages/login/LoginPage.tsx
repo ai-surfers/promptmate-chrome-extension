@@ -23,23 +23,41 @@ export default function LoginPage() {
             }
 
             // 2) 로그인 API 호출
-            login(token).then((res) => {
-                console.log(res);
+            const test = "";
+            login(test)
+                .then((res) => {
+                    const { success, detail, data } = res.data;
 
-                if (res.data.access_token) {
-                    setToStorage(ACCESS_TOKEN, res.data.access_token, () => {
+                    if (!success) {
+                        console.error(`${detail}`);
+                        showErrorAlert(detail);
+                        return;
+                    }
+
+                    // 성공 시, 스토리지에 저장 후 로그인 화면으로 이동
+                    setToStorage(ACCESS_TOKEN, data.access_token, () => {
                         openAlert({
-                            content: "로그인에 성공하였습니다.",
+                            content: detail,
                             callback: () => {
                                 navigate("/home");
                                 closeAlert();
                             },
                         });
                     });
-                }
-            });
+                })
+                .catch((error) => {
+                    console.error(error);
+                    showErrorAlert(`[${error.code}] ${error.message}`);
+                });
         });
     };
+
+    function showErrorAlert(msg: string) {
+        openAlert({
+            content: msg,
+            callback: closeAlert,
+        });
+    }
 
     return (
         <LoginPageContainer>

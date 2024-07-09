@@ -43,34 +43,29 @@ export const Overlay = styled.div`
     z-index: 999;
 `;
 
-const ButtonContainer = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 0.5rem;
-`;
-export const ModalContainer = styled.div`
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    flex-direction: column;
-    position: fixed;
+const ModalContainer = styled.div`
+    ${({ theme }) => theme.fonts.modal};
+    ${({ theme }) => theme.mixins.flexBox("column", "flex-end", "center")};
+    gap: 2.8rem;
 
     width: 18.7rem;
-
     padding: 3.3rem 3.5rem 1rem 3.5rem;
 
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+
     border-radius: 12px;
-    gap: 2.8rem;
-    flex-shrink: 0;
     background-color: white;
     z-index: 1000;
 `;
 
-export const ModalContent = styled.div`
-    text-align: center;
-    ${({ theme }) => theme.fonts.modal_01};
+const ModalContent = styled.div`
+    ${({ theme }) => theme.mixins.flexBox()};
+`;
+
+const ButtonContainer = styled.div`
+    ${({ theme }) => theme.mixins.flexBox()};
+    gap: 0.5rem;
 `;

@@ -16,7 +16,7 @@ const Alert = () => {
                 <>
                     <Overlay />
                     <AlertContainer>
-                        <div>{alertData.content}</div>
+                        <AlertContent>{alertData.content}</AlertContent>
                         <Button title="확인" onClick={handleOnClick} />
                     </AlertContainer>
                 </>
@@ -39,7 +39,7 @@ const Overlay = styled.div`
 
 const AlertContainer = styled.div`
     ${({ theme }) => theme.mixins.flexBox("column", "flex-end", "center")};
-    ${({ theme }) => theme.fonts.modal_01};
+    ${({ theme }) => theme.fonts.modal};
 
     width: 18.7rem;
     padding: 3.3rem 3.5rem 1rem 3.5rem;
@@ -54,4 +54,8 @@ const AlertContainer = styled.div`
     flex-shrink: 0;
     background-color: ${({ theme }) => theme.colors.white};
     z-index: 1000;
+`;
+
+const AlertContent = styled.div`
+    ${({ theme }) => theme.mixins.flexBox()};
 `;

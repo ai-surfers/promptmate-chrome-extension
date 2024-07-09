@@ -53,6 +53,13 @@ const fonts = {
         line-height: 100%;
         text-align: center;
     `,
+    modal: css`
+        font-family: Pretendard;
+        font-size: 14px;
+        font-style: normal;
+        line-height: 160%; /* 1.8rem */
+        text-align: center;
+    `,
     heading_01: css`
         font-family: Pretendard;
         font-size: 16px;
