@@ -1,69 +1,73 @@
 import styled from "styled-components";
-import { useState } from "react";
 import { login } from "../../service/auth/auth";
-import { getFromStorage, setToStorage } from "../../service/chrome/storage";
+import { setToStorage } from "../../service/chrome/storage";
 import { getAuthToken } from "../../service/chrome/identity";
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN } from "../../service/chrome/storage.keys";
+import GoogleLogin from "../../components/login/GoogleButton";
+import { useAlert } from "../../hooks/useAlert";
 
 export default function LoginPage() {
-    const [token, setToken] = useState("");
-    const [msg, setMsg] = useState("");
-    const [accessToken1, setAccessToken1] = useState("");
-    const [accessToken2, setAccessToken2] = useState("");
+    const navigate = useNavigate();
+    const { openAlert, closeAlert } = useAlert();
 
-    const getAccessToken = () => {
-        getFromStorage(ACCESS_TOKEN, (token) => {
-            setAccessToken2(token);
-        });
-    };
-
-    const callAPI = async () => {
+    /**
+     * Login With Google
+     */
+    const loginWithGoogle = async () => {
+        // 1) chrome API로 google auth token
         getAuthToken((token) => {
             if (token === "") {
-                alert("Failed!");
+                showErrorAlert("Google 로그인 후 이용 가능합니다. ");
                 return;
             }
 
-            setToken(token);
-            login(token).then((res) => {
-                console.log(res);
-                if (res.data.access_token) {
-                    setMsg(res.message);
+            // 2) 로그인 API 호출
+            login(token)
+                .then((res) => {
+                    const { success, detail, data } = res.data;
 
-                    setToStorage(ACCESS_TOKEN, res.data.access_token, () => {
-                        setAccessToken1(res.data.access_token);
+                    if (!success) {
+                        console.error(`${detail}`);
+                        showErrorAlert(detail);
+                        return;
+                    }
+
+                    // 성공 시, 스토리지에 저장 후 로그인 화면으로 이동
+                    setToStorage(ACCESS_TOKEN, data.access_token, () => {
+                        openAlert({
+                            content: detail,
+                            callback: () => {
+                                navigate("/home");
+                                closeAlert();
+                            },
+                        });
                     });
-                }
-            });
+                })
+                .catch((error) => {
+                    console.error(error);
+                    showErrorAlert(`[${error.code}] ${error.message}`);
+                });
         });
     };
 
-    const navigate = useNavigate();
+    function showErrorAlert(msg: string) {
+        openAlert({
+            content: msg,
+            callback: closeAlert,
+        });
+    }
 
     return (
-        <>
-            <Button onClick={callAPI}>API Test</Button>
-            <div>Token - {token}</div>
-            <div>Msg - {msg}</div>
-
-            <br />
-            <br />
-
-            <Button onClick={getAccessToken}>Storage Test</Button>
-            <div>Set Access Token - {accessToken1}</div>
-            <div>Get Access Token - {accessToken2}</div>
-
-            <br />
-            <br />
-            <h3>Page List</h3>
-            <Button onClick={() => navigate("/home")}>Home</Button>
-            <Button onClick={() => navigate("/template")}>Template</Button>
-            <Button onClick={() => navigate("/prompt")}>Prompt</Button>
-        </>
+        <LoginPageContainer>
+            <GoogleLogin onClick={loginWithGoogle} />
+        </LoginPageContainer>
     );
 }
 
-const Button = styled.button`
-    margin: 0 auto;
+const LoginPageContainer = styled.section`
+    width: 100%;
+    min-height: 100%;
+
+    ${({ theme }) => theme.mixins.flexBox("column", "center", "center")};
 `;
