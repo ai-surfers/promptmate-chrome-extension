@@ -16,14 +16,16 @@ export default function Layout() {
 const Container = styled.div`
     width: 452px;
     height: 600px;
+    background: #fff;
+    margin: 0 auto;
 
     position: relative;
+
+    border: 1px solid pink;
 `;
 
 const Wrapper = styled.div`
     width: 100%;
     height: calc(600px - 80px);
     padding: 30px;
-
-    border: 1px solid pink;
 `;
