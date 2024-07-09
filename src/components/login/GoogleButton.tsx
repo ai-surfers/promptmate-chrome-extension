@@ -30,7 +30,6 @@ const ButtonContainer = styled.button`
     }
 
     &:hover {
-        background: ${({ theme }) => theme.colors.main_light};
-        color: ${({ theme }) => theme.colors.white};
+        background: ${({ theme }) => theme.colors.G_13};
     }
 `;
