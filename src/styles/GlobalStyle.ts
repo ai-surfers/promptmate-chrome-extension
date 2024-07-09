@@ -61,10 +61,9 @@ input, textarea, select {
   outline: none;
 }
 
-// body {
-//     max-width: 100vw;
-//     max-height: 600px;
-// }
+body {
+    background: #efefef;
+}
 `;
 
 export default GlobalStyle;

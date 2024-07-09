@@ -69,7 +69,7 @@ export default function PromptPage() {
     }
 
     return (
-        <>
+        <PromptPageContainer>
             <SubTitle>제목</SubTitle>
             <Input
                 value={title}
@@ -113,10 +113,13 @@ export default function PromptPage() {
             />
 
             <Button title="추가" onClick={savePrompt} />
-        </>
+        </PromptPageContainer>
     );
 }
 
+const PromptPageContainer = styled.div`
+    padding: 20px 40px;
+`;
 const SubTitle = styled.h3`
     ${({ theme }) => theme.fonts.h3};
     color: ${({ theme }) => theme.colors.main};
