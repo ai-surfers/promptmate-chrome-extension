@@ -45,6 +45,14 @@ const fonts = {
         line-height: 100%;
         text-align: center;
     `,
+    button: css`
+        font-family: Pretendard;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 100%;
+        text-align: center;
+    `,
     heading_01: css`
         font-family: Pretendard;
         font-size: 16px;

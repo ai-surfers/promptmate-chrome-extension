@@ -1,69 +1,48 @@
 import styled from "styled-components";
-import { useState } from "react";
 import { login } from "../../service/auth/auth";
-import { getFromStorage, setToStorage } from "../../service/chrome/storage";
+import { setToStorage } from "../../service/chrome/storage";
 import { getAuthToken } from "../../service/chrome/identity";
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN } from "../../service/chrome/storage.keys";
+import GoogleLogin from "../../components/login/GoogleButton";
 
 export default function LoginPage() {
-    const [token, setToken] = useState("");
-    const [msg, setMsg] = useState("");
-    const [accessToken1, setAccessToken1] = useState("");
-    const [accessToken2, setAccessToken2] = useState("");
+    const navigate = useNavigate();
 
-    const getAccessToken = () => {
-        getFromStorage(ACCESS_TOKEN, (token) => {
-            setAccessToken2(token);
-        });
-    };
-
-    const callAPI = async () => {
+    /**
+     * Login With Google
+     */
+    const loginWithGoogle = async () => {
+        // 1) chrome API로 google auth token
         getAuthToken((token) => {
             if (token === "") {
                 alert("Failed!");
                 return;
             }
 
-            setToken(token);
+            // 2) 로그인 API 호출
             login(token).then((res) => {
                 console.log(res);
-                if (res.data.access_token) {
-                    setMsg(res.message);
 
+                if (res.data.access_token) {
                     setToStorage(ACCESS_TOKEN, res.data.access_token, () => {
-                        setAccessToken1(res.data.access_token);
+                        navigate("/home");
                     });
                 }
             });
         });
     };
 
-    const navigate = useNavigate();
-
     return (
-        <>
-            <Button onClick={callAPI}>API Test</Button>
-            <div>Token - {token}</div>
-            <div>Msg - {msg}</div>
-
-            <br />
-            <br />
-
-            <Button onClick={getAccessToken}>Storage Test</Button>
-            <div>Set Access Token - {accessToken1}</div>
-            <div>Get Access Token - {accessToken2}</div>
-
-            <br />
-            <br />
-            <h3>Page List</h3>
-            <Button onClick={() => navigate("/home")}>Home</Button>
-            <Button onClick={() => navigate("/template")}>Template</Button>
-            <Button onClick={() => navigate("/prompt")}>Prompt</Button>
-        </>
+        <LoginPageContainer>
+            <GoogleLogin onClick={loginWithGoogle} />
+        </LoginPageContainer>
     );
 }
 
-const Button = styled.button`
-    margin: 0 auto;
+const LoginPageContainer = styled.section`
+    width: 100%;
+    min-height: 100%;
+
+    ${({ theme }) => theme.mixins.flexBox("column", "center", "center")};
 `;
