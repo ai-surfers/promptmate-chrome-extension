@@ -66,6 +66,7 @@ export default function LoginPage() {
                 title="프롬프트 페이지"
                 onClick={() => navigate("/prompt")}
             />
+            <Button title="홈 페이지" onClick={() => navigate("/home")} />
         </LoginPageContainer>
     );
 }

@@ -9,9 +9,7 @@ const colors = {
     deep_gray: "#727272",
     main: "#070944",
     main_light: "#5D5A88",
-    main_blue: "#402FFF",
-    sub_blue: "#8E85FF",
-    sub_purple: "#D4D1FB",
+    main_gray: "#9CA3AF",
     G_01: "#F8F8F8",
     G_02: "#EBE9EA",
     G_03: "#ECEEF4",
@@ -93,6 +91,13 @@ const fonts = {
         font-size: 14px;
         font-style: normal;
         font-weight: 300;
+        line-height: 100%;
+    `,
+    tab: css`
+        font-family: Pretendard;
+        font-size: 14px;
+        font-style: normal;
+        font-weight: 500;
         line-height: 100%;
     `,
     heading_01: css`
