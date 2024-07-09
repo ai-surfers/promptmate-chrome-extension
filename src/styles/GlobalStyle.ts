@@ -57,7 +57,7 @@ textarea {
     line-height: normal;
 }
 
-input, textarea {
+input, textarea, select {
   outline: none;
 }
 

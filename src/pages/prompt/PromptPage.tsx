@@ -6,12 +6,14 @@ import { useState } from "react";
 import TextArea from "../../components/common/input/TextArea";
 import { createPrompt } from "../../service/prompt/prompt";
 import { PromptRequest } from "../../service/prompt/prompt.model";
-import { Visibility } from "../../core/Prompt";
+import { Category, Visibility } from "../../core/Prompt";
 import { useAlert } from "../../hooks/useAlert";
+import SelectBox from "../../components/common/input/SelectBox";
 
 export default function PromptPage() {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
+    const [category, setCategory] = useState(Category[0]);
     const [prompt, setPrompt] = useState("");
 
     const navigate = useNavigate();
@@ -84,6 +86,11 @@ export default function PromptPage() {
                 </Option>
                 <Option>
                     <SubTitle>분야</SubTitle>
+                    <SelectBox
+                        selected={category}
+                        options={Category}
+                        onChange={(cat) => setCategory(cat)}
+                    />
                 </Option>
             </OptionContainer>
 

@@ -47,7 +47,7 @@ const fonts = {
     `,
     button: css`
         font-family: Pretendard;
-        font-size: 14px;
+        font-size: 16px;
         font-style: normal;
         font-weight: 700;
         line-height: 100%;
@@ -80,6 +80,13 @@ const fonts = {
         font-style: normal;
         font-weight: 300;
         line-height: 130%; /* 1.8rem */
+    `,
+    select: css`
+        font-family: Pretendard;
+        font-size: 12px;
+        font-style: normal;
+        font-weight: 300;
+        line-height: 100%;
     `,
     heading_01: css`
         font-family: Pretendard;

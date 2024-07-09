@@ -10,7 +10,7 @@ const HeaderWrapper = styled.header`
     background: #070944;
     color: #c9c6eb;
 
-    position: sticky;
+    position: fixed;
     top: 0;
     left: 0;
 

@@ -25,7 +25,7 @@ const TextAreaBox = styled.textarea`
     ${({ theme }) => theme.fonts.input};
 
     width: 100%;
-    min-height: 100px;
+    min-height: 120px;
 
     padding: 10px 20px;
     margin-bottom: 30px;
