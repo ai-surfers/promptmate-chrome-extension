@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import Tab from "../../components/main/Tab";
+import TabBar from "../../components/main/TabBar";
 import styled from "styled-components";
 import All from "../../components/main/All";
 import My from "../../components/main/My";
@@ -14,7 +14,7 @@ export default function HomePage() {
 
     return (
         <HomePageContainer>
-            <Tab
+            <TabBar
                 current={tabIdx}
                 onChange={(idx) => setTabIdx(idx)}
                 onAdd={() => navigate("/prompt")}

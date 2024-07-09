@@ -2,10 +2,10 @@ import { Outlet } from "react-router-dom";
 import Header from "../components/common/header/Header";
 import styled from "styled-components";
 
-export default function Layout() {
+export default function PromptLayout() {
     return (
         <Container>
-            <Header title="프롬프트 메이트" />
+            <Header title="프롬프트 추가하기" canGoBack={true} />
             <Wrapper>
                 <Outlet />
             </Wrapper>

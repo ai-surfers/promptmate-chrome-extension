@@ -7,7 +7,7 @@ interface TabProps {
     onAdd: () => void;
 }
 
-export default function Tab({ current, onChange, onAdd }: TabProps) {
+export default function TabBar({ current, onChange, onAdd }: TabProps) {
     return (
         <TabContainer>
             {TabList.map((tab, idx) => (
