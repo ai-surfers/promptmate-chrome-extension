@@ -18,13 +18,12 @@ export default function LoginPage() {
         // 1) chrome API로 google auth token
         getAuthToken((token) => {
             if (token === "") {
-                alert("Failed!");
+                showErrorAlert("Google 로그인 후 이용 가능합니다. ");
                 return;
             }
 
             // 2) 로그인 API 호출
-            const test = "";
-            login(test)
+            login(token)
                 .then((res) => {
                     const { success, detail, data } = res.data;
 
