@@ -31,9 +31,9 @@ const colors = {
 const fonts = {
     title: css`
         font-family: Pretendard;
-        font-size: 24px;
+        font-size: 20px;
         font-style: normal;
-        font-weight: 700;
+        font-weight: 600;
         line-height: 160%;
         text-align: center;
     `,

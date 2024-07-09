@@ -1,12 +1,20 @@
 import styled from "styled-components";
 
-export default function Header() {
-    return <HeaderWrapper>프롬프트 메이트</HeaderWrapper>;
+interface HeaderProps {
+    title: string;
+}
+
+export default function Header({ title }: HeaderProps) {
+    return (
+        <HeaderWrapper>
+            <Title>{title}</Title>
+        </HeaderWrapper>
+    );
 }
 
 const HeaderWrapper = styled.header`
     width: 100%;
-    height: 80px;
+    height: 60px;
     background: #070944;
     color: #c9c6eb;
 
@@ -14,6 +22,9 @@ const HeaderWrapper = styled.header`
     top: 0;
     left: 0;
 
-    ${({ theme }) => theme.mixins.flexBox()};
+    padding: 0 40px;
+    ${({ theme }) => theme.mixins.flexBox("row", "space-between")};
     ${({ theme }) => theme.fonts.title};
 `;
+
+const Title = styled.div``;

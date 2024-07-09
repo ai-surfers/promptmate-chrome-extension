@@ -5,7 +5,7 @@ import styled from "styled-components";
 export default function Layout() {
     return (
         <Container>
-            <Header />
+            <Header title="프롬프트 메이트" />
             <Wrapper>
                 <Outlet />
             </Wrapper>
@@ -17,15 +17,17 @@ const Container = styled.div`
     width: 452px;
     height: 600px;
     background: #fff;
+
     margin: 0 auto;
-    padding-top: 80px;
+    padding-top: 60px;
+    overflow: scroll;
 
     position: relative;
-    border: 1px solid pink;
 `;
 
 const Wrapper = styled.div`
     width: 100%;
-    height: calc(600px - 80px);
-    padding: 20px;
+    height: calc(600px - 60px);
+    padding: 20px 40px;
+    background: #fff;
 `;
