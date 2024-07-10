@@ -27,7 +27,6 @@
     "scopes": [
       "https://www.googleapis.com/auth/userinfo.profile",
       "https://www.googleapis.com/auth/userinfo.email"
-    ],
-    "client_id": "1005663016022-c6urpqu7g0ceucl5ibumq9276d6c8t88.apps.googleusercontent.com"
+    ]
   }
 }
