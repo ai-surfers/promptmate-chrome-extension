@@ -4,32 +4,37 @@ import LoginPage from "../pages/login/LoginPage";
 import HomePage from "../pages/home/HomePage";
 import PromptPage from "../pages/prompt/PromptPage";
 import PromptLayout from "../layouts/PromptLayout";
+import TestPage from "../pages/test/TestPage";
 
 const router = createMemoryRouter([
     {
         path: "/",
-        element: <Layout />,
-        children: [
-            {
-                path: "/",
-                element: <LoginPage />,
-            },
-            {
-                path: "/home",
-                element: <HomePage />,
-            },
-        ],
+        element: <TestPage />,
     },
-    {
-        path: "/",
-        element: <PromptLayout />,
-        children: [
-            {
-                path: "/prompt",
-                element: <PromptPage />,
-            },
-        ],
-    },
+    // {
+    //     path: "/",
+    //     element: <Layout />,
+    //     children: [
+    //         {
+    //             path: "/",
+    //             element: <LoginPage />,
+    //         },
+    //         {
+    //             path: "/home",
+    //             element: <HomePage />,
+    //         },
+    //     ],
+    // },
+    // {
+    //     path: "/",
+    //     element: <PromptLayout />,
+    //     children: [
+    //         {
+    //             path: "/prompt",
+    //             element: <PromptPage />,
+    //         },
+    //     ],
+    // },
 ]);
 
 export default router;
