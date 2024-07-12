@@ -6,11 +6,46 @@ import {
     sendRuntimeMessage,
     sendWindowMessage,
 } from "../../service/chrome/messaging";
+import { login } from "../../service/auth/auth";
 
 export default function TestPage() {
     function sendChromeMessage() {
-        sendRuntimeMessage<{ token: string }>("getAuthToken", (response) => {
-            alert(response.token);
+        sendRuntimeMessage<{
+            success: boolean;
+            message: String;
+            token: string;
+        }>("getAuthToken", ({ success, message, token }) => {
+            if (!success) {
+                alert(message);
+                return;
+            }
+
+            login(token)
+                .then((res) => {
+                    const { success, detail, data } = res.data;
+
+                    if (!success) {
+                        console.error(`${detail}`);
+                        alert(detail);
+                        return;
+                    }
+
+                    // 성공 시, 스토리지에 저장 후 로그인 화면으로 이동
+                    setToStorage(ACCESS_TOKEN, data.access_token, () => {
+                        alert(detail);
+                        // openAlert({
+                        //     content: detail,
+                        //     callback: () => {
+                        //         navigate("/home");
+                        //         closeAlert();
+                        //     },
+                        // });
+                    });
+                })
+                .catch((error) => {
+                    console.error(error);
+                    alert(`[${error.code}] ${error.message}`);
+                });
         });
     }
 

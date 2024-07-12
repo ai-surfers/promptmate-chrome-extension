@@ -44,7 +44,17 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
     if (request.message === "getAuthToken") {
         chrome.identity.getAuthToken({ interactive: true }, function (token) {
-            sendResponse({ token: token });
+            if (chrome.runtime.lastError || !token) {
+                sendResponse({
+                    success: false,
+                    message: chrome.runtime.lastError.message,
+                });
+            }
+            sendResponse({
+                success: true,
+                message: "토큰 조회에 성공하였습니다. ",
+                token: token,
+            });
         });
 
         return true;
