@@ -2,24 +2,19 @@ import styled from "styled-components";
 import GoogleLoginButton from "../../components/login/GoogleButton";
 import { getFromStorage, setToStorage } from "../../service/chrome/storage";
 import { ACCESS_TOKEN } from "../../service/chrome/storage.keys";
-import {
-    sendRuntimeMessage,
-    sendWindowMessage,
-} from "../../service/chrome/messaging";
+import { sendWindowMessage } from "../../service/chrome/messaging";
 import { login } from "../../service/auth/auth";
+import { getAuthToken } from "../../service/chrome/functions";
 
 export default function TestPage() {
     function sendChromeMessage() {
-        sendRuntimeMessage<{
-            success: boolean;
-            message: String;
-            token: string;
-        }>("getAuthToken", ({ success, message, token }) => {
+        getAuthToken(({ success, detail, data }) => {
             if (!success) {
-                alert(message);
+                alert(detail);
                 return;
             }
 
+            const token = data.token;
             login(token)
                 .then((res) => {
                     const { success, detail, data } = res.data;
@@ -72,7 +67,6 @@ export default function TestPage() {
 
             <button onClick={setStorage}>setStorage</button>
             <button onClick={getStorage}>getStorage</button>
-            <button onClick={sendWindMessage}>window message</button>
         </LoginPageContainer>
     );
 }

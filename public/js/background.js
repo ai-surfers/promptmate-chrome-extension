@@ -47,13 +47,15 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
             if (chrome.runtime.lastError || !token) {
                 sendResponse({
                     success: false,
-                    message: chrome.runtime.lastError.message,
+                    detail: chrome.runtime.lastError.message,
                 });
             }
             sendResponse({
                 success: true,
-                message: "토큰 조회에 성공하였습니다. ",
-                token: token,
+                detail: "토큰 조회에 성공하였습니다. ",
+                data: {
+                    token: token,
+                },
             });
         });
 
