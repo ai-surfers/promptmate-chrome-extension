@@ -3,9 +3,7 @@
     "version": "1.0.0",
     "short_name": "Prompt mate",
     "name": "Prompt mate",
-    "action": {
-        "default_popup": "index.html"
-    },
+    "action": {},
     "permissions": ["identity", "storage"],
     "background": {
         "service_worker": "/js/background.js"
@@ -13,6 +11,7 @@
     "content_scripts": [
         {
             "matches": ["<all_urls>"],
+            "css": ["/css/root.css"],
             "js": ["/static/js/content.js"]
         }
     ],

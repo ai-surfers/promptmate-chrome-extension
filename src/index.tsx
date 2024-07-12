@@ -7,6 +7,6 @@ const root = ReactDOM.createRoot(
 );
 root.render(
     <Styles>
-        <App />
+        <App isExt={false} />
     </Styles>
 );
