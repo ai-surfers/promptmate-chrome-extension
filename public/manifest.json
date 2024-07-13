@@ -1,32 +1,28 @@
 {
-  "manifest_version": 3,
-  "version": "1.0.0",
-  "short_name": "Prompt mate",
-  "name": "Prompt mate",
-  "action": {
-    "default_popup": "index.html"
-  },
-  "permissions": [
-    "identity",
-    "storage"
-  ],
-  "background": {
-    "service_worker": "background.js"
-  },
-  "content_scripts": [
-    {
-      "matches": [
-        "<all_urls>"
-      ],
-      "js": [
-        "content.js"
-      ]
+    "manifest_version": 3,
+    "version": "1.0.0",
+    "short_name": "Prompt mate",
+    "name": "Prompt mate",
+    "action": {
+        "default_title": "Click to open panel"
+    },
+    "side_panel": {
+        "default_path": "index.html"
+    },
+    "permissions": ["identity", "storage", "sidePanel"],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": ["<all_urls>"],
+            "js": ["content.js"]
+        }
+    ],
+    "oauth2": {
+        "scopes": [
+            "https://www.googleapis.com/auth/userinfo.profile",
+            "https://www.googleapis.com/auth/userinfo.email"
+        ]
     }
-  ],
-  "oauth2": {
-    "scopes": [
-      "https://www.googleapis.com/auth/userinfo.profile",
-      "https://www.googleapis.com/auth/userinfo.email"
-    ]
-  }
 }
