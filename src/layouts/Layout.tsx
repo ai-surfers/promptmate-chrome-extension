@@ -14,8 +14,11 @@ export default function Layout() {
 }
 
 const Container = styled.div`
-    width: 452px;
-    height: 600px;
+    max-width: 452px;
+
+    width: 100vw;
+    height: 100vh;
+
     background: #fff;
 
     margin: 0 auto;
@@ -27,6 +30,6 @@ const Container = styled.div`
 
 const Wrapper = styled.div`
     width: 100%;
-    height: calc(600px - 60px);
+    height: calc(100vh - 60px);
     background: #fff;
 `;
