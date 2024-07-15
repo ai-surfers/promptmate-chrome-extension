@@ -15,7 +15,7 @@
     "side_panel": {
         "default_path": "index.html"
     },
-    "permissions": ["identity", "storage", "sidePanel"],
+    "permissions": ["identity", "storage", "sidePanel", "commands"],
     "background": {
         "service_worker": "background.js"
     },
@@ -32,6 +32,14 @@
             "matches": ["<all_urls>"]
         }
     ],
+    "commands": {
+        "_execute_action": {
+            "suggested_key": {
+                "default": "Ctrl+P",
+                "mac": "Command+P"
+            }
+        }
+    },
     "oauth2": {
         "scopes": [
             "https://www.googleapis.com/auth/userinfo.profile",

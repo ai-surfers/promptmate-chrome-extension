@@ -3,8 +3,6 @@
     right: 0;
     bottom: 20px;
 
-    border-radius: 50%;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
     cursor: pointer;
     z-index: 1000;
 
@@ -13,12 +11,8 @@
     border-radius: 23px 0 0 23px;
 
     display: flex;
+    justify-content: center;
     align-items: center;
-    font-size: 14px;
-    font-weight: 700;
-    border-width: 1px 0 1px 1px;
-    border-style: solid;
-    border-color: #ececee;
     box-shadow: 0 0 8px 4px #00000014;
 
     pointer-events: all;
@@ -28,17 +22,28 @@
 
     transition: all 0.2s;
 
+    margin-right: -35px;
+
     > img {
         width: 28px;
         height: 28px;
         transition: all 0.2s;
     }
+
+    > span {
+        margin-left: 2px;
+        font-size: 16px;
+        font-weight: 500;
+        color: #1c70ef;
+    }
 }
 
 #float-btn:hover {
-    background-color: #1c70ef;
+    margin-right: 0;
+    /* background-color: #1c70ef; */
+    background-color: #d8eaff;
 
     > img {
-        filter: grayscale(100%) brightness(3);
+        /* filter: grayscale(100%) brightness(3); */
     }
 }

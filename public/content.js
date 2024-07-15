@@ -5,16 +5,17 @@ link.type = "text/css";
 link.href = chrome.runtime.getURL("style.css");
 document.head.appendChild(link);
 
-// div 요소 생성
+// Floating Button 추가
 const buttonContainer = document.createElement("div");
 buttonContainer.id = "float-btn";
 
-// 이미지 요소 생성
 const img = document.createElement("img");
-img.src = chrome.runtime.getURL("images/logo.png"); // 이미지 경로 설정
-
-// 이미지를 div에 추가
+img.src = chrome.runtime.getURL("images/logo.png");
 buttonContainer.appendChild(img);
+
+const span = document.createElement("span");
+span.innerText = "⌘P";
+buttonContainer.appendChild(span);
 
 buttonContainer.addEventListener("click", () => {
     chrome.runtime.sendMessage({ action: "clickSidePanel" });
