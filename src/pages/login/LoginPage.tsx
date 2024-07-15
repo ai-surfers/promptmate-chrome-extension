@@ -1,15 +1,53 @@
 import styled from "styled-components";
-import { login } from "../../service/auth/auth";
-import { setToStorage } from "../../service/chrome/storage";
+import { getUser, login } from "../../service/auth/auth";
+import {
+    getFromStorage,
+    removeFromStorage,
+    setToStorage,
+} from "../../service/chrome/storage";
 import { getAuthToken } from "../../service/chrome/identity";
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN } from "../../service/chrome/storage.keys";
 import GoogleLogin from "../../components/login/GoogleButton";
 import { useAlert } from "../../hooks/useAlert";
+import { useEffect } from "react";
 
 export default function LoginPage() {
     const navigate = useNavigate();
     const { openAlert, closeAlert } = useAlert();
+
+    // 첫 렌더링 시, 자동 로그인 여부 확인
+    useEffect(() => {
+        // 1. 스토리지에서 액세스 토큰 확인
+        getFromStorage(ACCESS_TOKEN, (value) => {
+            if (!value) {
+                console.log(">> 토큰 없음!");
+                return;
+            }
+
+            // 2. 토큰 유효성 확인 (/my)
+            getUser()
+                .then((res) => {
+                    console.log(">> ", res.data);
+                    const { success, detail, data } = res.data;
+
+                    if (!success) {
+                        removeFromStorage(ACCESS_TOKEN);
+                        console.error(`${detail}`);
+                        showErrorAlert(detail);
+                        return;
+                    }
+
+                    // 자동 로그인 성공, 저장하고 홈으로 이동
+                    console.log(">> 저장", data);
+                    navigate("/home");
+                })
+                .catch((error) => {
+                    console.error(error);
+                    showErrorAlert(`[${error.code}] ${error.message}`);
+                });
+        });
+    }, []);
 
     /**
      * Login With Google
