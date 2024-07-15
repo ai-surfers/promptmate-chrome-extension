@@ -1,42 +1,63 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { useUser } from "../../../hooks/useUser";
+import { removeFromStorage } from "../../../service/chrome/storage";
+import { ACCESS_TOKEN } from "../../../service/chrome/storage.keys";
+import { useModal } from "../../../hooks/useModal";
 
 interface HeaderProps {
     title: string;
-    isLogin?: boolean;
     canGoBack?: boolean;
 }
 
-export default function Header({ title, isLogin, canGoBack }: HeaderProps) {
+export default function Header({ title, canGoBack }: HeaderProps) {
     const navigate = useNavigate();
+    const { openModal, closeModal } = useModal();
+    const { userData, resetUserState } = useUser();
+
+    function handleOnLogout() {
+        openModal({
+            content: "로그아웃하시겠습니까? ",
+            callback: function logout() {
+                resetUserState();
+                removeFromStorage(ACCESS_TOKEN);
+
+                navigate(`/`, { replace: true });
+                closeModal();
+            },
+        });
+    }
 
     return (
-        <HeaderWrapper>
+        <HeaderContainer>
             <div>{title}</div>
 
             {canGoBack && (
-                <ImageButton
-                    src="/images/ic_arrow.svg"
-                    alt="ic_back"
-                    imagePosition="left"
-                    onClick={() => navigate(-1)}
-                />
+                <ImageWrapper position="left">
+                    <img
+                        src="/images/ic_arrow.svg"
+                        alt="ic_back"
+                        onClick={() => navigate(-1)}
+                    />
+                </ImageWrapper>
             )}
 
-            {isLogin && (
-                <ImageButton
-                    src="/images/ic_person.svg"
-                    alt="ic_person"
-                    imagePosition="right"
-                />
+            {userData.isLogin && (
+                <ImageWrapper position="right" onClick={handleOnLogout}>
+                    <img
+                        src="/images/ic_person.svg"
+                        alt="ic_person"
+                        style={{ width: "18px", height: "18px" }}
+                    />
+                    <span>{userData.user?.nickname}</span>
+                </ImageWrapper>
             )}
-        </HeaderWrapper>
+        </HeaderContainer>
     );
 }
 
-const HeaderWrapper = styled.header`
+const HeaderContainer = styled.header`
     width: 100%;
-    max-width: 452px;
     height: 60px;
     background: #070944;
     color: #c9c6eb;
@@ -47,17 +68,29 @@ const HeaderWrapper = styled.header`
     transform: translateX(-50%);
 
     padding: 0 40px;
-    ${({ theme }) => theme.mixins.flexBox("row")};
+    ${({ theme }) => theme.mixins.flexBox()};
     ${({ theme }) => theme.fonts.title};
 `;
 
-const ImageButton = styled.img<{
-    imagePosition?: "left" | "right";
+const ImageWrapper = styled.div<{
+    position?: "left" | "right";
 }>`
+    ${({ theme }) => theme.mixins.flexBox()};
+    ${({ theme }) => theme.fonts.placeholder};
+    gap: 5px;
+
     position: absolute;
     top: 50%;
-    ${({ imagePosition }) => imagePosition}: 20px;
     transform: translateY(-50%);
 
+    ${({ position }) => position}: 20px;
+
     cursor: pointer;
+
+    > span {
+        max-width: 50px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
 `;

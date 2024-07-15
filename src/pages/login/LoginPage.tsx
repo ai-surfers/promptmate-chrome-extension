@@ -11,43 +11,54 @@ import { ACCESS_TOKEN } from "../../service/chrome/storage.keys";
 import GoogleLogin from "../../components/login/GoogleButton";
 import { useAlert } from "../../hooks/useAlert";
 import { useEffect } from "react";
+import { useUser } from "../../hooks/useUser";
 
 export default function LoginPage() {
     const navigate = useNavigate();
     const { openAlert, closeAlert } = useAlert();
+    const { setUser, setAccessToken, resetUserState } = useUser();
 
     // 첫 렌더링 시, 자동 로그인 여부 확인
-    useEffect(() => {
+    useEffect(function checkAutoLogin() {
         // 1. 스토리지에서 액세스 토큰 확인
         getFromStorage(ACCESS_TOKEN, (value) => {
+            setAccessToken(value);
+
             if (!value) {
-                console.log(">> 토큰 없음!");
+                resetUserState();
                 return;
             }
 
             // 2. 토큰 유효성 확인 (/my)
-            getUser()
-                .then((res) => {
-                    console.log(">> ", res.data);
-                    const { success, detail, data } = res.data;
-
-                    if (!success) {
-                        removeFromStorage(ACCESS_TOKEN);
-                        console.error(`${detail}`);
-                        showErrorAlert(detail);
-                        return;
-                    }
-
-                    // 자동 로그인 성공, 저장하고 홈으로 이동
-                    console.log(">> 저장", data);
-                    navigate("/home");
-                })
-                .catch((error) => {
-                    console.error(error);
-                    showErrorAlert(`[${error.code}] ${error.message}`);
-                });
+            getUserInfo();
         });
     }, []);
+
+    /**
+     * Update User State
+     */
+    const getUserInfo = () => {
+        getUser()
+            .then((res) => {
+                console.log(">> ", res.data);
+                const { success, detail, data } = res.data;
+
+                if (!success) {
+                    removeFromStorage(ACCESS_TOKEN);
+                    resetUserState();
+
+                    handleError(`${detail}`);
+                    return;
+                }
+
+                // 성공, 저장하고 홈으로 이동
+                setUser(data);
+                navigate("/home");
+            })
+            .catch((error) => {
+                handleError(`[${error.code}] ${error.message}`);
+            });
+    };
 
     /**
      * Login With Google
@@ -56,7 +67,9 @@ export default function LoginPage() {
         // 1) chrome API로 google auth token
         getAuthToken((token) => {
             if (token === "") {
-                showErrorAlert("Google 로그인 후 이용 가능합니다. ");
+                openAlert({
+                    content: "Google 로그인 후 이용 가능합니다. ",
+                });
                 return;
             }
 
@@ -66,35 +79,36 @@ export default function LoginPage() {
                     const { success, detail, data } = res.data;
 
                     if (!success) {
-                        console.error(`${detail}`);
-                        showErrorAlert(detail);
+                        removeFromStorage(ACCESS_TOKEN);
+                        resetUserState();
+
+                        handleError(`${detail}`);
                         return;
                     }
 
-                    // 성공 시, 스토리지에 저장 후 로그인 화면으로 이동
+                    // 성공 시, 스토리지에 저장 & 유저 조회 후 로그인 화면으로 이동
                     setToStorage(ACCESS_TOKEN, data.access_token, () => {
                         openAlert({
                             content: detail,
                             callback: () => {
-                                navigate("/home");
                                 closeAlert();
+                                getUserInfo();
                             },
                         });
                     });
                 })
                 .catch((error) => {
-                    console.error(error);
-                    showErrorAlert(`[${error.code}] ${error.message}`);
+                    handleError(`[${error.code}] ${error.message}`);
                 });
         });
     };
 
-    function showErrorAlert(msg: string) {
+    const handleError = (msg: string) => {
+        console.error(msg);
         openAlert({
             content: msg,
-            callback: closeAlert,
         });
-    }
+    };
 
     return (
         <LoginPageContainer>
