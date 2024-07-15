@@ -3,6 +3,12 @@
     "version": "1.0.0",
     "short_name": "Prompt mate",
     "name": "Prompt mate",
+    "icons": {
+        "16": "images/logo.png",
+        "32": "images/logo.png",
+        "48": "images/logo.png",
+        "128": "images/logo.png"
+    },
     "action": {
         "default_title": "Click to open panel"
     },
@@ -18,6 +24,12 @@
             "matches": ["<all_urls>"],
             "css": ["style.css"],
             "js": ["content.js"]
+        }
+    ],
+    "web_accessible_resources": [
+        {
+            "resources": ["images/*"],
+            "matches": ["<all_urls>"]
         }
     ],
     "oauth2": {
