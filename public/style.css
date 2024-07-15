@@ -1,0 +1,49 @@
+#float-btn {
+    position: fixed;
+    right: 0;
+    bottom: 20px;
+
+    cursor: pointer;
+    z-index: 1000;
+
+    padding: 10px 10px 10px 14px;
+    background-color: #fff;
+    border-radius: 23px 0 0 23px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 8px 4px #00000014;
+
+    pointer-events: all;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+
+    transition: all 0.2s;
+
+    margin-right: -35px;
+
+    > img {
+        width: 28px;
+        height: 28px;
+        transition: all 0.2s;
+    }
+
+    > span {
+        margin-left: 2px;
+        font-size: 16px;
+        font-weight: 500;
+        color: #1c70ef;
+    }
+}
+
+#float-btn:hover {
+    margin-right: 0;
+    /* background-color: #1c70ef; */
+    background-color: #d8eaff;
+
+    > img {
+        /* filter: grayscale(100%) brightness(3); */
+    }
+}

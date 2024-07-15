@@ -35,6 +35,6 @@ const HomePageContainer = styled.div`
 
 const ComponentContainer = styled.div`
     width: 100%;
-    height: calc(600px - (60px + 50px));
+    height: calc(100% - (60px + 50px));
     padding: 40px;
 `;
