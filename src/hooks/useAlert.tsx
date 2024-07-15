@@ -27,10 +27,10 @@ export const useAlert = () => {
             setAlertData({
                 isOpen: true,
                 content: content,
-                callBack: callback,
+                callBack: callback ? callback : closeAlert,
             });
         },
-        [setAlertData]
+        [setAlertData, closeAlert]
     );
 
     return { alertData, closeAlert, openAlert };

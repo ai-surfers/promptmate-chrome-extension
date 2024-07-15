@@ -10,6 +10,7 @@ export const getFromStorage = (
     key: string,
     callback: (value: string) => void
 ) => {
+    if (!chrome?.storage) return;
     chrome.storage.local.get([key], (result) => {
         const value = result[key];
         console.log(`🟢 [Chrome Storage] get - ${key}: ${value}`);
@@ -26,11 +27,12 @@ export const getFromStorage = (
 export const setToStorage = (
     key: string,
     value: string,
-    callback: () => void
+    callback?: () => void
 ) => {
+    if (!chrome?.storage) return;
     chrome.storage.local.set({ [key]: value }, function () {
         console.log(`🟢 [Chrome Storage] set - ${key}: ${value}`);
-        callback();
+        if (callback) callback();
     });
 };
 
@@ -39,10 +41,11 @@ export const setToStorage = (
  * @param key
  * @param callback
  */
-export const removeFromStorage = (key: string, callback: () => void) => {
+export const removeFromStorage = (key: string, callback?: () => void) => {
+    if (!chrome?.storage) return;
     chrome.storage.local.remove(key, function () {
         console.log(`🟢 [Chrome Storage] remove - ${key}`);
-        callback();
+        if (callback) callback();
     });
 };
 
@@ -50,9 +53,10 @@ export const removeFromStorage = (key: string, callback: () => void) => {
  * Chrome Local Storage Clear
  * @param callback
  */
-export const clearStorage = (callback: () => void) => {
+export const clearStorage = (callback?: () => void) => {
+    if (!chrome?.storage) return;
     chrome.storage.local.clear(function () {
         console.log(`🟢 [Chrome Storage] clear`);
-        callback();
+        if (callback) callback();
     });
 };
