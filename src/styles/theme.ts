@@ -58,6 +58,13 @@ const fonts = {
         line-height: 160%; /* 1.8rem */
         text-align: center;
     `,
+    h2: css`
+        font-family: Pretendard;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 700;
+        line-height: 160%; /* 1.8rem */
+    `,
     h3: css`
         font-family: Pretendard;
         font-size: 16px;

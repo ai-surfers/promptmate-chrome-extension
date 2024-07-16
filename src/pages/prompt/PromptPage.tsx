@@ -1,49 +1,96 @@
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../../components/common/button/Button";
-import Input from "../../components/common/input/Input";
-import { useState } from "react";
-import { useAlert } from "../../hooks/useAlert";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 import Header from "../../components/common/header/Header";
 import { Wrapper } from "../../layouts/Layout";
+import { getPrompt } from "../../service/prompt/prompt";
+import { GetPromptResponse } from "../../service/prompt/prompt.model";
+import Property, { PropertyRef } from "../../components/prompt/Property";
+import { extractOptions, populateTemplate } from "../../utils";
+import { useAlert } from "../../hooks/useAlert";
 
 export default function PromptPage() {
+    const { openAlert } = useAlert();
+
     const { id } = useParams();
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
+    const [prompt, setPrompt] = useState<GetPromptResponse>();
+    const propertyRefs = useRef<Record<string, PropertyRef>>({});
 
-    const navigate = useNavigate();
-    const { openAlert, closeAlert } = useAlert();
+    const options = useMemo(() => {
+        if (!prompt) return [];
+        return extractOptions(prompt.prompt_template);
+    }, [prompt]);
 
-    function handleUsePrompt() {}
+    useEffect(() => {
+        if (!id) return;
+
+        getPrompt(id)
+            .then((res) => {
+                const { success, data, detail } = res.data;
+
+                if (!success) {
+                    console.error(detail);
+                    openAlert({ content: detail });
+                }
+
+                setPrompt(data);
+            })
+            .catch((e) => {
+                console.error(e);
+                openAlert({ content: `[${e.code}] ${e.message}` });
+            });
+    }, [id, openAlert]);
+
+    function handleUsePrompt() {
+        const propertyValues: Record<string, string> = {};
+
+        for (const key in propertyRefs.current) {
+            if (propertyRefs.current[key]) {
+                propertyValues[key] = propertyRefs.current[key].getValue();
+            }
+        }
+
+        if (prompt) {
+            const populatedTemplate = populateTemplate(
+                prompt.prompt_template,
+                propertyValues
+            );
+            console.log("Populated Template: ", populatedTemplate);
+        }
+    }
+
     return (
         <>
             <Header title="프롬프트 사용하기" canGoBack={true} />
             <Wrapper>
-                <SubTitle>제목 {id}</SubTitle>
-                <Input
-                    value={title}
-                    placeholder="마케팅 카피라이트 만들기"
-                    onChange={(e) => setTitle(e.target.value)}
-                />
+                {prompt && (
+                    <>
+                        <Title>{prompt.title}</Title>
+                        <div>
+                            ⭐️ {prompt.star} / 🔗 {prompt.usages}
+                        </div>
 
-                <SubTitle>설명</SubTitle>
-                <Input
-                    value={description}
-                    placeholder="마케팅 카피라이팅을 만드는 프롬프트"
-                    onChange={(e) => setDescription(e.target.value)}
-                />
-
+                        {options.map((opt) => (
+                            <Property
+                                key={opt}
+                                title={opt}
+                                ref={(el) => {
+                                    if (el) propertyRefs.current[opt] = el;
+                                }}
+                            />
+                        ))}
+                    </>
+                )}
                 <Button title="사용" onClick={handleUsePrompt} />
             </Wrapper>
         </>
     );
 }
 
-const SubTitle = styled.h3`
-    ${({ theme }) => theme.fonts.h3};
-    color: ${({ theme }) => theme.colors.main};
-
-    margin: 5px 0;
+const Title = styled.h2`
+    ${({ theme }) => theme.fonts.title};
+    color: ${({ theme }) => theme.colors.main_light};
+    margin: 10px 0 20px;
 `;

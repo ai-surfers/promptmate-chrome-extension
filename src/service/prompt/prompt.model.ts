@@ -1,7 +1,7 @@
 /**
- * PromptRequest
+ * CreatePromptRequest
  */
-export interface PromptRequest {
+export interface CreatePromptRequest {
     title: string;
     description: string;
     visibility: string;
@@ -10,8 +10,18 @@ export interface PromptRequest {
 }
 
 /**
- * PromptResponse
+ * CreatePromptResponse
  */
-export interface PromptResponse {
+export interface CreatePromptResponse {
     id: string;
+}
+
+/**
+ * GetPromptResponse
+ */
+export interface GetPromptResponse extends CreatePromptRequest {
+    author: string;
+    star: number;
+    usages: number;
+    created: string;
 }

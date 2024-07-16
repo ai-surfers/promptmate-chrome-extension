@@ -5,7 +5,7 @@ import Input from "../../components/common/input/Input";
 import { useState } from "react";
 import TextArea from "../../components/common/input/TextArea";
 import { createPrompt } from "../../service/prompt/prompt";
-import { PromptRequest } from "../../service/prompt/prompt.model";
+import { CreatePromptRequest } from "../../service/prompt/prompt.model";
 import { Category, Visibility } from "../../core/Prompt";
 import { useAlert } from "../../hooks/useAlert";
 import SelectBox from "../../components/common/input/SelectBox";
@@ -30,7 +30,7 @@ export default function NewPromptPage() {
             return;
         }
 
-        const promptData: PromptRequest = {
+        const promptData: CreatePromptRequest = {
             title: title,
             description: description,
             visibility: visibility,
