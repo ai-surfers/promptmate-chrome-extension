@@ -1,14 +1,15 @@
 import { createMemoryRouter } from "react-router-dom";
-import Layout from "../layouts/Layout";
+import HeaderLayout from "../layouts/HeaderLayout";
 import LoginPage from "../pages/login/LoginPage";
 import HomePage from "../pages/home/HomePage";
+import Layout from "../layouts/Layout";
 import PromptPage from "../pages/prompt/PromptPage";
-import PromptLayout from "../layouts/PromptLayout";
+import NewPromptPage from "../pages/newPrompt/NewPromptPage";
 
 const router = createMemoryRouter([
     {
         path: "/",
-        element: <Layout />,
+        element: <HeaderLayout />,
         children: [
             {
                 path: "/",
@@ -22,10 +23,14 @@ const router = createMemoryRouter([
     },
     {
         path: "/",
-        element: <PromptLayout />,
+        element: <Layout />,
         children: [
             {
-                path: "/prompt",
+                path: "/new-prompt",
+                element: <NewPromptPage />,
+            },
+            {
+                path: "/prompt/:id",
                 element: <PromptPage />,
             },
         ],
