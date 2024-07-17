@@ -38,7 +38,11 @@ const HomePageContainer = styled.div`
     height: 100%;
 
     .ant-tabs-nav {
-        padding: 10px 40px 0;
+        padding: 0 40px;
+
+        .ant-tabs-tab {
+            padding: 15px 0;
+        }
     }
 
     .ant-tabs-content-holder {

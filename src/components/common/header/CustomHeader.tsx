@@ -4,13 +4,14 @@ import { useUser } from "../../../hooks/useUser";
 import { removeFromStorage } from "../../../service/chrome/storage";
 import { ACCESS_TOKEN } from "../../../service/chrome/storage.keys";
 import { useModal } from "../../../hooks/useModal";
+import { Header } from "antd/es/layout/layout";
 
 interface HeaderProps {
     title: string;
     canGoBack?: boolean;
 }
 
-export default function Header({ title, canGoBack }: HeaderProps) {
+export default function CustomHeader({ title, canGoBack }: HeaderProps) {
     const navigate = useNavigate();
     const { openModal, closeModal } = useModal();
     const { userData, resetUserState } = useUser();
@@ -29,21 +30,36 @@ export default function Header({ title, canGoBack }: HeaderProps) {
     }
 
     return (
-        <HeaderContainer>
-            <div>{title}</div>
+        <Header
+            style={{
+                position: "sticky",
+                top: 0,
+                zIndex: 1,
+                width: "100%",
+                height: "60px",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                color: "white",
+                padding: "0 20px",
+            }}
+        >
+            <LeftContainer>
+                {canGoBack && (
+                    <ImageWrapper>
+                        <img
+                            src="/images/ic_arrow.svg"
+                            alt="ic_back"
+                            onClick={() => navigate(-1)}
+                        />
+                    </ImageWrapper>
+                )}
 
-            {canGoBack && (
-                <ImageWrapper position="left">
-                    <img
-                        src="/images/ic_arrow.svg"
-                        alt="ic_back"
-                        onClick={() => navigate(-1)}
-                    />
-                </ImageWrapper>
-            )}
+                <Title>{title}</Title>
+            </LeftContainer>
 
             {userData.isLogin && (
-                <ImageWrapper position="right" onClick={handleOnLogout}>
+                <ImageWrapper onClick={handleOnLogout}>
                     <img
                         src="/images/ic_person.svg"
                         alt="ic_person"
@@ -52,38 +68,22 @@ export default function Header({ title, canGoBack }: HeaderProps) {
                     <span>{userData.user?.nickname}</span>
                 </ImageWrapper>
             )}
-        </HeaderContainer>
+        </Header>
     );
 }
 
-const HeaderContainer = styled.header`
-    width: 100%;
-    height: 60px;
-    background: #070944;
-    color: #c9c6eb;
-
-    position: fixed;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-
-    padding: 0 40px;
+const LeftContainer = styled.div`
     ${({ theme }) => theme.mixins.flexBox()};
-    ${({ theme }) => theme.fonts.title};
 `;
 
-const ImageWrapper = styled.div<{
-    position?: "left" | "right";
-}>`
+const Title = styled.div`
+    margin-left: 10px;
+`;
+
+const ImageWrapper = styled.div`
     ${({ theme }) => theme.mixins.flexBox()};
     ${({ theme }) => theme.fonts.placeholder};
     gap: 5px;
-
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-
-    ${({ position }) => position}: 20px;
 
     cursor: pointer;
 

@@ -10,7 +10,7 @@ import { Category, Visibility } from "../../core/Prompt";
 import { useAlert } from "../../hooks/useAlert";
 import SelectBox from "../../components/common/input/SelectBox";
 import OptionBox from "../../components/common/input/OptionBox";
-import Header from "../../components/common/header/Header";
+import Header from "../../components/common/header/CustomHeader";
 import { Wrapper } from "../../layouts/Layout";
 
 export default function NewPromptPage() {

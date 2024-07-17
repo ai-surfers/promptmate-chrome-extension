@@ -3,7 +3,7 @@ import styled from "styled-components";
 import Button from "../../components/common/button/Button";
 import { useEffect, useMemo, useRef, useState } from "react";
 
-import Header from "../../components/common/header/Header";
+import Header from "../../components/common/header/CustomHeader";
 import { Wrapper } from "../../layouts/Layout";
 import { getPrompt } from "../../service/prompt/prompt";
 import { GetPromptResponse } from "../../service/prompt/prompt.model";
