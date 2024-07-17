@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import Input from "../common/input/Input";
 import { forwardRef, useImperativeHandle, useState } from "react";
+import AInput from "../common/input/AInput";
 
 export interface PropertyProps {
     title: string;
@@ -18,22 +18,25 @@ const Property = forwardRef<PropertyRef, PropertyProps>(({ title }, ref) => {
     }));
 
     return (
-        <div>
+        <PropertyContainer>
             <Title>{title}</Title>
-            <Input
+            <AInput
                 value={value}
                 onChange={(e) => {
                     setValue(e.target.value);
                 }}
             />
-        </div>
+        </PropertyContainer>
     );
 });
 export default Property;
 
+const PropertyContainer = styled.div`
+    margin: 30px 0;
+`;
+
 const Title = styled.h3`
-    ${({ theme }) => theme.fonts.h3};
-    color: ${({ theme }) => theme.colors.main};
+    ${({ theme }) => theme.fonts.subtitle};
 
     margin: 5px 0;
 `;

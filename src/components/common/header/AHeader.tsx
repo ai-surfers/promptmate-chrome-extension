@@ -5,6 +5,8 @@ import { removeFromStorage } from "../../../service/chrome/storage";
 import { ACCESS_TOKEN } from "../../../service/chrome/storage.keys";
 import { useModal } from "../../../hooks/useModal";
 import { Header } from "antd/es/layout/layout";
+import Avatar from "antd/es/avatar/avatar";
+import { UserOutlined } from "@ant-design/icons";
 
 interface HeaderProps {
     title: string;
@@ -61,11 +63,7 @@ export default function CustomHeader({ title, canGoBack }: HeaderProps) {
 
             {userData.isLogin && (
                 <ImageWrapper onClick={handleOnLogout}>
-                    <img
-                        src="/images/ic_person.svg"
-                        alt="ic_person"
-                        style={{ width: "18px", height: "18px" }}
-                    />
+                    <Avatar size={30} icon={<UserOutlined />} />
                     <span>{userData.user?.nickname}</span>
                 </ImageWrapper>
             )}

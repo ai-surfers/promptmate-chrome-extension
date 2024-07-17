@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import Button from "../../components/common/button/Button";
 import { useEffect, useMemo, useRef, useState } from "react";
 
 import Header from "../../components/common/header/AHeader";
@@ -11,6 +10,10 @@ import Property, { PropertyRef } from "../../components/prompt/Property";
 import { extractOptions, populateTemplate } from "../../utils";
 import { useAlert } from "../../hooks/useAlert";
 import { insertPromptToDOMInput } from "../../service/chrome/utils";
+
+import { Button } from "antd";
+import TopBox from "../../components/prompt/TopBox";
+import InfoDrawer from "../../components/prompt/InfoDrawer";
 
 export default function PromptPage() {
     const { openAlert } = useAlert();
@@ -63,16 +66,22 @@ export default function PromptPage() {
         }
     }
 
+    function handleFavorite() {}
+
+    const [open, setOpen] = useState(false);
     return (
         <>
             <Header title="프롬프트 사용하기" canGoBack={true} />
             <Wrapper>
+                <TopBox
+                    isFavorite={true}
+                    onFavoriteClick={handleFavorite}
+                    onInformationClick={() => setOpen(true)}
+                />
+
                 {prompt && (
                     <>
                         <Title>{prompt.title}</Title>
-                        <div>
-                            ⭐️ {prompt.star} / 🔗 {prompt.usages}
-                        </div>
 
                         {options.map((opt) => (
                             <Property
@@ -83,9 +92,22 @@ export default function PromptPage() {
                                 }}
                             />
                         ))}
+
+                        <Button
+                            type="primary"
+                            style={{ width: "100%", marginTop: "50px" }}
+                            onClick={handleUsePrompt}
+                        >
+                            사용
+                        </Button>
+
+                        <InfoDrawer
+                            info={prompt}
+                            isOpen={open}
+                            onClose={() => setOpen(false)}
+                        />
                     </>
                 )}
-                <Button title="사용" onClick={handleUsePrompt} />
             </Wrapper>
         </>
     );
@@ -93,6 +115,5 @@ export default function PromptPage() {
 
 const Title = styled.h2`
     ${({ theme }) => theme.fonts.title};
-    color: ${({ theme }) => theme.colors.main_light};
     margin: 10px 0 20px;
 `;
