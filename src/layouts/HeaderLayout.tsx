@@ -1,6 +1,6 @@
 import { Outlet } from "react-router-dom";
 import styled from "styled-components";
-import CustomHeader from "../components/common/header/CustomHeader";
+import CustomHeader from "../components/common/header/AHeader";
 
 export default function HeaderLayout() {
     return (

@@ -13,7 +13,7 @@ export interface CreatePromptRequest {
  * CreatePromptResponse
  */
 export interface CreatePromptResponse {
-    id: string;
+    prompt_id: string;
 }
 
 /**
