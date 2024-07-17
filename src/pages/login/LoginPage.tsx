@@ -5,7 +5,7 @@ import {
     removeFromStorage,
     setToStorage,
 } from "../../service/chrome/storage";
-import { getAuthToken } from "../../service/chrome/identity";
+import { getAuthToken } from "../../service/chrome/utils";
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN } from "../../service/chrome/storage.keys";
 import GoogleLogin from "../../components/login/GoogleButton";

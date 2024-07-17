@@ -5,10 +5,10 @@ import styled from "styled-components";
 export default function Layout() {
     return (
         <Container>
-            <Header title="프롬프트 메이트" />
-            <Wrapper>
-                <Outlet />
-            </Wrapper>
+            {/* <Header title="프롬프트 추가하기" canGoBack={true} /> */}
+            {/* <Wrapper> */}
+            <Outlet />
+            {/* </Wrapper> */}
         </Container>
     );
 }
@@ -28,8 +28,10 @@ const Container = styled.div`
     position: relative;
 `;
 
-const Wrapper = styled.div`
+export const Wrapper = styled.div`
     width: 100%;
     height: calc(100vh - 60px);
     background: #fff;
+
+    padding: 20px 40px;
 `;

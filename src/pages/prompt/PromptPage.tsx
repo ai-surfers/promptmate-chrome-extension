@@ -1,140 +1,98 @@
-import { useNavigate } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import Button from "../../components/common/button/Button";
-import Input from "../../components/common/input/Input";
-import { useState } from "react";
-import TextArea from "../../components/common/input/TextArea";
-import { createPrompt } from "../../service/prompt/prompt";
-import { PromptRequest } from "../../service/prompt/prompt.model";
-import { Category, Visibility } from "../../core/Prompt";
+import { useEffect, useMemo, useRef, useState } from "react";
+
+import Header from "../../components/common/header/Header";
+import { Wrapper } from "../../layouts/Layout";
+import { getPrompt } from "../../service/prompt/prompt";
+import { GetPromptResponse } from "../../service/prompt/prompt.model";
+import Property, { PropertyRef } from "../../components/prompt/Property";
+import { extractOptions, populateTemplate } from "../../utils";
 import { useAlert } from "../../hooks/useAlert";
-import SelectBox from "../../components/common/input/SelectBox";
-import OptionBox from "../../components/common/input/OptionBox";
+import { insertPromptToDOMInput } from "../../service/chrome/utils";
 
 export default function PromptPage() {
-    const [title, setTitle] = useState("");
-    const [description, setDescription] = useState("");
-    const [category, setCategory] = useState(Category[0]);
-    const [visibility, setVisibility] = useState(Visibility[0]);
+    const { openAlert } = useAlert();
 
-    const [prompt, setPrompt] = useState("");
+    const { id } = useParams();
+    const [prompt, setPrompt] = useState<GetPromptResponse>();
+    const propertyRefs = useRef<Record<string, PropertyRef>>({});
 
-    const navigate = useNavigate();
-    const { openAlert, closeAlert } = useAlert();
+    const options = useMemo(() => {
+        if (!prompt) return [];
+        return extractOptions(prompt.prompt_template);
+    }, [prompt]);
 
-    function savePrompt() {
-        if (!title || !description || !category || !prompt) {
-            showErrorAlert("필수 입력 사항을 \n모두 입력해주세요.");
-            return;
-        }
+    useEffect(() => {
+        if (!id) return;
 
-        const promptData: PromptRequest = {
-            title: title,
-            description: description,
-            visibility: visibility,
-            category: category,
-            prompt_template: prompt,
-        };
-
-        createPrompt(promptData)
+        getPrompt(id)
             .then((res) => {
-                const { success, detail, data } = res.data;
+                const { success, data, detail } = res.data;
 
                 if (!success) {
-                    console.error(`${detail}`);
-                    showErrorAlert(detail);
-                    return;
+                    console.error(detail);
+                    openAlert({ content: detail });
                 }
 
-                // 성공 시, 홈화면으로 이동
-                openAlert({
-                    content: `${data.id}가 등록되었습니다`,
-                    callback: () => {
-                        navigate("/home");
-                        closeAlert();
-                    },
-                });
+                setPrompt(data);
             })
-            .catch((error) => {
-                console.error(error);
-                showErrorAlert(`[${error.code}] ${error.message}`);
+            .catch((e) => {
+                console.error(e);
+                openAlert({ content: `[${e.code}] ${e.message}` });
             });
-    }
+    }, [id, openAlert]);
 
-    function showErrorAlert(msg: string) {
-        openAlert({
-            content: msg,
-            callback: closeAlert,
-        });
+    function handleUsePrompt() {
+        const propertyValues: Record<string, string> = {};
+
+        for (const key in propertyRefs.current) {
+            if (propertyRefs.current[key]) {
+                propertyValues[key] = propertyRefs.current[key].getValue();
+            }
+        }
+
+        if (prompt) {
+            const populatedTemplate = populateTemplate(
+                prompt.prompt_template,
+                propertyValues
+            );
+            console.log("Populated Template: ", populatedTemplate);
+            insertPromptToDOMInput(populatedTemplate);
+        }
     }
 
     return (
-        <PromptPageContainer>
-            <SubTitle>제목</SubTitle>
-            <Input
-                value={title}
-                placeholder="마케팅 카피라이트 만들기"
-                onChange={(e) => setTitle(e.target.value)}
-            />
+        <>
+            <Header title="프롬프트 사용하기" canGoBack={true} />
+            <Wrapper>
+                {prompt && (
+                    <>
+                        <Title>{prompt.title}</Title>
+                        <div>
+                            ⭐️ {prompt.star} / 🔗 {prompt.usages}
+                        </div>
 
-            <SubTitle>설명</SubTitle>
-            <Input
-                value={description}
-                placeholder="마케팅 카피라이팅을 만드는 프롬프트"
-                onChange={(e) => setDescription(e.target.value)}
-            />
-
-            <OptionContainer>
-                <Option>
-                    <SubTitle>공개 범위</SubTitle>
-                    <OptionBox
-                        value={visibility}
-                        options={Visibility}
-                        onChange={(vis) => setVisibility(vis)}
-                    />
-                </Option>
-                <Option>
-                    <SubTitle>분야</SubTitle>
-                    <SelectBox
-                        selected={category}
-                        options={Category}
-                        onChange={(cat) => setCategory(cat)}
-                    />
-                </Option>
-            </OptionContainer>
-
-            <SubTitle>프롬프트</SubTitle>
-            <TextArea
-                value={prompt}
-                placeholder={`너는 마케팅 전문가야. $상품 이름$에 대한 마케팅 카피라이팅을 만들어줘. 예상 청중은 $예상 청중$이고 상품의 특징은 $상품 특징$.
-
-이들의 마음을 사로잡을 수 있는 매력적이고 센스있는 카피라이팅을 각기 다른 컨셉으로 총 3개 만들어줘`}
-                onChange={(e) => setPrompt(e.target.value)}
-            />
-
-            <Button title="추가" onClick={savePrompt} />
-        </PromptPageContainer>
+                        {options.map((opt) => (
+                            <Property
+                                key={opt}
+                                title={opt}
+                                ref={(el) => {
+                                    if (el) propertyRefs.current[opt] = el;
+                                }}
+                            />
+                        ))}
+                    </>
+                )}
+                <Button title="사용" onClick={handleUsePrompt} />
+            </Wrapper>
+        </>
     );
 }
 
-const PromptPageContainer = styled.div`
-    width: 100%;
-    height: 100%;
-
-    padding: 20px 40px;
-`;
-const SubTitle = styled.h3`
-    ${({ theme }) => theme.fonts.h3};
-    color: ${({ theme }) => theme.colors.main};
-
-    margin: 5px 0;
-`;
-
-const OptionContainer = styled.div`
-    ${({ theme }) => theme.mixins.flexBox("row", "flex-start", "center")};
-    margin-bottom: 30px;
-`;
-
-const Option = styled.div`
-    flex: 1;
+const Title = styled.h2`
+    ${({ theme }) => theme.fonts.title};
+    color: ${({ theme }) => theme.colors.main_light};
+    margin: 10px 0 20px;
 `;

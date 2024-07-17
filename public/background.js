@@ -12,9 +12,9 @@ chrome.runtime.onInstalled.addListener(() => {
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.log("*Message received", request, sender);
 
-    const tabId = sender.tab.id;
-    const windowId = sender.tab.windowId;
     if (request.action === "clickSidePanel") {
+        const tabId = sender.tab.id;
+        const windowId = sender.tab.windowId;
         if (!panelOpen) {
             openSidePanel(tabId, windowId);
         } else {

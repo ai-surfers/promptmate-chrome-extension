@@ -17,7 +17,7 @@ export default function HomePage() {
             <TabBar
                 current={tabIdx}
                 onChange={(idx) => setTabIdx(idx)}
-                onAdd={() => navigate("/prompt")}
+                onAdd={() => navigate("/new-prompt")}
             />
 
             <ComponentContainer>{components[tabIdx]}</ComponentContainer>
