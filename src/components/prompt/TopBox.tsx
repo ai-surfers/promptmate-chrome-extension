@@ -4,7 +4,7 @@ import { Button, Tooltip } from "antd";
 
 interface TopBoxProps {
     isFavorite: boolean;
-    onFavoriteClick: () => void;
+    onFavoriteClick: (isFavorite: boolean) => void;
     onInformationClick: () => void;
 }
 export default function TopBox({
@@ -18,7 +18,7 @@ export default function TopBox({
                 <Button
                     shape="circle"
                     icon={isFavorite ? <StarFilled /> : <StarOutlined />}
-                    onClick={onFavoriteClick}
+                    onClick={() => onFavoriteClick(isFavorite)}
                 />
             </Tooltip>
 

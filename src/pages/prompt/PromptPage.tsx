@@ -4,7 +4,7 @@ import { useEffect, useMemo, useRef, useState } from "react";
 
 import Header from "../../components/common/header/AHeader";
 import { Wrapper } from "../../layouts/Layout";
-import { getPrompt } from "../../service/prompt/prompt";
+import { addStar, getPrompt, removeStar } from "../../service/prompt/prompt";
 import { GetPromptResponse } from "../../service/prompt/prompt.model";
 import Property, { PropertyRef } from "../../components/prompt/Property";
 import { extractOptions, populateTemplate } from "../../utils";
@@ -28,7 +28,14 @@ export default function PromptPage() {
     }, [prompt]);
 
     useEffect(() => {
-        if (!id) return;
+        fetchPrompt();
+    }, [id]);
+
+    function fetchPrompt() {
+        if (!id) {
+            console.error("No id!");
+            return;
+        }
 
         getPrompt(id)
             .then((res) => {
@@ -45,7 +52,7 @@ export default function PromptPage() {
                 console.error(e);
                 openAlert({ content: `[${e.code}] ${e.message}` });
             });
-    }, [id, openAlert]);
+    }
 
     function handleUsePrompt() {
         const propertyValues: Record<string, string> = {};
@@ -66,21 +73,36 @@ export default function PromptPage() {
         }
     }
 
-    function handleFavorite() {}
+    function handleFavorite(isFavorite: boolean) {
+        if (!id) {
+            console.error("No id");
+            return;
+        }
+
+        const func = isFavorite ? removeStar : addStar;
+        func(id)
+            .then((res) => {
+                console.log(">> res", res);
+                fetchPrompt();
+            })
+            .catch((e) => {
+                console.error(e);
+            });
+    }
 
     const [open, setOpen] = useState(false);
     return (
         <>
             <Header title="프롬프트 사용하기" canGoBack={true} />
             <Wrapper>
-                <TopBox
-                    isFavorite={true}
-                    onFavoriteClick={handleFavorite}
-                    onInformationClick={() => setOpen(true)}
-                />
-
                 {prompt && (
                     <>
+                        <TopBox
+                            isFavorite={prompt.is_starred_by_user}
+                            onFavoriteClick={handleFavorite}
+                            onInformationClick={() => setOpen(true)}
+                        />
+
                         <Title>{prompt.title}</Title>
 
                         {options.map((opt) => (
