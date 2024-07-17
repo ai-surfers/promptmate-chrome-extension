@@ -5,7 +5,7 @@ import CustomHeader from "../components/common/header/CustomHeader";
 export default function HeaderLayout() {
     return (
         <Container>
-            <CustomHeader title="프롬프트 메이트" />
+            <CustomHeader title="Prompt Mate" />
             <Wrapper>
                 <Outlet />
             </Wrapper>

@@ -42,6 +42,7 @@ export default function CustomHeader({ title, canGoBack }: HeaderProps) {
                 alignItems: "center",
                 color: "white",
                 padding: "0 20px",
+                fontFamily: "Suit",
             }}
         >
             <LeftContainer>

@@ -13,6 +13,7 @@ const Styles = ({ children }: StylesProps) => {
             theme={{
                 token: {
                     colorPrimary: "#4A7DFF",
+                    fontFamily: "Suit",
                 },
             }}
         >
