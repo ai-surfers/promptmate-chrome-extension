@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export default function All() {
     const navigate = useNavigate();
-    const id = "668dae55bf329460ccb9b1ff";
+    const id = "66976b7928da40b06ba6b9d5";
 
     return (
         <div>
