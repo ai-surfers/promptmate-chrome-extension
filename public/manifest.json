@@ -15,7 +15,18 @@
     "side_panel": {
         "default_path": "index.html"
     },
-    "permissions": ["identity", "storage", "sidePanel", "commands"],
+    "permissions": [
+        "identity",
+        "storage",
+        "sidePanel",
+        "commands",
+        "scripting"
+    ],
+    "host_permissions": [
+        "https://chatgpt.com/*",
+        "https://claude.ai/*",
+        "https://gemini.google.com/*"
+    ],
     "background": {
         "service_worker": "background.js"
     },

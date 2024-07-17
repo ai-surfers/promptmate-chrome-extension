@@ -10,6 +10,7 @@ import { GetPromptResponse } from "../../service/prompt/prompt.model";
 import Property, { PropertyRef } from "../../components/prompt/Property";
 import { extractOptions, populateTemplate } from "../../utils";
 import { useAlert } from "../../hooks/useAlert";
+import { insertPromptToDOMInput } from "../../service/chrome/utils";
 
 export default function PromptPage() {
     const { openAlert } = useAlert();
@@ -58,6 +59,7 @@ export default function PromptPage() {
                 propertyValues
             );
             console.log("Populated Template: ", populatedTemplate);
+            insertPromptToDOMInput(populatedTemplate);
         }
     }
 
