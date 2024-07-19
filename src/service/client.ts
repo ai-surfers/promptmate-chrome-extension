@@ -65,6 +65,14 @@ export const POST = async <T>(
     return API.post(url, data, config);
 };
 
+export const DELETE = async <T>(
+    url: string,
+    data?: any,
+    config?: AxiosRequestConfig
+): Promise<AxiosResponse<BaseResponse<T>>> => {
+    return API.delete(url, config);
+};
+
 // const PUT = async <T>(
 //     url: string,
 //     data?: any,

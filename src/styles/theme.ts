@@ -28,7 +28,7 @@ const colors = {
 /** 폰트 결정 시 수정 될 예정 */
 const fonts = {
     title: css`
-        font-family: Pretendard;
+        font-family: Suit;
         font-size: 20px;
         font-style: normal;
         font-weight: 600;
@@ -36,15 +36,14 @@ const fonts = {
         text-align: center;
     `,
     subtitle: css`
-        font-family: Pretendard;
-        font-size: 18px;
+        font-family: Suit;
+        font-size: 16px;
         font-style: normal;
-        font-weight: 700;
-        line-height: 100%;
-        text-align: center;
+        font-weight: 600;
+        line-height: 160%;
     `,
     button: css`
-        font-family: Pretendard;
+        font-family: Suit;
         font-size: 16px;
         font-style: normal;
         font-weight: 700;
@@ -52,217 +51,72 @@ const fonts = {
         text-align: center;
     `,
     modal: css`
-        font-family: Pretendard;
+        font-family: Suit;
         font-size: 14px;
         font-style: normal;
         line-height: 160%; /* 1.8rem */
         text-align: center;
     `,
     h2: css`
-        font-family: Pretendard;
+        font-family: Suit;
         font-size: 20px;
         font-style: normal;
         font-weight: 700;
         line-height: 160%; /* 1.8rem */
     `,
     h3: css`
-        font-family: Pretendard;
+        font-family: Suit;
         font-size: 16px;
         font-style: normal;
         font-weight: 700;
         line-height: 160%; /* 1.8rem */
     `,
     input: css`
-        font-family: Pretendard;
+        font-family: Suit;
         font-size: 14px;
         font-style: normal;
         font-weight: 400;
         line-height: 160%; /* 1.8rem */
     `,
     placeholder: css`
-        font-family: Pretendard;
+        font-family: Suit;
         font-size: 14px;
         font-style: normal;
         font-weight: 300;
         line-height: 130%; /* 1.8rem */
     `,
     select: css`
-        font-family: Pretendard;
+        font-family: Suit;
         font-size: 12px;
         font-style: normal;
         font-weight: 300;
         line-height: 100%;
     `,
     option: css`
-        font-family: Pretendard;
+        font-family: Suit;
         font-size: 14px;
         font-style: normal;
         font-weight: 300;
         line-height: 100%;
     `,
     tab: css`
-        font-family: Pretendard;
+        font-family: Suit;
         font-size: 14px;
         font-style: normal;
         font-weight: 500;
         line-height: 100%;
     `,
     heading_01: css`
-        font-family: Pretendard;
+        font-family: Suit;
         font-size: 16px;
         font-style: normal;
         font-weight: 700;
         line-height: 125%;
     `,
     description: css`
-        font-family: "Pretendard";
+        font-family: "Suit";
         font-size: 1rem;
         font-weight: 500;
-    `,
-    post_normal: css`
-        font-family: "Pretendard";
-        font-size: 0.875rem;
-        font-weight: 400;
-        line-height: 120%;
-    `,
-    post_big: css`
-        color: #000;
-        font-family: Pretendard;
-        font-size: 1.25rem;
-        font-weight: 400;
-        line-height: 120%;
-    `,
-    heading_02: css`
-        font-family: Pretendard;
-        font-size: 18px;
-        font-style: normal;
-        font-weight: 700;
-        line-height: normal;
-    `,
-    subheading_02: css`
-        font-family: Pretendard;
-        font-size: 18px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: normal;
-    `,
-    subheading_03: css`
-        font-family: Pretendard;
-        font-size: 18px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: normal;
-    `,
-    heading_03: css`
-        font-family: Pretendard;
-        font-size: 20px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 160%; /* 32px */
-    `,
-    heading_04: css`
-        font-family: Pretendard;
-        font-size: 20px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: 160%; /* 32px */
-    `,
-    title_01: css`
-        font-family: Pretendard;
-        font-size: 24px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: 160%; /* 32px */
-    `,
-    p_01: css`
-        font-family: Pretendard;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 160%; /* 32px */
-    `,
-    footer_01: css`
-        text-align: center;
-        font-family: Pretendard;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 300;
-        line-height: normal;
-    `,
-    modal_01: css`
-        font-family: Pretendard;
-        font-size: 18px;
-        font-style: normal;
-        font-weight: 700;
-        line-height: 160%; /* 1.8rem */
-    `,
-    toggle_01: css`
-        font-family: "Pretendard";
-        font-size: 1rem;
-        font-weight: 500;
-    `,
-    button_01: css`
-        color: #fff;
-        font-family: "Pretendard";
-        font-size: 1.125rem;
-        font-weight: 700;
-    `,
-    button_02: css`
-        color: #402fff;
-        font-family: "Pretendard";
-        font-size: 1.125rem;
-        font-weight: 500;
-    `,
-    tooltip: css`
-        font-family: "Pretendard";
-        font-size: 0.8rem;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 144.583%; /* 1.08438rem */
-    `,
-    ex_01: css`
-        font-family: Pretendard;
-        font-size: 13px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 144.583%;
-    `,
-    date: css`
-        color: #757373;
-        font-family: Pretendard;
-        font-size: 13px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 144.583%;
-    `,
-    content_01: css`
-        font-family: Pretendard;
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 125%;
-    `,
-    select_off: css`
-        font-family: Pretendard;
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 125%;
-        color: #21212166;
-    `,
-    select_off_01: css`
-        font-family: Pretendard;
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 125%;
-    `,
-    select_on: css`
-        font-family: Pretendard;
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 700;
-        line-height: 125%;
     `,
 };
 

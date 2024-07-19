@@ -1,26 +1,33 @@
 import { useNavigate } from "react-router-dom";
-import TabBar from "../../components/main/TabBar";
 import styled from "styled-components";
 import All from "../../components/main/All";
 import My from "../../components/main/My";
 import Favorite from "../../components/main/Favorite";
-import { useState } from "react";
+import { Button, Tabs } from "antd";
+import { TabList } from "../../core/Tab";
 
 export default function HomePage() {
     const navigate = useNavigate();
 
     const components = [<All />, <My />, <Favorite />];
-    const [tabIdx, setTabIdx] = useState(0);
+    const operation = (
+        <Button type="primary" onClick={() => navigate("/new-prompt")}>
+            +
+        </Button>
+    );
 
     return (
         <HomePageContainer>
-            <TabBar
-                current={tabIdx}
-                onChange={(idx) => setTabIdx(idx)}
-                onAdd={() => navigate("/new-prompt")}
+            <Tabs
+                tabBarExtraContent={operation}
+                items={TabList.map((tab, idx) => {
+                    return {
+                        label: `${tab}`,
+                        key: tab,
+                        children: components[idx],
+                    };
+                })}
             />
-
-            <ComponentContainer>{components[tabIdx]}</ComponentContainer>
         </HomePageContainer>
     );
 }
@@ -30,11 +37,15 @@ const HomePageContainer = styled.div`
     width: 100%;
     height: 100%;
 
-    padding-top: 50px;
-`;
+    .ant-tabs-nav {
+        padding: 0 40px;
 
-const ComponentContainer = styled.div`
-    width: 100%;
-    height: calc(100% - (60px + 50px));
-    padding: 40px;
+        .ant-tabs-tab {
+            padding: 15px 0;
+        }
+    }
+
+    .ant-tabs-content-holder {
+        padding: 0 40px;
+    }
 `;

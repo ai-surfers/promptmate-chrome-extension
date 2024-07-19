@@ -13,7 +13,7 @@ export interface CreatePromptRequest {
  * CreatePromptResponse
  */
 export interface CreatePromptResponse {
-    id: string;
+    prompt_id: string;
 }
 
 /**
@@ -24,4 +24,6 @@ export interface GetPromptResponse extends CreatePromptRequest {
     star: number;
     usages: number;
     created: string;
+    is_starred_by_user: boolean;
+    user_input_format: object[];
 }

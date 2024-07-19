@@ -1,14 +1,10 @@
 import { Outlet } from "react-router-dom";
-import Header from "../components/common/header/Header";
 import styled from "styled-components";
 
 export default function Layout() {
     return (
         <Container>
-            {/* <Header title="프롬프트 추가하기" canGoBack={true} /> */}
-            {/* <Wrapper> */}
             <Outlet />
-            {/* </Wrapper> */}
         </Container>
     );
 }
@@ -22,7 +18,6 @@ const Container = styled.div`
     background: #fff;
 
     margin: 0 auto;
-    padding-top: 60px;
     overflow: scroll;
 
     position: relative;

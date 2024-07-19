@@ -1,6 +1,7 @@
 import { ThemeProvider } from "styled-components";
 import GlobalStyle from "./GlobalStyle";
 import theme from "./theme";
+import { ConfigProvider } from "antd";
 
 interface StylesProps {
     children: React.ReactNode;
@@ -8,10 +9,19 @@ interface StylesProps {
 
 const Styles = ({ children }: StylesProps) => {
     return (
-        <ThemeProvider theme={theme}>
-            <GlobalStyle />
-            {children}
-        </ThemeProvider>
+        <ConfigProvider
+            theme={{
+                token: {
+                    colorPrimary: "#001529", //#4A7DFF
+                    fontFamily: "Suit",
+                },
+            }}
+        >
+            <ThemeProvider theme={theme}>
+                <GlobalStyle />
+                {children}
+            </ThemeProvider>
+        </ConfigProvider>
     );
 };
 
