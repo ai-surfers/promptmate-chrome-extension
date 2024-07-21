@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { GET } from "../../service/client";
-import { GetPromptResponse } from "../../service/prompt/prompt.model";
+import { GetPromptResponse } from "./useGetPrompt";
 
 /**
  * GetPromptListRequest
@@ -30,7 +30,7 @@ const getPromptList = async (request: GetPromptListRequest) => {
 };
 
 const PROMPT_LIST_QUERY_KEY = "PROMPT_LIST_QUERY_KEY";
-export const useGetPost = (request: GetPromptListRequest) => {
+export const useGetPromptList = (request: GetPromptListRequest) => {
     const { data, isLoading, isError, refetch } = useQuery({
         queryKey: [PROMPT_LIST_QUERY_KEY],
         queryFn: () => getPromptList(request).then((res) => res),

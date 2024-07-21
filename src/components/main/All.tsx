@@ -1,12 +1,12 @@
 import { Card } from "antd";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useGetPost } from "../../hooks/queries/useGetPromptList";
+import { useGetPromptList } from "../../hooks/queries/useGetPromptList";
 
 export default function All() {
     const navigate = useNavigate();
 
-    const { data } = useGetPost({ view_type: "my", page: 1 });
+    const { data } = useGetPromptList({ view_type: "my", page: 1 });
 
     return (
         <AllContainer>

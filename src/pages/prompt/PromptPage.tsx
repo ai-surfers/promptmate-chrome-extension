@@ -1,19 +1,15 @@
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import Header from "../../components/common/header/AHeader";
 import { Wrapper } from "../../layouts/Layout";
 import {
     addStar,
-    getPrompt,
     removeStar,
     executePrompt,
 } from "../../service/prompt/prompt";
-import {
-    ExecutePromptRequest,
-    GetPromptResponse,
-} from "../../service/prompt/prompt.model";
+import { ExecutePromptRequest } from "../../service/prompt/prompt.model";
 import Property, { PropertyRef } from "../../components/prompt/Property";
 import { useAlert } from "../../hooks/useAlert";
 import {
@@ -25,40 +21,20 @@ import { Button } from "antd";
 import TopBox from "../../components/prompt/TopBox";
 import InfoDrawer from "../../components/prompt/InfoDrawer";
 import { getAIPlatformType } from "../../utils";
+import {
+    PROMPT_QUERY_KEY,
+    useGetPrompt,
+} from "../../hooks/queries/useGetPrompt";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function PromptPage() {
+    const { id = "" } = useParams();
     const { openAlert } = useAlert();
 
-    const { id } = useParams();
-    const [prompt, setPrompt] = useState<GetPromptResponse>();
     const propertyRefs = useRef<Record<string, PropertyRef>>({});
 
-    useEffect(() => {
-        fetchPrompt();
-    }, [id]);
-
-    function fetchPrompt() {
-        if (!id) {
-            console.error("No id!");
-            return;
-        }
-
-        getPrompt(id)
-            .then((res) => {
-                const { success, data, detail } = res.data;
-
-                if (!success) {
-                    console.error(detail);
-                    openAlert({ content: detail });
-                }
-
-                setPrompt(data);
-            })
-            .catch((e) => {
-                console.error(e);
-                openAlert({ content: `[${e.code}] ${e.message}` });
-            });
-    }
+    const queryClient = useQueryClient();
+    const { data, isError, isLoading } = useGetPrompt(id);
 
     async function handleUsePrompt() {
         const propertyValues: Record<string, string> = {};
@@ -108,7 +84,7 @@ export default function PromptPage() {
         func(id)
             .then((res) => {
                 console.log(">> res", res);
-                fetchPrompt();
+                queryClient.invalidateQueries({ queryKey: [PROMPT_QUERY_KEY] });
             })
             .catch((e) => {
                 console.error(e);
@@ -120,17 +96,20 @@ export default function PromptPage() {
         <>
             <Header title="프롬프트 사용하기" canGoBack={true} />
             <Wrapper>
-                {prompt && (
+                {isError && <> error! </>}
+                {isLoading && <> loading! </>}
+
+                {data?.data && (
                     <>
                         <TopBox
-                            isFavorite={prompt.is_starred_by_user}
+                            isFavorite={data?.data.is_starred_by_user}
                             onFavoriteClick={handleFavorite}
                             onInformationClick={() => setOpen(true)}
                         />
 
-                        <Title>{prompt.title}</Title>
+                        <Title>{data?.data.title}</Title>
 
-                        {prompt.user_input_format.map((opt) => (
+                        {data?.data.user_input_format.map((opt) => (
                             <Property
                                 key={opt.name}
                                 title={opt.name}
@@ -149,7 +128,7 @@ export default function PromptPage() {
                         </Button>
 
                         <InfoDrawer
-                            info={prompt}
+                            info={data.data}
                             isOpen={open}
                             onClose={() => setOpen(false)}
                         />
