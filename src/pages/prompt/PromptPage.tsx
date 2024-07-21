@@ -4,11 +4,7 @@ import { useRef, useState } from "react";
 
 import Header from "../../components/common/header/AHeader";
 import { Wrapper } from "../../layouts/Layout";
-import {
-    addStar,
-    removeStar,
-    executePrompt,
-} from "../../service/prompt/prompt";
+import { executePrompt } from "../../service/prompt/prompt";
 import { ExecutePromptRequest } from "../../service/prompt/prompt.model";
 import Property, { PropertyRef } from "../../components/prompt/Property";
 import { useAlert } from "../../hooks/useAlert";
@@ -26,6 +22,8 @@ import {
     useGetPrompt,
 } from "../../hooks/queries/useGetPrompt";
 import { useQueryClient } from "@tanstack/react-query";
+import { usePostStar } from "../../hooks/mutations/usePostStar";
+import { useDeleteStar } from "../../hooks/mutations/useDeleteStar";
 
 export default function PromptPage() {
     const { id = "" } = useParams();
@@ -74,21 +72,48 @@ export default function PromptPage() {
         });
     }
 
+    const { mutate: postStar } = usePostStar({
+        onSuccess: (res) => {
+            const { success, detail } = res;
+
+            if (!success) {
+                console.error(`${detail}`);
+                openAlert({ content: detail });
+                return;
+            }
+
+            queryClient.invalidateQueries({ queryKey: [PROMPT_QUERY_KEY] });
+        },
+        onError: (error) => {
+            console.error("✈ /api/store ERROR >>", error);
+        },
+    });
+
+    const { mutate: deleteStar } = useDeleteStar({
+        onSuccess: (res) => {
+            const { success, detail } = res;
+
+            if (!success) {
+                console.error(`${detail}`);
+                openAlert({ content: detail });
+                return;
+            }
+
+            queryClient.invalidateQueries({ queryKey: [PROMPT_QUERY_KEY] });
+        },
+        onError: (error) => {
+            console.error(error.message);
+        },
+    });
+
     function handleFavorite(isFavorite: boolean) {
         if (!id) {
             console.error("No id");
             return;
         }
 
-        const func = isFavorite ? removeStar : addStar;
-        func(id)
-            .then((res) => {
-                console.log(">> res", res);
-                queryClient.invalidateQueries({ queryKey: [PROMPT_QUERY_KEY] });
-            })
-            .catch((e) => {
-                console.error(e);
-            });
+        if (isFavorite) deleteStar(id);
+        else postStar(id);
     }
 
     const [open, setOpen] = useState(false);

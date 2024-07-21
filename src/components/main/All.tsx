@@ -6,7 +6,7 @@ import { useGetPromptList } from "../../hooks/queries/useGetPromptList";
 export default function All() {
     const navigate = useNavigate();
 
-    const { data } = useGetPromptList({ view_type: "my", page: 1 });
+    const { data } = useGetPromptList({ view_type: "open", page: 1 });
 
     return (
         <AllContainer>
