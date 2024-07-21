@@ -35,6 +35,7 @@ export interface GetPromptResponse extends CreatePromptRequest {
     created: string;
     is_starred_by_user: boolean;
     created_at: string;
+    id?: string;
 }
 
 /**
@@ -56,4 +57,24 @@ export interface ContextFormat {
 export interface ExecutePromptResponse {
     full_prompt: string;
     ad: null | string;
+}
+
+/**
+ * GetPromptListRequest
+ */
+export interface GetPromptListRequest {
+    view_type: string;
+    query?: string;
+    category?: string;
+    sort_by?: string;
+    sort_order?: string;
+    limit?: number;
+    page: number;
+}
+
+/**
+ * GetPromptListResponse
+ */
+export interface GetPromptListResponse {
+    prompt_info_list: GetPromptResponse[];
 }

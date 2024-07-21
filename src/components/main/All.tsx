@@ -1,10 +1,19 @@
 import { Card } from "antd";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import { getPromptList } from "../../service/prompt/prompt";
 
 export default function All() {
     const navigate = useNavigate();
     const id = "669d24b7070edcb74df8b1b7";
+
+    useEffect(() => {
+        const params = { view_type: "my", page: 1 };
+        getPromptList(params).then((res) => {
+            console.log(">> res", res);
+        });
+    }, []);
 
     return (
         <AllContainer>

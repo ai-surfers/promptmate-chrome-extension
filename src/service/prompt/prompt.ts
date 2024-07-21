@@ -4,6 +4,8 @@ import {
     CreatePromptResponse,
     ExecutePromptRequest,
     ExecutePromptResponse,
+    GetPromptListRequest,
+    GetPromptListResponse,
     GetPromptResponse,
 } from "./prompt.model";
 
@@ -46,4 +48,13 @@ export async function addStar(prompt_id: string) {
  */
 export async function removeStar(prompt_id: string) {
     return await DELETE(`/prompts/${prompt_id}/star`);
+}
+
+/**
+ *  프롬프트 리스트 조회하기
+ */
+export async function getPromptList(request: GetPromptListRequest) {
+    return await GET<GetPromptListResponse>(`/prompts-list`, {
+        params: request,
+    });
 }
