@@ -1,3 +1,5 @@
+import { TypeOfAIPlatformType, TypeOfInputType } from "../../core/Prompt";
+
 /**
  * CreatePromptRequest
  */
@@ -7,6 +9,13 @@ export interface CreatePromptRequest {
     visibility: string;
     category: string;
     prompt_template: string;
+    user_input_format: InputFormat[];
+}
+
+export interface InputFormat {
+    name: string;
+    type: TypeOfInputType;
+    placeholder: string;
 }
 
 /**
@@ -20,10 +29,31 @@ export interface CreatePromptResponse {
  * GetPromptResponse
  */
 export interface GetPromptResponse extends CreatePromptRequest {
-    author: string;
+    author_nickname: string;
     star: number;
     usages: number;
     created: string;
     is_starred_by_user: boolean;
-    user_input_format: object[];
+    created_at: string;
+}
+
+/**
+ * ExecutePromptRequest
+ */
+export interface ExecutePromptRequest {
+    context: Record<string, string>;
+    ai_platform: TypeOfAIPlatformType;
+}
+
+export interface ContextFormat {
+    name: string;
+    content: string;
+}
+
+/**
+ * ExecutePromptResponse
+ */
+export interface ExecutePromptResponse {
+    full_prompt: string;
+    ad: null | string;
 }

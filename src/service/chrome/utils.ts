@@ -79,3 +79,12 @@ export const insertPromptToDOMInput = (text: string) => {
         else console.error("* 처리할 탭이 없습니다. ");
     });
 };
+
+export const getCurrentTabUrl = (callback: (url: string) => void) => {
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        const activeTab = tabs[0];
+
+        if (activeTab.url) callback(activeTab.url);
+        else callback("");
+    });
+};

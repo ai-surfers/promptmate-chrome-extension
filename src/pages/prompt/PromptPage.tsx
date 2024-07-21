@@ -1,19 +1,30 @@
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import Header from "../../components/common/header/AHeader";
 import { Wrapper } from "../../layouts/Layout";
-import { addStar, getPrompt, removeStar } from "../../service/prompt/prompt";
-import { GetPromptResponse } from "../../service/prompt/prompt.model";
+import {
+    addStar,
+    getPrompt,
+    removeStar,
+    executePrompt,
+} from "../../service/prompt/prompt";
+import {
+    ExecutePromptRequest,
+    GetPromptResponse,
+} from "../../service/prompt/prompt.model";
 import Property, { PropertyRef } from "../../components/prompt/Property";
-import { extractOptions, populateTemplate } from "../../utils";
 import { useAlert } from "../../hooks/useAlert";
-import { insertPromptToDOMInput } from "../../service/chrome/utils";
+import {
+    getCurrentTabUrl,
+    insertPromptToDOMInput,
+} from "../../service/chrome/utils";
 
 import { Button } from "antd";
 import TopBox from "../../components/prompt/TopBox";
 import InfoDrawer from "../../components/prompt/InfoDrawer";
+import { getAIPlatformType } from "../../utils";
 
 export default function PromptPage() {
     const { openAlert } = useAlert();
@@ -21,11 +32,6 @@ export default function PromptPage() {
     const { id } = useParams();
     const [prompt, setPrompt] = useState<GetPromptResponse>();
     const propertyRefs = useRef<Record<string, PropertyRef>>({});
-
-    const options = useMemo(() => {
-        if (!prompt) return [];
-        return extractOptions(prompt.prompt_template);
-    }, [prompt]);
 
     useEffect(() => {
         fetchPrompt();
@@ -54,7 +60,7 @@ export default function PromptPage() {
             });
     }
 
-    function handleUsePrompt() {
+    async function handleUsePrompt() {
         const propertyValues: Record<string, string> = {};
 
         for (const key in propertyRefs.current) {
@@ -63,14 +69,33 @@ export default function PromptPage() {
             }
         }
 
-        if (prompt) {
-            const populatedTemplate = populateTemplate(
-                prompt.prompt_template,
-                propertyValues
-            );
-            console.log("Populated Template: ", populatedTemplate);
-            insertPromptToDOMInput(populatedTemplate);
+        if (!id) {
+            console.error("Id가 없습니다.");
+            return;
         }
+
+        getCurrentTabUrl((url) => {
+            const req: ExecutePromptRequest = {
+                context: propertyValues,
+                ai_platform: getAIPlatformType(url),
+            };
+
+            executePrompt(id, req)
+                .then((res) => {
+                    const { success, data, detail } = res.data;
+
+                    if (!success) {
+                        console.error(detail);
+                        openAlert({ content: detail });
+                    }
+
+                    insertPromptToDOMInput(data.full_prompt);
+                })
+                .catch((e) => {
+                    console.error(e);
+                    openAlert({ content: `[${e.code}] ${e.message}` });
+                });
+        });
     }
 
     function handleFavorite(isFavorite: boolean) {
@@ -105,12 +130,12 @@ export default function PromptPage() {
 
                         <Title>{prompt.title}</Title>
 
-                        {options.map((opt) => (
+                        {prompt.user_input_format.map((opt) => (
                             <Property
-                                key={opt}
-                                title={opt}
+                                key={opt.name}
+                                title={opt.name}
                                 ref={(el) => {
-                                    if (el) propertyRefs.current[opt] = el;
+                                    if (el) propertyRefs.current[opt.name] = el;
                                 }}
                             />
                         ))}
