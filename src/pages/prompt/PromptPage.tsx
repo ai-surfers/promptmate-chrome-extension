@@ -16,12 +16,15 @@ import {
 } from "../../service/prompt/prompt.model";
 import Property, { PropertyRef } from "../../components/prompt/Property";
 import { useAlert } from "../../hooks/useAlert";
-import { insertPromptToDOMInput } from "../../service/chrome/utils";
+import {
+    getCurrentTabUrl,
+    insertPromptToDOMInput,
+} from "../../service/chrome/utils";
 
 import { Button } from "antd";
 import TopBox from "../../components/prompt/TopBox";
 import InfoDrawer from "../../components/prompt/InfoDrawer";
-import { AIPlatformType } from "../../core/Prompt";
+import { getAIPlatformType } from "../../utils";
 
 export default function PromptPage() {
     const { openAlert } = useAlert();
@@ -57,7 +60,7 @@ export default function PromptPage() {
             });
     }
 
-    function handleUsePrompt() {
+    async function handleUsePrompt() {
         const propertyValues: Record<string, string> = {};
 
         for (const key in propertyRefs.current) {
@@ -67,30 +70,32 @@ export default function PromptPage() {
         }
 
         if (!id) {
+            console.error("Id가 없습니다.");
             return;
         }
 
-        const req: ExecutePromptRequest = {
-            context: propertyValues,
-            ai_platform: AIPlatformType.CHATGPT,
-        };
-        executePrompt(id, req)
-            .then((res) => {
-                const { success, data, detail } = res.data;
+        getCurrentTabUrl((url) => {
+            const req: ExecutePromptRequest = {
+                context: propertyValues,
+                ai_platform: getAIPlatformType(url),
+            };
 
-                if (!success) {
-                    console.error(detail);
-                    openAlert({ content: detail });
-                }
+            executePrompt(id, req)
+                .then((res) => {
+                    const { success, data, detail } = res.data;
 
-                console.log(data);
-                console.log("Populated Template By API: ", data.full_prompt);
-                insertPromptToDOMInput(data.full_prompt);
-            })
-            .catch((e) => {
-                console.error(e);
-                openAlert({ content: `[${e.code}] ${e.message}` });
-            });
+                    if (!success) {
+                        console.error(detail);
+                        openAlert({ content: detail });
+                    }
+
+                    insertPromptToDOMInput(data.full_prompt);
+                })
+                .catch((e) => {
+                    console.error(e);
+                    openAlert({ content: `[${e.code}] ${e.message}` });
+                });
+        });
     }
 
     function handleFavorite(isFavorite: boolean) {
