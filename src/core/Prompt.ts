@@ -19,3 +19,10 @@ export const Category: string[] = [
     "education",
     "entertainment",
 ];
+
+export enum InputType {
+    TEXT = "text",
+    LONGTEXT = "longtext",
+    DROPDOWN = "dropdown",
+    NUMBER = "number",
+}

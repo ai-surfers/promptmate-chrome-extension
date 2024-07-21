@@ -1,12 +1,16 @@
 import { useState } from "react";
 import { Button, Form } from "antd";
-import { Category, Visibility } from "../../core/Prompt";
+import { Category, InputType, Visibility } from "../../core/Prompt";
 import ARadioGroup from "../common/input/ARadioGroup";
 import AInput from "../common/input/AInput";
 import ATextArea from "../common/input/ATextArea";
 import ASelectBox from "../common/input/ASelectBox";
 import { useForm } from "antd/es/form/Form";
-import { CreatePromptRequest } from "../../service/prompt/prompt.model";
+import {
+    CreatePromptRequest,
+    InputFormat,
+} from "../../service/prompt/prompt.model";
+import { extractOptions } from "../../utils";
 
 interface PromptFormProps {
     onSubmit: (promptData: CreatePromptRequest) => void;
@@ -22,12 +26,20 @@ export default function PromptForm({ onSubmit }: PromptFormProps) {
     const [prompt, setPrompt] = useState("");
 
     const handleOnFinish = () => {
+        const inputs = extractOptions(prompt);
+        const user_input_formats = inputs.map<InputFormat>((ip) => ({
+            name: ip,
+            type: InputType.TEXT,
+            placeholder: "",
+        }));
+
         const promptData: CreatePromptRequest = {
             title: title,
             description: description,
             visibility: visibility,
             category: category,
             prompt_template: prompt,
+            user_input_format: user_input_formats,
         };
 
         onSubmit(promptData);

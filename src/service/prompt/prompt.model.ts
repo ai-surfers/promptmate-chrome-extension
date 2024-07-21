@@ -1,3 +1,5 @@
+import { InputType } from "../../core/Prompt";
+
 /**
  * CreatePromptRequest
  */
@@ -7,6 +9,17 @@ export interface CreatePromptRequest {
     visibility: string;
     category: string;
     prompt_template: string;
+    user_input_format: InputFormat[];
+}
+
+export interface InputFormat {
+    name: string;
+    type:
+        | InputType.TEXT
+        | InputType.LONGTEXT
+        | InputType.NUMBER
+        | InputType.DROPDOWN;
+    placeholder: string;
 }
 
 /**
@@ -25,5 +38,4 @@ export interface GetPromptResponse extends CreatePromptRequest {
     usages: number;
     created: string;
     is_starred_by_user: boolean;
-    user_input_format: object[];
 }
