@@ -4,7 +4,7 @@ import styled from "styled-components";
 
 export default function All() {
     const navigate = useNavigate();
-    const id = "669d1c58070edcb74df8b1a9";
+    const id = "669d24b7070edcb74df8b1b7";
 
     return (
         <AllContainer>

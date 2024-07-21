@@ -1,4 +1,4 @@
-import { InputType } from "../../core/Prompt";
+import { TypeOfAIPlatformType, TypeOfInputType } from "../../core/Prompt";
 
 /**
  * CreatePromptRequest
@@ -14,11 +14,7 @@ export interface CreatePromptRequest {
 
 export interface InputFormat {
     name: string;
-    type:
-        | InputType.TEXT
-        | InputType.LONGTEXT
-        | InputType.NUMBER
-        | InputType.DROPDOWN;
+    type: TypeOfInputType;
     placeholder: string;
 }
 
@@ -39,4 +35,25 @@ export interface GetPromptResponse extends CreatePromptRequest {
     created: string;
     is_starred_by_user: boolean;
     created_at: string;
+}
+
+/**
+ * ExecutePromptRequest
+ */
+export interface ExecutePromptRequest {
+    context: Record<string, string>;
+    ai_platform: TypeOfAIPlatformType;
+}
+
+export interface ContextFormat {
+    name: string;
+    content: string;
+}
+
+/**
+ * ExecutePromptResponse
+ */
+export interface ExecutePromptResponse {
+    full_prompt: string;
+    ad: null | string;
 }

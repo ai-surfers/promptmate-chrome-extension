@@ -4,16 +4,24 @@ import { useEffect, useRef, useState } from "react";
 
 import Header from "../../components/common/header/AHeader";
 import { Wrapper } from "../../layouts/Layout";
-import { addStar, getPrompt, removeStar } from "../../service/prompt/prompt";
-import { GetPromptResponse } from "../../service/prompt/prompt.model";
+import {
+    addStar,
+    getPrompt,
+    removeStar,
+    executePrompt,
+} from "../../service/prompt/prompt";
+import {
+    ExecutePromptRequest,
+    GetPromptResponse,
+} from "../../service/prompt/prompt.model";
 import Property, { PropertyRef } from "../../components/prompt/Property";
-import { populateTemplate } from "../../utils";
 import { useAlert } from "../../hooks/useAlert";
 import { insertPromptToDOMInput } from "../../service/chrome/utils";
 
 import { Button } from "antd";
 import TopBox from "../../components/prompt/TopBox";
 import InfoDrawer from "../../components/prompt/InfoDrawer";
+import { AIPlatformType } from "../../core/Prompt";
 
 export default function PromptPage() {
     const { openAlert } = useAlert();
@@ -58,14 +66,31 @@ export default function PromptPage() {
             }
         }
 
-        if (prompt) {
-            const populatedTemplate = populateTemplate(
-                prompt.prompt_template,
-                propertyValues
-            );
-            console.log("Populated Template: ", populatedTemplate);
-            insertPromptToDOMInput(populatedTemplate);
+        if (!id) {
+            return;
         }
+
+        const req: ExecutePromptRequest = {
+            context: propertyValues,
+            ai_platform: AIPlatformType.CHATGPT,
+        };
+        executePrompt(id, req)
+            .then((res) => {
+                const { success, data, detail } = res.data;
+
+                if (!success) {
+                    console.error(detail);
+                    openAlert({ content: detail });
+                }
+
+                console.log(data);
+                console.log("Populated Template By API: ", data.full_prompt);
+                insertPromptToDOMInput(data.full_prompt);
+            })
+            .catch((e) => {
+                console.error(e);
+                openAlert({ content: `[${e.code}] ${e.message}` });
+            });
     }
 
     function handleFavorite(isFavorite: boolean) {

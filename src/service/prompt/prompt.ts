@@ -2,6 +2,8 @@ import { DELETE, GET, POST } from "../client";
 import {
     CreatePromptRequest,
     CreatePromptResponse,
+    ExecutePromptRequest,
+    ExecutePromptResponse,
     GetPromptResponse,
 } from "./prompt.model";
 
@@ -17,6 +19,19 @@ export async function createPrompt(prompt: CreatePromptRequest) {
  */
 export async function getPrompt(prompt_id: string) {
     return await GET<GetPromptResponse>(`/prompts/${prompt_id}`);
+}
+
+/**
+ *  프롬프트 사용하기
+ */
+export async function executePrompt(
+    prompt_id: string,
+    request: ExecutePromptRequest
+) {
+    return await POST<ExecutePromptResponse>(
+        `/prompts/${prompt_id}/execute`,
+        request
+    );
 }
 
 /**
