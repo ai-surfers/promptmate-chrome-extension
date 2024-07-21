@@ -1,10 +1,11 @@
 /**
- * text에서 $$로 묶어진 옵션들을 추출하는 함수
+ * text에서 {{}}로 묶어진 옵션들을 추출하는 함수
  * @param text
- * @returns $$로 작성한 옵션들
+ * @returns {{}}로 작성한 옵션들
  */
 export function extractOptions(text: string): string[] {
-    const regex = /\$(.*?)\$/g;
+    console.log(">> text", text);
+    const regex = /\{\{(.*?)\}\}/g;
     let matches;
     const options: string[] = [];
     while ((matches = regex.exec(text)) !== null) {
@@ -19,9 +20,10 @@ export function extractOptions(text: string): string[] {
  * @param values
  * @returns replace한 텍스트
  */
-export function populateTemplate(
-    template: string,
-    values: Record<string, string>
-): string {
-    return template.replace(/\$(.*?)\$/g, (_, key) => values[key]);
-}
+// export function populateTemplate(
+//     template: string,
+//     values: Record<string, string>
+// ): string {
+//     return template.replace(/\$(.*?)\$/g, (_, key) => values[key]);
+// }
+// 240722 미사용 - 백에서 처리
