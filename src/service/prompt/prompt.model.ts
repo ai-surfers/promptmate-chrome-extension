@@ -33,9 +33,10 @@ export interface CreatePromptResponse {
  * GetPromptResponse
  */
 export interface GetPromptResponse extends CreatePromptRequest {
-    author: string;
+    author_nickname: string;
     star: number;
     usages: number;
     created: string;
     is_starred_by_user: boolean;
+    created_at: string;
 }

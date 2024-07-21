@@ -1,13 +1,13 @@
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import Header from "../../components/common/header/AHeader";
 import { Wrapper } from "../../layouts/Layout";
 import { addStar, getPrompt, removeStar } from "../../service/prompt/prompt";
 import { GetPromptResponse } from "../../service/prompt/prompt.model";
 import Property, { PropertyRef } from "../../components/prompt/Property";
-import { extractOptions, populateTemplate } from "../../utils";
+import { populateTemplate } from "../../utils";
 import { useAlert } from "../../hooks/useAlert";
 import { insertPromptToDOMInput } from "../../service/chrome/utils";
 
@@ -21,11 +21,6 @@ export default function PromptPage() {
     const { id } = useParams();
     const [prompt, setPrompt] = useState<GetPromptResponse>();
     const propertyRefs = useRef<Record<string, PropertyRef>>({});
-
-    const options = useMemo(() => {
-        if (!prompt) return [];
-        return extractOptions(prompt.prompt_template);
-    }, [prompt]);
 
     useEffect(() => {
         fetchPrompt();
@@ -105,12 +100,12 @@ export default function PromptPage() {
 
                         <Title>{prompt.title}</Title>
 
-                        {options.map((opt) => (
+                        {prompt.user_input_format.map((opt) => (
                             <Property
-                                key={opt}
-                                title={opt}
+                                key={opt.name}
+                                title={opt.name}
                                 ref={(el) => {
-                                    if (el) propertyRefs.current[opt] = el;
+                                    if (el) propertyRefs.current[opt.name] = el;
                                 }}
                             />
                         ))}

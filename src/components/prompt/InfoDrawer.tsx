@@ -12,7 +12,7 @@ export default function InfoDrawer({ isOpen, onClose, info }: InfoDrawerProps) {
         <Drawer open={isOpen} onClose={onClose} placement="bottom">
             <Descriptions title={info?.title} size="small">
                 <Descriptions.Item label="작성자">
-                    {info?.author}
+                    {info?.author_nickname}
                 </Descriptions.Item>
 
                 <Descriptions.Item label="공개 여부">
