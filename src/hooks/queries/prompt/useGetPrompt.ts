@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
-import { GET } from "../../service/client";
-import { CreatePromptRequest } from "../../service/prompt/prompt.model";
+import { GET } from "../../../service/client";
+import { CreatePromptRequest } from "../../mutations/prompt/usePostPrompt";
 
 /**
  * GetPromptResponse

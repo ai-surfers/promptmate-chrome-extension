@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { BaseResponse, POST } from "../../service/client";
+import { BaseResponse, POST } from "../../../service/client";
 
 interface AddStarResponse {
     prompt_id: string;

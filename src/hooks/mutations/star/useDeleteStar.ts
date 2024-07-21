@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { BaseResponse, DELETE } from "../../service/client";
+import { BaseResponse, DELETE } from "../../../service/client";
 
 interface RemoveStarResponse {
     unstar_count: number;
@@ -15,7 +15,7 @@ export const removeStar = async (prompt_id: string) => {
     return data;
 };
 
-interface PostStarMutationProps {
+interface DeleteStarMutationProps {
     onSuccess: (res: BaseResponse<RemoveStarResponse>) => void;
     onError: (e: Error) => void;
 }
@@ -23,7 +23,7 @@ interface PostStarMutationProps {
 export const useDeleteStar = ({
     onSuccess,
     onError,
-}: PostStarMutationProps) => {
+}: DeleteStarMutationProps) => {
     return useMutation({
         mutationFn: (prompt_id: string) => removeStar(prompt_id),
         onSuccess: onSuccess,

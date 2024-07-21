@@ -1,7 +1,7 @@
 import { Card } from "antd";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useGetPromptList } from "../../hooks/queries/useGetPromptList";
+import { useGetPromptList } from "../../hooks/queries/prompt/useGetPromptList";
 
 export default function All() {
     const navigate = useNavigate();
@@ -29,4 +29,6 @@ export default function All() {
 const AllContainer = styled.div`
     ${({ theme }) => theme.mixins.flexBox("column", "flex-end", "center")};
     gap: 10px;
+
+    padding-bottom: 20px;
 `;

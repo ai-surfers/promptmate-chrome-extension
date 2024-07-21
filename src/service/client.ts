@@ -44,7 +44,7 @@ API.interceptors.response.use((response) => {
     }
 });
 
-interface BaseResponse<T> {
+export interface BaseResponse<T> {
     success: boolean;
     detail: string;
     data: T;

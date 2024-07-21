@@ -1,17 +1,5 @@
 import { POST } from "../client";
-import {
-    CreatePromptRequest,
-    CreatePromptResponse,
-    ExecutePromptRequest,
-    ExecutePromptResponse,
-} from "./prompt.model";
-
-/**
- *  프롬프트 등록하기
- */
-export async function createPrompt(prompt: CreatePromptRequest) {
-    return await POST<CreatePromptResponse>(`/prompts`, prompt);
-}
+import { ExecutePromptRequest, ExecutePromptResponse } from "./prompt.model";
 
 /**
  *  프롬프트 사용하기

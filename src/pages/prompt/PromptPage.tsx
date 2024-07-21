@@ -20,10 +20,10 @@ import { getAIPlatformType } from "../../utils";
 import {
     PROMPT_QUERY_KEY,
     useGetPrompt,
-} from "../../hooks/queries/useGetPrompt";
+} from "../../hooks/queries/prompt/useGetPrompt";
 import { useQueryClient } from "@tanstack/react-query";
-import { usePostStar } from "../../hooks/mutations/usePostStar";
-import { useDeleteStar } from "../../hooks/mutations/useDeleteStar";
+import { usePostStar } from "../../hooks/mutations/star/usePostStar";
+import { useDeleteStar } from "../../hooks/mutations/star/useDeleteStar";
 
 export default function PromptPage() {
     const { id = "" } = useParams();

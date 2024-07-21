@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { GET } from "../../service/client";
+import { GET } from "../../../service/client";
 import { GetPromptResponse } from "./useGetPrompt";
 
 /**
