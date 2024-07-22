@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { GET } from "../../../service/client";
 import { CreatePromptRequest } from "../../mutations/prompt/usePostPrompt";
+import { PROMPT_KEYS } from "../QueryKeys";
 
 /**
  * GetPromptResponse

@@ -1,15 +1,19 @@
-import { Card, Pagination } from "antd";
+import { Pagination } from "antd";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useGetPromptList } from "../../hooks/queries/prompt/useGetPromptList";
 import { useState } from "react";
+import ListItem from "./ListItem";
 
-export default function All() {
+interface ListProps {
+    type: string;
+}
+export default function List({ type }: ListProps) {
     const navigate = useNavigate();
 
     const [page, setPage] = useState(1);
     const { data } = useGetPromptList({
-        view_type: "open",
+        view_type: type,
         page: page,
     });
 
@@ -18,19 +22,12 @@ export default function All() {
     }
 
     return (
-        <AllContainer>
+        <ListContainer>
             {data?.data.prompt_info_list.map((pt) => (
-                <Card
-                    key={pt.id}
-                    style={{ width: "100%" }}
+                <ListItem
+                    prompt={pt}
                     onClick={() => navigate(`/prompt/${pt.id}`)}
-                    extra={<a>사용하기</a>}
-                    title={pt.title}
-                >
-                    <div style={{ fontWeight: "700" }}></div>
-
-                    <div style={{ color: "#727272" }}>{pt.description}</div>
-                </Card>
+                />
             ))}
 
             <Pagination
@@ -39,11 +36,11 @@ export default function All() {
                 onChange={onChange}
                 showSizeChanger={false}
             />
-        </AllContainer>
+        </ListContainer>
     );
 }
 
-const AllContainer = styled.div`
+const ListContainer = styled.div`
     ${({ theme }) => theme.mixins.flexBox("column", "flex-end", "center")};
     gap: 10px;
 

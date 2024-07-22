@@ -1,15 +1,18 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import All from "../../components/main/All";
-import My from "../../components/main/My";
-import Favorite from "../../components/main/Favorite";
 import { Button, Tabs } from "antd";
 import { TabList } from "../../core/Tab";
+import List from "../../components/main/List";
 
 export default function HomePage() {
     const navigate = useNavigate();
 
-    const components = [<All />, <My />, <Favorite />];
+    const components = [
+        <List type="open" />,
+        <List type="my" />,
+        <List type="starred" />,
+    ];
+
     const operation = (
         <Button type="primary" onClick={() => navigate("/new-prompt")}>
             +
