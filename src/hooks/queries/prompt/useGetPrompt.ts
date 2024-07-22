@@ -23,10 +23,11 @@ const getPrompt = async (prompt_id: string) => {
     return data;
 };
 
-export const PROMPT_QUERY_KEY = "PROMPT_QUERY_KEY";
 export const useGetPrompt = (prompt_id: string) => {
+    const QUERY_KEY = PROMPT_KEYS.detail(prompt_id);
+
     const { data, isLoading, isError, refetch } = useQuery({
-        queryKey: [PROMPT_QUERY_KEY],
+        queryKey: QUERY_KEY,
         queryFn: () => getPrompt(prompt_id).then((res) => res),
     });
 

@@ -17,13 +17,11 @@ import { Button } from "antd";
 import TopBox from "../../components/prompt/TopBox";
 import InfoDrawer from "../../components/prompt/InfoDrawer";
 import { getAIPlatformType } from "../../utils";
-import {
-    PROMPT_QUERY_KEY,
-    useGetPrompt,
-} from "../../hooks/queries/prompt/useGetPrompt";
+import { useGetPrompt } from "../../hooks/queries/prompt/useGetPrompt";
 import { useQueryClient } from "@tanstack/react-query";
 import { usePostStar } from "../../hooks/mutations/star/usePostStar";
 import { useDeleteStar } from "../../hooks/mutations/star/useDeleteStar";
+import { PROMPT_KEYS } from "../../hooks/queries/QueryKeys";
 
 export default function PromptPage() {
     const { id = "" } = useParams();
@@ -82,7 +80,7 @@ export default function PromptPage() {
                 return;
             }
 
-            queryClient.invalidateQueries({ queryKey: [PROMPT_QUERY_KEY] });
+            queryClient.invalidateQueries({ queryKey: PROMPT_KEYS.detail(id) });
         },
         onError: (error) => {
             console.error("✈ /api/store ERROR >>", error);
@@ -99,7 +97,7 @@ export default function PromptPage() {
                 return;
             }
 
-            queryClient.invalidateQueries({ queryKey: [PROMPT_QUERY_KEY] });
+            queryClient.invalidateQueries({ queryKey: PROMPT_KEYS.detail(id) });
         },
         onError: (error) => {
             console.error(error.message);

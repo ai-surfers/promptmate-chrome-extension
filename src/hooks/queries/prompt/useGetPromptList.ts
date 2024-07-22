@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { GET } from "../../../service/client";
 import { GetPromptResponse } from "./useGetPrompt";
+import { PROMPT_KEYS } from "../QueryKeys";
 
 /**
  * GetPromptListRequest
@@ -20,6 +21,14 @@ export interface GetPromptListRequest {
  */
 export interface GetPromptListResponse {
     prompt_info_list: GetPromptResponse[];
+    page_meta_data: PromptMetaData;
+}
+
+interface PromptMetaData {
+    total_pages: number;
+    total_count: number;
+    current_page: number;
+    is_last: number;
 }
 
 const getPromptList = async (request: GetPromptListRequest) => {
@@ -29,10 +38,11 @@ const getPromptList = async (request: GetPromptListRequest) => {
     return data;
 };
 
-const PROMPT_LIST_QUERY_KEY = "PROMPT_LIST_QUERY_KEY";
 export const useGetPromptList = (request: GetPromptListRequest) => {
+    const QUERY_KEY = PROMPT_KEYS.list(request);
+
     const { data, isLoading, isError, refetch } = useQuery({
-        queryKey: [PROMPT_LIST_QUERY_KEY],
+        queryKey: QUERY_KEY,
         queryFn: () => getPromptList(request).then((res) => res),
     });
 
