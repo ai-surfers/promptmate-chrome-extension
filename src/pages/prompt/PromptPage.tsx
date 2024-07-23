@@ -125,8 +125,8 @@ export default function PromptPage() {
                 {data?.data && (
                     <>
                         <TopBox
+                            id={id}
                             isFavorite={data?.data.is_starred_by_user}
-                            onFavoriteClick={handleFavorite}
                             onInformationClick={() => setOpen(true)}
                         />
 
