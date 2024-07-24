@@ -32,6 +32,11 @@ export default function ListItem({ prompt, onClick }: ListItemProps) {
 const ListItemContainer = styled.div`
     width: 100%;
 
+    .ant-card-head-title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
     .ant-card-body {
         display: flex;
         flex-direction: column;
