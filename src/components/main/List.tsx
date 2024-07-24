@@ -1,4 +1,4 @@
-import { Pagination } from "antd";
+import { Empty, Pagination } from "antd";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useGetPromptList } from "../../hooks/queries/prompt/useGetPromptList";
@@ -39,6 +39,10 @@ export default function List({ type }: ListProps) {
     return (
         <ListContainer>
             <Search onEnter={handleOnEnter} onClear={handleOnClear} />
+
+            {!data?.data.page_meta_data.total_count && (
+                <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            )}
 
             {data?.data.prompt_info_list.map((pt) => (
                 <ListItem

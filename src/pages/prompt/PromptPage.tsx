@@ -13,23 +13,19 @@ import {
     insertPromptToDOMInput,
 } from "../../service/chrome/utils";
 
-import { Button } from "antd";
+import { Button, Result, Skeleton, Spin } from "antd";
 import TopBox from "../../components/prompt/TopBox";
 import InfoDrawer from "../../components/prompt/InfoDrawer";
 import { getAIPlatformType } from "../../utils";
 import { useGetPrompt } from "../../hooks/queries/prompt/useGetPrompt";
-import { useQueryClient } from "@tanstack/react-query";
-import { usePostStar } from "../../hooks/mutations/star/usePostStar";
-import { useDeleteStar } from "../../hooks/mutations/star/useDeleteStar";
-import { PROMPT_KEYS } from "../../hooks/queries/QueryKeys";
 
 export default function PromptPage() {
     const { id = "" } = useParams();
     const { openAlert } = useAlert();
 
+    const [open, setOpen] = useState(false);
     const propertyRefs = useRef<Record<string, PropertyRef>>({});
 
-    const queryClient = useQueryClient();
     const { data, isError, isLoading } = useGetPrompt(id);
 
     async function handleUsePrompt() {
@@ -70,58 +66,42 @@ export default function PromptPage() {
         });
     }
 
-    const { mutate: postStar } = usePostStar({
-        onSuccess: (res) => {
-            const { success, detail } = res;
-
-            if (!success) {
-                console.error(`${detail}`);
-                openAlert({ content: detail });
-                return;
-            }
-
-            queryClient.invalidateQueries({ queryKey: PROMPT_KEYS.detail(id) });
-        },
-        onError: (error) => {
-            console.error("✈ /api/store ERROR >>", error);
-        },
-    });
-
-    const { mutate: deleteStar } = useDeleteStar({
-        onSuccess: (res) => {
-            const { success, detail } = res;
-
-            if (!success) {
-                console.error(`${detail}`);
-                openAlert({ content: detail });
-                return;
-            }
-
-            queryClient.invalidateQueries({ queryKey: PROMPT_KEYS.detail(id) });
-        },
-        onError: (error) => {
-            console.error(error.message);
-        },
-    });
-
-    function handleFavorite(isFavorite: boolean) {
-        if (!id) {
-            console.error("No id");
-            return;
-        }
-
-        if (isFavorite) deleteStar(id);
-        else postStar(id);
+    if (isLoading) {
+        return (
+            <>
+                <Header title="프롬프트 사용하기" canGoBack={true} />
+                <FullWrapper>
+                    <Spin tip="Loading">
+                        <div style={{ padding: 50 }} />
+                    </Spin>
+                </FullWrapper>
+            </>
+        );
     }
 
-    const [open, setOpen] = useState(false);
+    if (isError) {
+        return (
+            <>
+                <Header title="프롬프트 사용하기" canGoBack={true} />
+                <FullWrapper>
+                    <Result
+                        status="warning"
+                        title="There are some problems with your operation."
+                        extra={
+                            <Button type="primary" key="console">
+                                Go Console
+                            </Button>
+                        }
+                    />
+                </FullWrapper>
+            </>
+        );
+    }
+
     return (
         <>
             <Header title="프롬프트 사용하기" canGoBack={true} />
             <Wrapper>
-                {isError && <> error! </>}
-                {isLoading && <> loading! </>}
-
                 {data?.data && (
                     <>
                         <TopBox
@@ -165,4 +145,10 @@ export default function PromptPage() {
 const Title = styled.h2`
     ${({ theme }) => theme.fonts.title};
     margin: 10px 0 20px;
+`;
+
+const FullWrapper = styled.div`
+    width: 100%;
+    height: 100%;
+    ${({ theme }) => theme.mixins.flexBox()};
 `;
