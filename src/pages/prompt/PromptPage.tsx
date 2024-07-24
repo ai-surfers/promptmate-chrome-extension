@@ -1,19 +1,11 @@
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import Header from "../../components/common/header/AHeader";
 import { Wrapper } from "../../layouts/Layout";
-import {
-    addStar,
-    getPrompt,
-    removeStar,
-    executePrompt,
-} from "../../service/prompt/prompt";
-import {
-    ExecutePromptRequest,
-    GetPromptResponse,
-} from "../../service/prompt/prompt.model";
+import { executePrompt } from "../../service/prompt/prompt";
+import { ExecutePromptRequest } from "../../service/prompt/prompt.model";
 import Property, { PropertyRef } from "../../components/prompt/Property";
 import { useAlert } from "../../hooks/useAlert";
 import {
@@ -21,44 +13,20 @@ import {
     insertPromptToDOMInput,
 } from "../../service/chrome/utils";
 
-import { Button } from "antd";
+import { Button, Result, Skeleton, Spin } from "antd";
 import TopBox from "../../components/prompt/TopBox";
 import InfoDrawer from "../../components/prompt/InfoDrawer";
 import { getAIPlatformType } from "../../utils";
+import { useGetPrompt } from "../../hooks/queries/prompt/useGetPrompt";
 
 export default function PromptPage() {
+    const { id = "" } = useParams();
     const { openAlert } = useAlert();
 
-    const { id } = useParams();
-    const [prompt, setPrompt] = useState<GetPromptResponse>();
+    const [open, setOpen] = useState(false);
     const propertyRefs = useRef<Record<string, PropertyRef>>({});
 
-    useEffect(() => {
-        fetchPrompt();
-    }, [id]);
-
-    function fetchPrompt() {
-        if (!id) {
-            console.error("No id!");
-            return;
-        }
-
-        getPrompt(id)
-            .then((res) => {
-                const { success, data, detail } = res.data;
-
-                if (!success) {
-                    console.error(detail);
-                    openAlert({ content: detail });
-                }
-
-                setPrompt(data);
-            })
-            .catch((e) => {
-                console.error(e);
-                openAlert({ content: `[${e.code}] ${e.message}` });
-            });
-    }
+    const { data, isError, isLoading } = useGetPrompt(id);
 
     async function handleUsePrompt() {
         const propertyValues: Record<string, string> = {};
@@ -98,39 +66,53 @@ export default function PromptPage() {
         });
     }
 
-    function handleFavorite(isFavorite: boolean) {
-        if (!id) {
-            console.error("No id");
-            return;
-        }
-
-        const func = isFavorite ? removeStar : addStar;
-        func(id)
-            .then((res) => {
-                console.log(">> res", res);
-                fetchPrompt();
-            })
-            .catch((e) => {
-                console.error(e);
-            });
+    if (isLoading) {
+        return (
+            <>
+                <Header title="프롬프트 사용하기" canGoBack={true} />
+                <FullWrapper>
+                    <Spin tip="Loading">
+                        <div style={{ padding: 50 }} />
+                    </Spin>
+                </FullWrapper>
+            </>
+        );
     }
 
-    const [open, setOpen] = useState(false);
+    if (isError) {
+        return (
+            <>
+                <Header title="프롬프트 사용하기" canGoBack={true} />
+                <FullWrapper>
+                    <Result
+                        status="warning"
+                        title="There are some problems with your operation."
+                        extra={
+                            <Button type="primary" key="console">
+                                Go Console
+                            </Button>
+                        }
+                    />
+                </FullWrapper>
+            </>
+        );
+    }
+
     return (
         <>
             <Header title="프롬프트 사용하기" canGoBack={true} />
             <Wrapper>
-                {prompt && (
+                {data?.data && (
                     <>
                         <TopBox
-                            isFavorite={prompt.is_starred_by_user}
-                            onFavoriteClick={handleFavorite}
+                            id={id}
+                            isFavorite={data?.data.is_starred_by_user}
                             onInformationClick={() => setOpen(true)}
                         />
 
-                        <Title>{prompt.title}</Title>
+                        <Title>{data?.data.title}</Title>
 
-                        {prompt.user_input_format.map((opt) => (
+                        {data?.data.user_input_format.map((opt) => (
                             <Property
                                 key={opt.name}
                                 title={opt.name}
@@ -149,7 +131,7 @@ export default function PromptPage() {
                         </Button>
 
                         <InfoDrawer
-                            info={prompt}
+                            info={data.data}
                             isOpen={open}
                             onClose={() => setOpen(false)}
                         />
@@ -163,4 +145,10 @@ export default function PromptPage() {
 const Title = styled.h2`
     ${({ theme }) => theme.fonts.title};
     margin: 10px 0 20px;
+`;
+
+const FullWrapper = styled.div`
+    width: 100%;
+    height: 100%;
+    ${({ theme }) => theme.mixins.flexBox()};
 `;

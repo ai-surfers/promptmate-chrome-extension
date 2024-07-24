@@ -1,42 +1,48 @@
 import { useNavigate } from "react-router-dom";
-import { createPrompt } from "../../service/prompt/prompt";
-import { CreatePromptRequest } from "../../service/prompt/prompt.model";
 import { useAlert } from "../../hooks/useAlert";
 import Header from "../../components/common/header/AHeader";
 import { Wrapper } from "../../layouts/Layout";
 import PromptForm from "../../components/newPrompt/PromptForm";
+import {
+    CreatePromptRequest,
+    usePostPrompt,
+} from "../../hooks/mutations/prompt/usePostPrompt";
+import { useQueryClient } from "@tanstack/react-query";
 
 export default function NewPromptPage() {
     const navigate = useNavigate();
     const { openAlert, closeAlert } = useAlert();
+    const queryClient = useQueryClient();
 
-    function savePrompt(promptData: CreatePromptRequest) {
-        console.log(">> ", savePrompt);
+    const { mutate } = usePostPrompt({
+        onSuccess: (res) => {
+            const { success, detail, data } = res;
+            console.log(data);
 
-        createPrompt(promptData)
-            .then((res) => {
-                const { success, detail, data } = res.data;
-                console.log(data);
+            if (!success) {
+                console.error(`${detail}`);
+                showErrorAlert(detail);
+                return;
+            }
 
-                if (!success) {
-                    console.error(`${detail}`);
-                    showErrorAlert(detail);
-                    return;
-                }
-
-                // 성공 시, 홈화면으로 이동
-                openAlert({
-                    content: `${data.prompt_id}가 등록되었습니다`,
-                    callback: () => {
-                        navigate("/home");
-                        closeAlert();
-                    },
-                });
-            })
-            .catch((error) => {
-                console.error(error);
-                showErrorAlert(`[${error.code}] ${error.message}`);
+            // 성공 시, 홈화면으로 이동
+            openAlert({
+                content: `${data.prompt_id}가 등록되었습니다`,
+                callback: () => {
+                    navigate("/home");
+                    closeAlert();
+                },
             });
+
+            queryClient.invalidateQueries();
+        },
+        onError: (error) => {
+            console.error(error);
+            showErrorAlert(`${error.message}`);
+        },
+    });
+    function savePrompt(promptData: CreatePromptRequest) {
+        mutate(promptData);
     }
 
     function showErrorAlert(msg: string) {

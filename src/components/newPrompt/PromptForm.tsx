@@ -6,11 +6,12 @@ import AInput from "../common/input/AInput";
 import ATextArea from "../common/input/ATextArea";
 import ASelectBox from "../common/input/ASelectBox";
 import { useForm } from "antd/es/form/Form";
+
+import { extractOptions } from "../../utils";
 import {
     CreatePromptRequest,
     InputFormat,
-} from "../../service/prompt/prompt.model";
-import { extractOptions } from "../../utils";
+} from "../../hooks/mutations/prompt/usePostPrompt";
 
 interface PromptFormProps {
     onSubmit: (promptData: CreatePromptRequest) => void;

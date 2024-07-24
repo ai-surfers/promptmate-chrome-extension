@@ -1,5 +1,5 @@
 import { Descriptions, Drawer } from "antd";
-import { GetPromptResponse } from "../../service/prompt/prompt.model";
+import { GetPromptResponse } from "../../hooks/queries/prompt/useGetPrompt";
 
 interface InfoDrawerProps {
     info: GetPromptResponse;

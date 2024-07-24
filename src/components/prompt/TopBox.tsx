@@ -1,37 +1,42 @@
 import styled from "styled-components";
-import { StarOutlined, StarFilled, InfoOutlined } from "@ant-design/icons";
+import { InfoOutlined } from "@ant-design/icons";
 import { Button, Tooltip } from "antd";
+import StarButton from "../common/button/StarButton";
 
 interface TopBoxProps {
+    id: string;
     isFavorite: boolean;
-    onFavoriteClick: (isFavorite: boolean) => void;
     onInformationClick: () => void;
 }
+
 export default function TopBox({
     isFavorite,
-    onFavoriteClick,
+    id,
     onInformationClick,
 }: TopBoxProps) {
     return (
         <InfoBoxWrapper>
-            <Tooltip title="favorite">
-                <Button
-                    shape="circle"
-                    icon={isFavorite ? <StarFilled /> : <StarOutlined />}
-                    onClick={() => onFavoriteClick(isFavorite)}
-                />
-            </Tooltip>
+            <StarButton id={id} isFavorite={isFavorite} />
 
-            <Tooltip title="information">
-                <Button
-                    shape="circle"
-                    icon={<InfoOutlined />}
-                    onClick={onInformationClick}
-                />
-            </Tooltip>
+            <InfoButton onInformationClick={onInformationClick} />
         </InfoBoxWrapper>
     );
 }
+
+interface InfoButtonProps {
+    onInformationClick: () => void;
+}
+const InfoButton = ({ onInformationClick }: InfoButtonProps) => {
+    return (
+        <Tooltip title="information">
+            <Button
+                shape="circle"
+                icon={<InfoOutlined />}
+                onClick={onInformationClick}
+            />
+        </Tooltip>
+    );
+};
 
 const InfoBoxWrapper = styled.div`
     width: 100%;
