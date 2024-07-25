@@ -22,7 +22,7 @@ export default function PromptForm({ onSubmit }: PromptFormProps) {
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [category, setCategory] = useState(Category[0]);
+    const [category, setCategory] = useState<string[]>([]);
     const [visibility, setVisibility] = useState(Visibility[0]);
     const [prompt, setPrompt] = useState("");
 
@@ -38,7 +38,7 @@ export default function PromptForm({ onSubmit }: PromptFormProps) {
             title: title,
             description: description,
             visibility: visibility,
-            category: category,
+            categories: category,
             prompt_template: prompt,
             user_input_format: user_input_formats,
         };
@@ -83,7 +83,6 @@ export default function PromptForm({ onSubmit }: PromptFormProps) {
 
             <Form.Item name="분야" label="분야" rules={[{ required: true }]}>
                 <ASelectBox
-                    value={category}
                     options={Category}
                     onChange={(cat) => setCategory(cat)}
                 />
