@@ -8,16 +8,16 @@
 export const Visibility: string[] = ["public", "private"];
 export const Category: string[] = [
     "branding",
+    "blog",
     "business",
-    "data",
     "development",
-    "language",
     "marketing",
     "research",
     "writing",
     "productivity",
-    "education",
+    "language",
     "entertainment",
+    "video",
 ];
 
 export enum InputType {
