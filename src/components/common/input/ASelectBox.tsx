@@ -1,19 +1,13 @@
 import { Select } from "antd";
-import { Option } from "antd/es/mentions";
 
 interface ASelectBoxProps {
-    value: string | undefined;
     options: readonly string[];
-    onChange: (value: string) => void;
+    onChange: (value: string[]) => void;
 }
 
-export default function ASelectBox({
-    value,
-    options,
-    onChange,
-}: ASelectBoxProps) {
+export default function ASelectBox({ options, onChange }: ASelectBoxProps) {
     return (
-        <Select value={value} onChange={onChange}>
+        <Select onChange={onChange} mode="tags" allowClear>
             {options.map((cat) => (
                 <Select.Option key={cat} value={cat}>
                     {cat}

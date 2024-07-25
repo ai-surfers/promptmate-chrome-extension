@@ -13,7 +13,7 @@ import {
     insertPromptToDOMInput,
 } from "../../service/chrome/utils";
 
-import { Button, Result, Skeleton, Spin } from "antd";
+import { Button, Result, Spin } from "antd";
 import TopBox from "../../components/prompt/TopBox";
 import InfoDrawer from "../../components/prompt/InfoDrawer";
 import { getAIPlatformType } from "../../utils";

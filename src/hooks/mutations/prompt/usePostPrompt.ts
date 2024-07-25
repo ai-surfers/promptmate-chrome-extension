@@ -9,7 +9,7 @@ export interface CreatePromptRequest {
     title: string;
     description: string;
     visibility: string;
-    category: string;
+    categories: string[];
     prompt_template: string;
     user_input_format: InputFormat[];
 }

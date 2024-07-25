@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button, Form } from "antd";
 import { Category, InputType, Visibility } from "../../core/Prompt";
 import ARadioGroup from "../common/input/ARadioGroup";
@@ -6,12 +6,12 @@ import AInput from "../common/input/AInput";
 import ATextArea from "../common/input/ATextArea";
 import ASelectBox from "../common/input/ASelectBox";
 import { useForm } from "antd/es/form/Form";
-
 import { extractOptions } from "../../utils";
 import {
     CreatePromptRequest,
     InputFormat,
 } from "../../hooks/mutations/prompt/usePostPrompt";
+import InputTags from "./PropertyForm/InputTags";
 
 interface PromptFormProps {
     onSubmit: (promptData: CreatePromptRequest) => void;
@@ -22,12 +22,19 @@ export default function PromptForm({ onSubmit }: PromptFormProps) {
 
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [category, setCategory] = useState(Category[0]);
+    const [category, setCategory] = useState<string[]>([]);
     const [visibility, setVisibility] = useState(Visibility[0]);
     const [prompt, setPrompt] = useState("");
 
+    const inputs = useMemo(() => {
+        return extractOptions(prompt);
+    }, [prompt]);
+
+    useEffect(() => {
+        console.log("Prompt updated:", prompt);
+    }, [prompt]);
+
     const handleOnFinish = () => {
-        const inputs = extractOptions(prompt);
         const user_input_formats = inputs.map<InputFormat>((ip) => ({
             name: ip,
             type: InputType.TEXT,
@@ -38,13 +45,22 @@ export default function PromptForm({ onSubmit }: PromptFormProps) {
             title: title,
             description: description,
             visibility: visibility,
-            category: category,
+            categories: category,
             prompt_template: prompt,
             user_input_format: user_input_formats,
         };
 
         onSubmit(promptData);
     };
+
+    function insert(tag: string) {
+        console.log("tag! ", tag);
+        setPrompt((prevPrompt) => {
+            const newPrompt = `${prevPrompt} {{${tag}}}`;
+            console.log(")", newPrompt); // 최신 상태를 반영하여 로그
+            return newPrompt;
+        });
+    }
 
     return (
         <Form
@@ -83,7 +99,6 @@ export default function PromptForm({ onSubmit }: PromptFormProps) {
 
             <Form.Item name="분야" label="분야" rules={[{ required: true }]}>
                 <ASelectBox
-                    value={category}
                     options={Category}
                     onChange={(cat) => setCategory(cat)}
                 />
@@ -93,6 +108,7 @@ export default function PromptForm({ onSubmit }: PromptFormProps) {
                 name="프롬프트"
                 label="프롬프트"
                 rules={[{ required: true }]}
+                valuePropName={prompt}
             >
                 <ATextArea
                     value={prompt}
@@ -102,6 +118,8 @@ export default function PromptForm({ onSubmit }: PromptFormProps) {
                     onChange={(e) => setPrompt(e.target.value)}
                 />
             </Form.Item>
+
+            <InputTags tags={inputs} onInsert={insert} />
 
             <Button
                 type="primary"
