@@ -3,9 +3,9 @@ import router from "./router/Router";
 import { RecoilRoot } from "recoil";
 import Modal from "./components/common/modal/Modal";
 import Alert from "./components/common/alert/Alert";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
+import { queryClient } from "./service/queryClient";
 
-const queryClient = new QueryClient();
 function App() {
     return (
         <>
