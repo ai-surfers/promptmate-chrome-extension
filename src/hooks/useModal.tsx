@@ -4,11 +4,14 @@ import { useCallback } from "react";
 
 /**
  * useModal Hook
- * @props content(*) - 모달 내부에 들어갈 컨텐츠
+ * @props title - 모달 타이틀
+ * @props content - 모달 내부에 들어갈 컨텐츠
  * @props callback - 확인 클릭 시 실행될 함수
  */
 interface ModalProps {
-    content: JSX.Element | string;
+    title?: string;
+    content?: JSX.Element | string;
+    footer?: JSX.Element;
     callback?: () => any;
 }
 
@@ -23,10 +26,12 @@ export const useModal = () => {
     }, [setModalData]);
 
     const openModal = useCallback(
-        ({ content, callback }: ModalProps) => {
+        ({ title, content, footer, callback }: ModalProps) => {
             setModalData({
+                title: title,
                 isOpen: true,
                 content: content,
+                footer: footer,
                 callBack: callback,
             });
         },
