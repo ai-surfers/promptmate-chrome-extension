@@ -1,8 +1,10 @@
 import { useModal } from "../../../hooks/useModal";
 import { Modal } from "antd";
+import useErrorModal from "../../../hooks/useErrorModal";
 
 const AModal = () => {
     const { modalData, closeModal } = useModal();
+    useErrorModal();
 
     return (
         <Modal
