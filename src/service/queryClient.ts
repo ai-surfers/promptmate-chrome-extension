@@ -3,6 +3,7 @@ import { AxiosError } from "axios";
 import { BaseResponse } from "./client";
 import eventEmitter, { EventType } from "../eventEmitter";
 
+
 export const queryClient = new QueryClient({
     queryCache: new QueryCache({
         onSuccess(data, query) {},
