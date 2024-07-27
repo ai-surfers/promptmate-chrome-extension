@@ -1,9 +1,13 @@
-import { Button, Form, Modal, Rate } from "antd";
+import { Button, Form, Modal, Rate, Select } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import styled from "styled-components";
+import ASelectBox from "../input/ASelectBox";
+import { FeedBackCategories } from "../../../core/Etc";
+import { usePostFeedback } from "../../../hooks/mutations/feedback/usePostFeedback";
 
 type FormTypes = {
-    rate: number;
+    rating: number;
+    category: string;
     content: string;
 };
 
@@ -13,8 +17,20 @@ export interface VOCModalProps {
 }
 
 export default function VOCModal({ isOpen, closeModal }: VOCModalProps) {
+    const { mutate } = usePostFeedback({
+        onSuccess: (res) => {
+            const { success, detail } = res;
+            console.log(`>> `, success, detail);
+            closeModal();
+        },
+        onError: (error) => {
+            console.error(error.message);
+            closeModal();
+        },
+    });
+
     function handleOnFinish(values: FormTypes) {
-        console.log(values);
+        mutate(values);
     }
 
     return (
@@ -23,9 +39,10 @@ export default function VOCModal({ isOpen, closeModal }: VOCModalProps) {
             open={isOpen}
             onClose={closeModal}
             onCancel={closeModal}
+            footer={<></>}
         >
             <Form name="voc" onFinish={handleOnFinish} layout="vertical">
-                <Form.Item name="rate" initialValue={0}>
+                <Form.Item name="rating" initialValue={0}>
                     <Rate style={flexCenter} />
                 </Form.Item>
 
@@ -33,6 +50,10 @@ export default function VOCModal({ isOpen, closeModal }: VOCModalProps) {
                     추가되었으면 하는 기능이나 불편한 점이 있다면 자유롭게
                     말해주세요!
                 </FeedBackDescription>
+
+                <Form.Item name="category" rules={[{ required: true }]}>
+                    <ASelectBox options={FeedBackCategories} />
+                </Form.Item>
 
                 <Form.Item
                     name="content"

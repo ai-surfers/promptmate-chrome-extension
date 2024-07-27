@@ -101,6 +101,7 @@ export default function PromptForm({ onSubmit }: PromptFormProps) {
                 <ASelectBox
                     options={Category}
                     onChange={(cat) => setCategory(cat)}
+                    mode="tags"
                 />
             </Form.Item>
 
