@@ -1,7 +1,7 @@
 import { Button } from "antd";
 import styled from "styled-components";
-import { AdType } from "../../../../service/prompt/prompt.model";
 import { openUrlInNewTab } from "../../../../service/chrome/utils";
+import { AdType } from "../../../../hooks/mutations/prompt/usePostPromptExecute";
 
 interface AdContentProps {
     ad: AdType;

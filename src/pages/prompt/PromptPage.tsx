@@ -4,13 +4,7 @@ import { useRef, useState } from "react";
 
 import Header from "../../components/common/header/AHeader";
 import { Wrapper } from "../../layouts/Layout";
-import { executePrompt } from "../../service/prompt/prompt";
-import {
-    AdType,
-    ExecutePromptRequest,
-} from "../../service/prompt/prompt.model";
 import Property, { PropertyRef } from "../../components/prompt/Property";
-import { useAlert } from "../../hooks/useAlert";
 import {
     getCurrentTabUrl,
     insertPromptToDOMInput,
@@ -25,16 +19,41 @@ import { useModal } from "../../hooks/useModal";
 import AdContent, {
     AdFooter,
 } from "../../components/common/modal/content/AdContent";
+import {
+    AdType,
+    ExecutePrompt,
+    usePostPromptExecute,
+} from "../../hooks/mutations/prompt/usePostPromptExecute";
+import { useQueryClient } from "@tanstack/react-query";
+import { PROMPT_KEYS } from "../../hooks/queries/QueryKeys";
 
 export default function PromptPage() {
     const { id = "" } = useParams();
-    const { openAlert } = useAlert();
     const { openModal, closeModal } = useModal();
 
     const [open, setOpen] = useState(false);
     const propertyRefs = useRef<Record<string, PropertyRef>>({});
 
+    const queryClient = useQueryClient();
     const { data, isError, isLoading } = useGetPrompt(id);
+    const { mutate } = usePostPromptExecute({
+        onSuccess: (res) => {
+            const { success, detail, data } = res;
+            console.log(`>> `, success, detail);
+
+            insertPromptToDOMInput(data.full_prompt);
+
+            // 광고 있는 경우, 광고 팝업 노출
+            if (data.ad) {
+                handleAd(data.ad);
+            }
+
+            queryClient.invalidateQueries({ queryKey: PROMPT_KEYS.detail(id) });
+        },
+        onError: (error) => {
+            console.error(error.message);
+        },
+    });
 
     async function handleUsePrompt() {
         const propertyValues: Record<string, string> = {};
@@ -51,26 +70,12 @@ export default function PromptPage() {
         }
 
         getCurrentTabUrl((url) => {
-            const req: ExecutePromptRequest = {
+            const req: ExecutePrompt = {
                 context: propertyValues,
                 ai_platform: getAIPlatformType(url),
             };
 
-            executePrompt(id, req)
-                .then((res) => {
-                    const { data } = res.data;
-                    insertPromptToDOMInput(data.full_prompt);
-
-                    // 광고 있는 경우, 광고 팝업 노출
-                    if (data.ad) {
-                        console.log("ad 있ㅇ므!!");
-                        handleAd(data.ad);
-                    }
-                })
-                .catch((e) => {
-                    console.error(e);
-                    openAlert({ content: `[${e.code}] ${e.message}` });
-                });
+            mutate({ prompt_id: id, request: req });
         });
     }
 
@@ -79,9 +84,6 @@ export default function PromptPage() {
             title: ad.ad_product_name,
             content: <AdContent ad={ad} />,
             footer: <AdFooter closeModal={closeModal} ad={ad} />,
-            callback: function logout() {
-                closeModal();
-            },
         });
     }
 
