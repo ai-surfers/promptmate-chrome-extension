@@ -8,6 +8,7 @@ import { Header } from "antd/es/layout/layout";
 import Avatar from "antd/es/avatar/avatar";
 import { UserOutlined } from "@ant-design/icons";
 import LimitContent, { LimitFooter } from "../modal/content/LimitContent";
+import AdContent, { AdFooter } from "../modal/content/AdContent";
 
 interface HeaderProps {
     title: string;
@@ -37,6 +38,16 @@ export default function CustomHeader({ title, canGoBack }: HeaderProps) {
             title: "개인 프롬프트 저장소가 가득 찼어요!",
             content: <LimitContent />,
             footer: <LimitFooter closeModal={closeModal} />,
+            callback: function logout() {
+                closeModal();
+            },
+        });
+    }
+
+    function handleOnAd() {
+        openModal({
+            content: <AdContent />,
+            footer: <AdFooter closeModal={closeModal} />,
             callback: function logout() {
                 closeModal();
             },
@@ -79,7 +90,7 @@ export default function CustomHeader({ title, canGoBack }: HeaderProps) {
                 </ImageWrapper>
             )}
 
-            <ImageWrapper onClick={handleOnLimit}>
+            <ImageWrapper onClick={handleOnAd}>
                 <Avatar size={30} icon={<UserOutlined />} />
                 <span>{userData.user?.nickname}</span>
             </ImageWrapper>
