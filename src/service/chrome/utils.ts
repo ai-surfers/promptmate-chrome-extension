@@ -88,3 +88,11 @@ export const getCurrentTabUrl = (callback: (url: string) => void) => {
         else callback("");
     });
 };
+
+/**
+ * 특정 URL을 새 탭에서 열기
+ * @param url
+ */
+export const openUrlInNewTab = (url: string) => {
+    chrome.tabs.create({ url });
+};

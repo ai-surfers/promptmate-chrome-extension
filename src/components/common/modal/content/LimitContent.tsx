@@ -1,5 +1,6 @@
 import { Button } from "antd";
 import styled from "styled-components";
+import { openUrlInNewTab } from "../../../../service/chrome/utils";
 
 const defaultText = `안녕하세요! 현재 사용 중인 계정의 개인 프롬프트 저장 한도에 도달했습니다.
 
@@ -26,7 +27,8 @@ interface LimitFooterProps {
 }
 export function LimitFooter({ closeModal }: LimitFooterProps) {
     function handleGoToPlan() {
-        //[TODO]
+        openUrlInNewTab("https://github.com/yusiny"); //[TODO] 노션 링크로 변경
+        closeModal();
     }
 
     return (

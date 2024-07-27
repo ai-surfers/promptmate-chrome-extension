@@ -1,6 +1,7 @@
 import { Button } from "antd";
 import styled from "styled-components";
 import { AdType } from "../../../../service/prompt/prompt.model";
+import { openUrlInNewTab } from "../../../../service/chrome/utils";
 
 interface AdContentProps {
     ad: AdType;
@@ -35,7 +36,8 @@ interface AdFooterProps {
 }
 export function AdFooter({ ad, closeModal }: AdFooterProps) {
     function handleGoToUrl() {
-        //[TODO]
+        openUrlInNewTab(ad.ad_landing_page_url);
+        closeModal();
     }
 
     return (
