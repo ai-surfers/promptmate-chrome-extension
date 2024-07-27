@@ -59,7 +59,7 @@ export default function CustomHeader({ title, canGoBack }: HeaderProps) {
                     </ImageWrapper>
                 )}
 
-                <Title onClick={handleOnLogout}>{title}</Title>
+                <Title>{title}</Title>
             </LeftContainer>
             {userData.isLogin && (
                 <ImageWrapper onClick={handleOnLogout}>
@@ -67,8 +67,6 @@ export default function CustomHeader({ title, canGoBack }: HeaderProps) {
                     <span>{userData.user?.nickname}</span>
                 </ImageWrapper>
             )}
-
-            <VOCModal isOpen={true} closeModal={() => {}} />
         </Header>
     );
 }

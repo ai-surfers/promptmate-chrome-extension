@@ -1,11 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { Button, Tabs } from "antd";
+import { Button, FloatButton, Tabs } from "antd";
 import { TabList } from "../../core/Tab";
 import List from "../../components/main/List";
+import { CustomerServiceOutlined } from "@ant-design/icons";
+import VOCModal from "../../components/common/modal/VOCModal";
+import { useState } from "react";
 
 export default function HomePage() {
     const navigate = useNavigate();
+    const [showVOC, setShowVOC] = useState(false);
 
     const components = [
         <List type="open" />,
@@ -31,6 +35,16 @@ export default function HomePage() {
                     };
                 })}
             />
+
+            <FloatButton
+                shape="circle"
+                type="primary"
+                style={{ right: 24 }}
+                icon={<CustomerServiceOutlined />}
+                onClick={() => setShowVOC(true)}
+            />
+
+            <VOCModal isOpen={showVOC} closeModal={() => setShowVOC(false)} />
         </HomePageContainer>
     );
 }

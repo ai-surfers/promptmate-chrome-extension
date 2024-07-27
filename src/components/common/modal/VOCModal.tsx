@@ -1,4 +1,4 @@
-import { Button, Form, Modal, Rate, Select } from "antd";
+import { Button, Form, Modal, Rate } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import styled from "styled-components";
 import ASelectBox from "../input/ASelectBox";
