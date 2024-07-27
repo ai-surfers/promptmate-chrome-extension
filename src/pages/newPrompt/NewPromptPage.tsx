@@ -16,14 +16,8 @@ export default function NewPromptPage() {
 
     const { mutate } = usePostPrompt({
         onSuccess: (res) => {
-            const { success, detail, data } = res;
+            const { data } = res;
             console.log(data);
-
-            if (!success) {
-                console.error(`${detail}`);
-                showErrorAlert(detail);
-                return;
-            }
 
             // 성공 시, 홈화면으로 이동
             openAlert({
@@ -38,18 +32,11 @@ export default function NewPromptPage() {
         },
         onError: (error) => {
             console.error(error);
-            showErrorAlert(`${error.message}`);
         },
     });
+
     function savePrompt(promptData: CreatePromptRequest) {
         mutate(promptData);
-    }
-
-    function showErrorAlert(msg: string) {
-        openAlert({
-            content: msg,
-            callback: closeAlert,
-        });
     }
 
     return (
