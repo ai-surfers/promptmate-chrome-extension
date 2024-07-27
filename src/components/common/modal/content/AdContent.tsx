@@ -1,21 +1,12 @@
 import { Button } from "antd";
 import styled from "styled-components";
+import { AdType } from "../../../../service/prompt/prompt.model";
 
-const dummyAd = {
-    ad_description: "test_description",
-    ad_picture_url:
-        "https://velog.velcdn.com/images/jaekim/post/b5699843-ed32-411a-b307-de4c637de110/image.png",
-    ad_landing_page_url: "https://naver.com",
-};
-interface AdType {
-    ad_description: string;
-    ad_landing_page_url: string;
-    ad_picture_url: string;
-}
 interface AdContentProps {
-    ad?: AdType;
+    ad: AdType;
 }
-export default function AdContent({ ad = dummyAd }: AdContentProps) {
+
+export default function AdContent({ ad }: AdContentProps) {
     return (
         <AdContentContainer>
             <AdContentImage src={ad.ad_picture_url} />
@@ -39,7 +30,7 @@ const AdContentImage = styled.img`
 `;
 
 interface AdFooterProps {
-    ad?: AdType;
+    ad: AdType;
     closeModal: () => void;
 }
 export function AdFooter({ ad, closeModal }: AdFooterProps) {

@@ -5,7 +5,10 @@ import { useRef, useState } from "react";
 import Header from "../../components/common/header/AHeader";
 import { Wrapper } from "../../layouts/Layout";
 import { executePrompt } from "../../service/prompt/prompt";
-import { ExecutePromptRequest } from "../../service/prompt/prompt.model";
+import {
+    AdType,
+    ExecutePromptRequest,
+} from "../../service/prompt/prompt.model";
 import Property, { PropertyRef } from "../../components/prompt/Property";
 import { useAlert } from "../../hooks/useAlert";
 import {
@@ -18,10 +21,15 @@ import TopBox from "../../components/prompt/TopBox";
 import InfoDrawer from "../../components/prompt/InfoDrawer";
 import { getAIPlatformType } from "../../utils";
 import { useGetPrompt } from "../../hooks/queries/prompt/useGetPrompt";
+import { useModal } from "../../hooks/useModal";
+import AdContent, {
+    AdFooter,
+} from "../../components/common/modal/content/AdContent";
 
 export default function PromptPage() {
     const { id = "" } = useParams();
     const { openAlert } = useAlert();
+    const { openModal, closeModal } = useModal();
 
     const [open, setOpen] = useState(false);
     const propertyRefs = useRef<Record<string, PropertyRef>>({});
@@ -50,19 +58,30 @@ export default function PromptPage() {
 
             executePrompt(id, req)
                 .then((res) => {
-                    const { success, data, detail } = res.data;
-
-                    if (!success) {
-                        console.error(detail);
-                        openAlert({ content: detail });
-                    }
-
+                    const { data } = res.data;
                     insertPromptToDOMInput(data.full_prompt);
+
+                    // 광고 있는 경우, 광고 팝업 노출
+                    if (data.ad) {
+                        console.log("ad 있ㅇ므!!");
+                        handleAd(data.ad);
+                    }
                 })
                 .catch((e) => {
                     console.error(e);
                     openAlert({ content: `[${e.code}] ${e.message}` });
                 });
+        });
+    }
+
+    function handleAd(ad: AdType) {
+        openModal({
+            title: ad.ad_product_name,
+            content: <AdContent ad={ad} />,
+            footer: <AdFooter closeModal={closeModal} ad={ad} />,
+            callback: function logout() {
+                closeModal();
+            },
         });
     }
 

@@ -33,27 +33,6 @@ export default function CustomHeader({ title, canGoBack }: HeaderProps) {
         });
     }
 
-    function handleOnLimit() {
-        openModal({
-            title: "개인 프롬프트 저장소가 가득 찼어요!",
-            content: <LimitContent />,
-            footer: <LimitFooter closeModal={closeModal} />,
-            callback: function logout() {
-                closeModal();
-            },
-        });
-    }
-
-    function handleOnAd() {
-        openModal({
-            content: <AdContent />,
-            footer: <AdFooter closeModal={closeModal} />,
-            callback: function logout() {
-                closeModal();
-            },
-        });
-    }
-
     return (
         <Header
             style={{
@@ -89,11 +68,6 @@ export default function CustomHeader({ title, canGoBack }: HeaderProps) {
                     <span>{userData.user?.nickname}</span>
                 </ImageWrapper>
             )}
-
-            <ImageWrapper onClick={handleOnAd}>
-                <Avatar size={30} icon={<UserOutlined />} />
-                <span>{userData.user?.nickname}</span>
-            </ImageWrapper>
         </Header>
     );
 }

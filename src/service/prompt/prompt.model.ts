@@ -13,10 +13,18 @@ export interface ContextFormat {
     content: string;
 }
 
+export interface AdType {
+    ad_id: string;
+    ad_product_name: string;
+    ad_description: string;
+    ad_landing_page_url: string;
+    ad_picture_url: string;
+}
+
 /**
  * ExecutePromptResponse
  */
 export interface ExecutePromptResponse {
     full_prompt: string;
-    ad: null | string;
+    ad: AdType | null;
 }
