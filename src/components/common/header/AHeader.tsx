@@ -7,6 +7,7 @@ import { useModal } from "../../../hooks/useModal";
 import { Header } from "antd/es/layout/layout";
 import Avatar from "antd/es/avatar/avatar";
 import { UserOutlined } from "@ant-design/icons";
+import VOCModal from "../modal/VOCModal";
 
 interface HeaderProps {
     title: string;
@@ -20,7 +21,7 @@ export default function CustomHeader({ title, canGoBack }: HeaderProps) {
 
     function handleOnLogout() {
         openModal({
-            content: "로그아웃하시겠습니까? ",
+            title: "로그아웃하시겠습니까? ",
             callback: function logout() {
                 resetUserState();
                 removeFromStorage(ACCESS_TOKEN);
@@ -58,15 +59,16 @@ export default function CustomHeader({ title, canGoBack }: HeaderProps) {
                     </ImageWrapper>
                 )}
 
-                <Title>{title}</Title>
+                <Title onClick={handleOnLogout}>{title}</Title>
             </LeftContainer>
-
             {userData.isLogin && (
                 <ImageWrapper onClick={handleOnLogout}>
                     <Avatar size={30} icon={<UserOutlined />} />
                     <span>{userData.user?.nickname}</span>
                 </ImageWrapper>
             )}
+
+            <VOCModal isOpen={true} closeModal={() => {}} />
         </Header>
     );
 }

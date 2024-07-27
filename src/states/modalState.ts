@@ -2,7 +2,9 @@ import { atom } from "recoil";
 
 type ModalType = {
     isOpen: boolean;
-    content: JSX.Element | string;
+    title?: string;
+    content?: JSX.Element | string;
+    footer?: JSX.Element;
     callBack?: () => any;
 };
 
