@@ -5,7 +5,7 @@ import CustomHeader from "../components/common/header/AHeader";
 export default function HeaderLayout() {
     return (
         <Container>
-            <CustomHeader title="Prompt Mate" />
+            <CustomHeader title="Pocket Prompt" />
             <Wrapper>
                 <Outlet />
             </Wrapper>
