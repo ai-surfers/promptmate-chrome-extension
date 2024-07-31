@@ -147,7 +147,7 @@ export default function PromptPage() {
 
                         <Button
                             type="primary"
-                            style={{ width: "100%", marginTop: "50px" }}
+                            style={{ width: "100%" }}
                             onClick={handleUsePrompt}
                         >
                             사용
