@@ -9,6 +9,7 @@ export interface PropertyProps {
 
 export interface PropertyRef {
     getValue: () => string;
+    setValue: (value: string) => void;
 }
 
 const Property = forwardRef<PropertyRef, PropertyProps>(({ option }, ref) => {
@@ -16,6 +17,7 @@ const Property = forwardRef<PropertyRef, PropertyProps>(({ option }, ref) => {
 
     useImperativeHandle(ref, () => ({
         getValue: () => value,
+        setValue: (value: string) => setValue(value),
     }));
 
     return (
