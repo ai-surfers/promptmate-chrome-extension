@@ -34,8 +34,7 @@ const ListItemContainer = styled.div`
     cursor: pointer;
 
     .ant-card-head-title {
-        overflow: hidden;
-        text-overflow: ellipsis;
+        white-space: pre-wrap;
     }
 
     .ant-card-body {
