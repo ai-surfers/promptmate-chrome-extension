@@ -1,16 +1,17 @@
 import styled from "styled-components";
 import { forwardRef, useImperativeHandle, useState } from "react";
-import AInput from "../common/input/AInput";
+import TextArea from "antd/es/input/TextArea";
+import { InputFormat } from "../../hooks/mutations/prompt/usePostPrompt";
 
 export interface PropertyProps {
-    title: string;
+    option: InputFormat;
 }
 
 export interface PropertyRef {
     getValue: () => string;
 }
 
-const Property = forwardRef<PropertyRef, PropertyProps>(({ title }, ref) => {
+const Property = forwardRef<PropertyRef, PropertyProps>(({ option }, ref) => {
     const [value, setValue] = useState("");
 
     useImperativeHandle(ref, () => ({
@@ -19,13 +20,24 @@ const Property = forwardRef<PropertyRef, PropertyProps>(({ title }, ref) => {
 
     return (
         <PropertyContainer>
-            <Title>{title}</Title>
-            <AInput
+            <Title>{option.name}</Title>
+
+            {option.type === "text" && (
+                <TextArea
+                    value={value}
+                    onChange={(e) => {
+                        setValue(e.target.value);
+                    }}
+                    placeholder={option.placeholder}
+                />
+            )}
+
+            {/* <AInput
                 value={value}
                 onChange={(e) => {
                     setValue(e.target.value);
                 }}
-            />
+            /> */}
         </PropertyContainer>
     );
 });

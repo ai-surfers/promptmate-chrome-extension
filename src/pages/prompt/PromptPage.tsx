@@ -136,7 +136,7 @@ export default function PromptPage() {
                         {data?.data.user_input_format.map((opt) => (
                             <Property
                                 key={opt.name}
-                                title={opt.name}
+                                option={opt}
                                 ref={(el) => {
                                     if (el) propertyRefs.current[opt.name] = el;
                                 }}
