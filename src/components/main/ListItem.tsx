@@ -10,7 +10,7 @@ interface ListItemProps {
 
 export default function ListItem({ prompt, onClick }: ListItemProps) {
     return (
-        <ListItemContainer>
+        <ListItemContainer onClick={onClick}>
             <Card
                 key={prompt.id}
                 style={{ width: "100%" }}
@@ -23,7 +23,7 @@ export default function ListItem({ prompt, onClick }: ListItemProps) {
                 title={prompt.title}
             >
                 <Description>{prompt.description}</Description>
-                <UseButton onClick={onClick}>사용하기</UseButton>
+                <UseButton>사용하기</UseButton>
             </Card>
         </ListItemContainer>
     );
@@ -31,6 +31,7 @@ export default function ListItem({ prompt, onClick }: ListItemProps) {
 
 const ListItemContainer = styled.div`
     width: 100%;
+    cursor: pointer;
 
     .ant-card-head-title {
         overflow: hidden;
