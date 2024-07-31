@@ -32,11 +32,7 @@
     },
     "content_scripts": [
         {
-            "matches": [
-                "https://chatgpt.com/*",
-                "https://claude.ai/*",
-                "https://gemini.google.com/*"
-            ],
+            "matches": ["<all_urls>"],
             "css": ["style.css"],
             "js": ["content.js"]
         }
