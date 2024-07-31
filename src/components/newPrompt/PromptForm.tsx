@@ -18,7 +18,7 @@ interface PromptFormProps {
 export default function PromptForm({ onSubmit }: PromptFormProps) {
     const [form] = useForm();
 
-    const prompt = Form.useWatch("prompt", form);
+    const prompt = Form.useWatch("prompt_template", form);
     const inputs = useMemo(() => {
         return extractOptions(prompt);
     }, [prompt]);
@@ -98,7 +98,7 @@ export default function PromptForm({ onSubmit }: PromptFormProps) {
             </Form.Item>
 
             <Form.Item
-                name="prompt"
+                name="prompt_template"
                 label="프롬프트"
                 rules={[{ required: true }]}
                 initialValue={""}
