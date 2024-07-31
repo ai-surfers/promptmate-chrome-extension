@@ -1,7 +1,6 @@
 import { useMemo } from "react";
 import { Button, Form, Input, Radio, Select } from "antd";
-import { Category, InputType, Visibility } from "../../core/Prompt";
-
+import { Categories, InputType, Visibility } from "../../core/Prompt";
 import { useForm } from "antd/es/form/Form";
 import { extractOptions } from "../../utils";
 import {
@@ -10,6 +9,8 @@ import {
 } from "../../hooks/mutations/prompt/usePostPrompt";
 import InputTags from "./PropertyForm/InputTags";
 import TextArea from "antd/es/input/TextArea";
+
+const CategoryOptions = Object.keys(Categories);
 
 interface PromptFormProps {
     onSubmit: (promptData: CreatePromptRequest) => void;
@@ -89,9 +90,9 @@ export default function PromptForm({ onSubmit }: PromptFormProps) {
                     allowClear
                     mode="multiple"
                 >
-                    {Category.map((cat) => (
-                        <Select.Option key={cat} value={cat}>
-                            {cat}
+                    {CategoryOptions.map((key) => (
+                        <Select.Option key={key} value={key}>
+                            {Categories[key].ko}
                         </Select.Option>
                     ))}
                 </Select>
