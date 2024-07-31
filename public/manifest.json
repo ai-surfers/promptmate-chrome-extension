@@ -1,8 +1,8 @@
 {
     "manifest_version": 3,
     "version": "1.0.0",
-    "short_name": "Prompt mate",
-    "name": "Prompt mate",
+    "short_name": "Pocker Prompt",
+    "name": "Pocker Prompt",
     "icons": {
         "16": "images/logo.png",
         "32": "images/logo.png",
