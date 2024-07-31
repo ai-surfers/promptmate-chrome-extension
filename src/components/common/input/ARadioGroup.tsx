@@ -12,7 +12,11 @@ export default function ARadioGroup({
     onChange,
 }: ARadioGroupProps) {
     return (
-        <Radio.Group onChange={onChange} value={value}>
+        <Radio.Group
+            onChange={onChange}
+            value={value}
+            defaultValue={options[0]}
+        >
             {options.map((opt) => (
                 <Radio.Button value={opt} key={opt}>
                     {opt}
