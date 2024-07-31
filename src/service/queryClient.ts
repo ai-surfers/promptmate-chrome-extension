@@ -1,16 +1,16 @@
 import { MutationCache, QueryCache, QueryClient } from "@tanstack/react-query";
 import { AxiosError } from "axios";
 import { BaseResponse } from "./client";
-import eventEmitter, { EventType } from "../eventEmitter";
-
+import eventEmitter, { ErrorArgs, EventType } from "../eventEmitter";
 
 export const queryClient = new QueryClient({
     queryCache: new QueryCache({
         onSuccess(data, query) {},
         onError: (error, query) => {
             console.log("🔯 Query onError");
-            console.log(error);
-            console.log(query.meta);
+            console.log(error, query.meta);
+
+            // handleAxiosError(error);
         },
     }),
     mutationCache: new MutationCache({
@@ -18,16 +18,26 @@ export const queryClient = new QueryClient({
             console.log("🔯 Mutation onError");
             console.log(error);
 
-            if (isAxiosError(error) && error.response?.status === 402) {
-                const errorMessage = (
-                    error.response.data as BaseResponse<string>
-                ).detail;
-                eventEmitter.emit(EventType.Error, errorMessage);
-            }
+            handleAxiosError(error);
         },
     }),
 });
 
 function isAxiosError(error: any): error is AxiosError {
     return (error as AxiosError).isAxiosError !== undefined;
+}
+
+function handleAxiosError(error: any) {
+    if (isAxiosError(error) && error.response) {
+        const errorCode = error.response?.status;
+        const errorMessage = (error.response.data as BaseResponse<string>)
+            .detail;
+
+        const args: ErrorArgs = {
+            code: errorCode,
+            message: errorMessage,
+        };
+
+        eventEmitter.emit(EventType.Error, args);
+    }
 }
