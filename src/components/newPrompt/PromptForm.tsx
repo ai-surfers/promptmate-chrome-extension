@@ -43,7 +43,7 @@ export default function PromptForm({ onSubmit }: PromptFormProps) {
 
     function insert(tag: string) {
         const newPrompt = `${prompt} {{${tag}}}`;
-        form.setFieldValue("prompt", newPrompt);
+        form.setFieldValue("prompt_template", newPrompt);
     }
 
     return (
