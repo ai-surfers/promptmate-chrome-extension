@@ -87,7 +87,7 @@ export default function PromptForm({ onSubmit }: PromptFormProps) {
                 <Select
                     placeholder="분야를 선택해주세요"
                     allowClear
-                    mode="tags"
+                    mode="multiple"
                 >
                     {Category.map((cat) => (
                         <Select.Option key={cat} value={cat}>
