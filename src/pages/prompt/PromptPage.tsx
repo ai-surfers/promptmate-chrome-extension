@@ -48,6 +48,13 @@ export default function PromptPage() {
                 handleAd(data.ad);
             }
 
+            // 인풋 values 초기화
+            for (const key in propertyRefs.current) {
+                if (propertyRefs.current[key]) {
+                    propertyRefs.current[key].setValue("");
+                }
+            }
+
             queryClient.invalidateQueries({ queryKey: PROMPT_KEYS.detail(id) });
         },
         onError: (error) => {
@@ -108,11 +115,6 @@ export default function PromptPage() {
                     <Result
                         status="warning"
                         title="There are some problems with your operation."
-                        extra={
-                            <Button type="primary" key="console">
-                                Go Console
-                            </Button>
-                        }
                     />
                 </FullWrapper>
             </>
@@ -136,7 +138,7 @@ export default function PromptPage() {
                         {data?.data.user_input_format.map((opt) => (
                             <Property
                                 key={opt.name}
-                                title={opt.name}
+                                option={opt}
                                 ref={(el) => {
                                     if (el) propertyRefs.current[opt.name] = el;
                                 }}
@@ -145,7 +147,7 @@ export default function PromptPage() {
 
                         <Button
                             type="primary"
-                            style={{ width: "100%", marginTop: "50px" }}
+                            style={{ width: "100%" }}
                             onClick={handleUsePrompt}
                         >
                             사용

@@ -1,24 +1,22 @@
-// export enum Visibility {
-//     PUBLIC = "public",
-//     PRIVATE = "private",
-// }
-
-// export type Visibility = "public" | "private";
-
 export const Visibility: string[] = ["public", "private"];
-export const Category: string[] = [
-    "branding",
-    "blog",
-    "business",
-    "development",
-    "marketing",
-    "research",
-    "writing",
-    "productivity",
-    "language",
-    "entertainment",
-    "video",
-];
+
+interface Category {
+    [key: string]: { ko: string; en: string };
+}
+
+export const Categories: Category = {
+    branding: { ko: "브랜딩", en: "branding" },
+    blog: { ko: "블로그", en: "blog" },
+    business: { ko: "비즈니스", en: "business" },
+    development: { ko: "개발", en: "development" },
+    marketing: { ko: "마케팅", en: "marketing" },
+    research: { ko: "리서치", en: "research" },
+    writing: { ko: "글쓰기", en: "writing" },
+    productivity: { ko: "생산성", en: "productivity" },
+    language: { ko: "언어", en: "language" },
+    entertainment: { ko: "재미", en: "entertainment" },
+    video: { ko: "영상", en: "video" },
+};
 
 export enum InputType {
     TEXT = "text",

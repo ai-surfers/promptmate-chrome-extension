@@ -12,7 +12,10 @@ interface StarButtonProps {
 export default function StarButton({ id, isFavorite }: StarButtonProps) {
     const queryClient = useQueryClient();
 
-    function handleOnFavoriteClick() {
+    function handleOnFavoriteClick(
+        e: React.MouseEvent<HTMLElement, MouseEvent>
+    ) {
+        e.stopPropagation();
         if (!id) {
             console.error("No id");
             return;

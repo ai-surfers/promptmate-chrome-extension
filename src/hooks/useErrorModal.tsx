@@ -3,27 +3,39 @@ import { useModal } from "./useModal";
 import LimitContent, {
     LimitFooter,
 } from "../components/common/modal/content/LimitContent";
-import eventEmitter, { EventType } from "../eventEmitter";
+import eventEmitter, { ErrorArgs, EventType } from "../eventEmitter";
 
 const useErrorModal = () => {
     const { openModal, closeModal } = useModal();
 
-    useEffect(() => {
-        const handleError = (message: string) => {
-            openModal({
-                title: "개인 프롬프트 저장소가 가득 찼어요!",
-                content: <LimitContent text={message} />,
-                footer: <LimitFooter closeModal={closeModal} />,
-                callback: closeModal,
-            });
-        };
+    const handleError = (args: ErrorArgs) => {
+        if (args.code === 402) openLimitModal(args.message);
+        else openErrorModal(args.message);
+    };
 
+    function openLimitModal(message: string) {
+        openModal({
+            title: "개인 프롬프트 저장소가 가득 찼어요!",
+            content: <LimitContent text={message} />,
+            footer: <LimitFooter closeModal={closeModal} />,
+            callback: closeModal,
+        });
+    }
+
+    function openErrorModal(message: string) {
+        openModal({
+            title: message,
+            callback: closeModal,
+        });
+    }
+
+    useEffect(() => {
         eventEmitter.on(EventType.Error, handleError);
 
         return () => {
             eventEmitter.off(EventType.Error, handleError);
         };
-    }, [openModal, closeModal]);
+    });
 };
 
 export default useErrorModal;

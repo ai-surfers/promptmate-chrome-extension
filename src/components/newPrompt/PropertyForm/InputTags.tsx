@@ -43,7 +43,7 @@ export default function InputTags({ tags, onInsert }: InputTagsProps) {
 
     return (
         <Card
-            title="Tags"
+            title="입력 값"
             size="small"
             style={{ marginBottom: "20px" }}
             type="inner"
@@ -79,7 +79,7 @@ export default function InputTags({ tags, onInsert }: InputTagsProps) {
                         icon={<PlusOutlined />}
                         onClick={showInput}
                     >
-                        New Tag
+                        입력 값 추가
                     </Tag>
                 )}
             </TagsContainer>

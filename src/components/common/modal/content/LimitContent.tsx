@@ -27,7 +27,7 @@ interface LimitFooterProps {
 }
 export function LimitFooter({ closeModal }: LimitFooterProps) {
     function handleGoToPlan() {
-        openUrlInNewTab("https://github.com/yusiny"); //[TODO] 노션 링크로 변경
+        openUrlInNewTab("https://tally.so/r/nW0a0k"); // 폼으로 이동
         closeModal();
     }
 
