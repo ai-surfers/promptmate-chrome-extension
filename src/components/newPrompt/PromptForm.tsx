@@ -106,7 +106,7 @@ export default function PromptForm({ onSubmit }: PromptFormProps) {
             >
                 <TextArea
                     style={{ minHeight: "100px" }}
-                    placeholder="너는 마케팅 전문가야. $상품 이름$에 대한 마케팅 카피라이팅을 만들어줘. 예상 청중은 $예상 청중$이고 상품의 특징은 $상품 특징$.
+                    placeholder="너는 마케팅 전문가야. {{상품 이름}}에 대한 마케팅 카피라이팅을 만들어줘. 예상 청중은 {{예상 청중}}이고 상품의 특징은 {{상품 특징}}.
 
 이들의 마음을 사로잡을 수 있는 매력적이고 센스있는 카피라이팅을 각기 다른 컨셉으로 총 3개 만들어줘"
                 />
