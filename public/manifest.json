@@ -20,7 +20,8 @@
         "storage",
         "sidePanel",
         "commands",
-        "scripting"
+        "scripting",
+        "webNavigation"
     ],
     "host_permissions": [
         "https://chatgpt.com/*",
