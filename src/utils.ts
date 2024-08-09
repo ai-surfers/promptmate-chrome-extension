@@ -40,5 +40,5 @@ export function getAIPlatformType(url: string) {
     if (url.includes("chatgpt.com")) return AIPlatformType.CHATGPT;
     else if (url.includes("claude.ai")) return AIPlatformType.CLAUDE;
     else if (url.includes("gemini.google.com")) return AIPlatformType.GEMINI;
-    else return AIPlatformType.CHATGPT; // "Not Supported Platform";
+    else return AIPlatformType.NONE; // "Not Supported Platform";
 }

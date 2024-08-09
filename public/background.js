@@ -33,6 +33,42 @@ chrome.action.onClicked.addListener((tab) => {
     // 따라서, 간혹 버튼을 눌렀지만 바로 열리지 않는 경우가 있을 수 있다
 });
 
+// [탭 활성화 Listener]
+chrome.tabs.onActivated.addListener((activeInfo) => {
+    const tabId = activeInfo.tabId;
+    const windowId = activeInfo.windowId;
+
+    chrome.tabs.get(tabId, (tab) => {
+        console.log(">> tabs onActivated", tabId, tab.url, windowId);
+        checkAndEmphasisButton(tabId, tab.url);
+    });
+});
+
+// [탭 업데이트 Listener]
+chrome.webNavigation.onCompleted.addListener((details) => {
+    const tabId = details.tabId;
+    const windowId = details.windowId;
+
+    chrome.tabs.get(tabId, (tab) => {
+        console.log(">> webNavigation onCompleted", tabId, tab.url, windowId);
+        checkAndEmphasisButton(tabId, tab.url);
+    });
+});
+
+/**
+ * checkAndEmphasisButton - 플로팅 버튼을 강조하는 함수
+ * @param {*} tabId
+ * @param {*} url
+ */
+function checkAndEmphasisButton(tabId, url) {
+    const targetUrls = ["chatgpt.com", "claude.ai", "gemini.google.com"];
+    if (targetUrls.some((targetUrl) => url.includes(targetUrl))) {
+        chrome.tabs.sendMessage(tabId, { action: "emphasizeButton" });
+    } else {
+        chrome.tabs.sendMessage(tabId, { action: "deemphasizeButton" });
+    }
+}
+
 /**
  * openSidePanel - 사이드 패널을 여는 함수
  * @param {*} tabId
