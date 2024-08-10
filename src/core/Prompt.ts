@@ -35,9 +35,7 @@ export enum AIPlatformType {
     CHATGPT = "ChatGPT",
     CLAUDE = "Claude",
     GEMINI = "Gemini",
+    NONE = "Not Supported",
 }
 
-export type TypeOfAIPlatformType =
-    | AIPlatformType.CHATGPT
-    | AIPlatformType.CLAUDE
-    | AIPlatformType.GEMINI;
+export type TypeOfAIPlatformType = AIPlatformType;

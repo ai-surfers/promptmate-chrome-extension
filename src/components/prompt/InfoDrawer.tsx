@@ -31,6 +31,10 @@ export default function InfoDrawer({ isOpen, onClose, info }: InfoDrawerProps) {
                     {info?.star}
                 </Descriptions.Item>
 
+                <Descriptions.Item label="설명">
+                    {info?.description}
+                </Descriptions.Item>
+
                 <Descriptions.Item label="프롬프트">
                     {info?.prompt_template}
                 </Descriptions.Item>

@@ -9,6 +9,9 @@ import {
 } from "../../hooks/mutations/prompt/usePostPrompt";
 import InputTags from "./PropertyForm/InputTags";
 import TextArea from "antd/es/input/TextArea";
+import { QuestionCircleOutlined } from "@ant-design/icons";
+import styled from "styled-components";
+import { openUrlInNewTab } from "../../service/chrome/utils";
 
 const CategoryOptions = Object.keys(Categories);
 
@@ -46,6 +49,12 @@ export default function PromptForm({ onSubmit }: PromptFormProps) {
         form.setFieldValue("prompt_template", newPrompt);
     }
 
+    function handleHelp() {
+        openUrlInNewTab(
+            "https://pocket-prompt.notion.site/da477857a0cc44888b06dd23cf6682ff"
+        );
+    }
+
     return (
         <Form
             layout="vertical"
@@ -62,7 +71,10 @@ export default function PromptForm({ onSubmit }: PromptFormProps) {
                 label="설명"
                 rules={[{ required: true }]}
             >
-                <Input placeholder="마케팅 카피라이팅을 만드는 프롬프트" />
+                <TextArea
+                    placeholder="마케팅 카피라이팅을 만드는 프롬프트입니다."
+                    style={{ minHeight: "50px" }}
+                />
             </Form.Item>
 
             <Form.Item
@@ -103,10 +115,16 @@ export default function PromptForm({ onSubmit }: PromptFormProps) {
                 label="프롬프트"
                 rules={[{ required: true }]}
                 initialValue={""}
+                help={
+                    <Help onClick={handleHelp}>
+                        <QuestionCircleOutlined /> 어떻게 작성해야 할지
+                        모르겠어요
+                    </Help>
+                }
             >
                 <TextArea
                     style={{ minHeight: "100px" }}
-                    placeholder="너는 마케팅 전문가야. $상품 이름$에 대한 마케팅 카피라이팅을 만들어줘. 예상 청중은 $예상 청중$이고 상품의 특징은 $상품 특징$.
+                    placeholder="너는 마케팅 전문가야. {{상품 이름}}에 대한 마케팅 카피라이팅을 만들어줘. 예상 청중은 {{예상 청중}}이고 상품의 특징은 {{상품 특징}}.
 
 이들의 마음을 사로잡을 수 있는 매력적이고 센스있는 카피라이팅을 각기 다른 컨셉으로 총 3개 만들어줘"
                 />
@@ -124,3 +142,15 @@ export default function PromptForm({ onSubmit }: PromptFormProps) {
         </Form>
     );
 }
+
+const Help = styled.div`
+    ${({ theme }) => theme.fonts.select};
+    margin: 5px 5px 10px;
+    color: blue;
+
+    cursor: pointer;
+
+    &:hover {
+        opacity: 0.6;
+    }
+`;

@@ -27,5 +27,11 @@ export default function Search({ onEnter, onClear }: SearchProps) {
         }
     };
 
-    return <Search allowClear onSearch={handleOnSearch} />;
+    return (
+        <Search
+            allowClear
+            onSearch={handleOnSearch}
+            placeholder="검색어를 입력해 주세요"
+        />
+    );
 }

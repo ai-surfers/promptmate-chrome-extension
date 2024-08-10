@@ -26,10 +26,14 @@ import {
 } from "../../hooks/mutations/prompt/usePostPromptExecute";
 import { useQueryClient } from "@tanstack/react-query";
 import { PROMPT_KEYS } from "../../hooks/queries/QueryKeys";
+import NotSupportedModal from "../../components/common/modal/NotSupportedModal";
 
 export default function PromptPage() {
     const { id = "" } = useParams();
     const { openModal, closeModal } = useModal();
+
+    const [showNotSupportedModal, setShowNotSupportedModal] = useState(false);
+    const [prompt, setPrompt] = useState("");
 
     const [open, setOpen] = useState(false);
     const propertyRefs = useRef<Record<string, PropertyRef>>({});
@@ -40,6 +44,13 @@ export default function PromptPage() {
         onSuccess: (res) => {
             const { success, detail, data } = res;
             console.log(`>> `, success, detail);
+
+            if (!success) {
+                console.error("지원하지 않는 플랫폼입니다.");
+                setShowNotSupportedModal(true);
+                setPrompt(data.full_prompt);
+                return;
+            }
 
             insertPromptToDOMInput(data.full_prompt);
 
@@ -77,9 +88,11 @@ export default function PromptPage() {
         }
 
         getCurrentTabUrl((url) => {
+            const ai_platform = getAIPlatformType(url);
+
             const req: ExecutePrompt = {
                 context: propertyValues,
-                ai_platform: getAIPlatformType(url),
+                ai_platform: ai_platform,
             };
 
             mutate({ prompt_id: id, request: req });
@@ -147,7 +160,7 @@ export default function PromptPage() {
 
                         <Button
                             type="primary"
-                            style={{ width: "100%" }}
+                            style={{ width: "100%", marginBottom: "30px" }}
                             onClick={handleUsePrompt}
                         >
                             사용
@@ -161,6 +174,12 @@ export default function PromptPage() {
                     </>
                 )}
             </Wrapper>
+
+            <NotSupportedModal
+                isOpen={showNotSupportedModal}
+                prompt={prompt}
+                closeModal={() => setShowNotSupportedModal(false)}
+            />
         </>
     );
 }
