@@ -17,8 +17,10 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
         const windowId = sender.tab.windowId;
         if (!panelOpen) {
             openSidePanel(tabId, windowId);
+            chrome.tabs.sendMessage(tabId, { action: "deemphasizeButton" });
         } else {
             closeSidePanel(tabId);
+            checkAndEmphasisButton(tabId, sender.tab.url);
         }
     }
 });
