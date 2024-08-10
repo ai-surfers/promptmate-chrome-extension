@@ -77,9 +77,10 @@ function checkAndEmphasisButton(tabId, url) {
 function openSidePanel(tabId, windowId) {
     chrome.sidePanel.setOptions({
         tabId,
+        path: "index.html",
         enabled: true,
     });
-    chrome.sidePanel.open({ windowId });
+    chrome.sidePanel.open({ tabId });
     panelOpen = true;
 }
 
