@@ -62,6 +62,7 @@ chrome.webNavigation.onCompleted.addListener((details) => {
  */
 function checkAndEmphasisButton(tabId, url) {
     const targetUrls = ["chatgpt.com", "claude.ai", "gemini.google.com"];
+    if (!url) return;
     if (targetUrls.some((targetUrl) => url.includes(targetUrl))) {
         chrome.tabs.sendMessage(tabId, { action: "emphasizeButton" });
     } else {
@@ -80,6 +81,7 @@ function openSidePanel(tabId, windowId) {
         path: "index.html",
         enabled: true,
     });
+
     chrome.sidePanel.open({ tabId });
     panelOpen = true;
 }
