@@ -71,7 +71,10 @@ export default function PromptForm({ onSubmit }: PromptFormProps) {
                 label="설명"
                 rules={[{ required: true }]}
             >
-                <Input placeholder="마케팅 카피라이팅을 만드는 프롬프트" />
+                <TextArea
+                    placeholder="마케팅 카피라이팅을 만드는 프롬프트입니다."
+                    style={{ minHeight: "50px" }}
+                />
             </Form.Item>
 
             <Form.Item
