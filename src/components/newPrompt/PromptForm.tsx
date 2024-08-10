@@ -9,6 +9,9 @@ import {
 } from "../../hooks/mutations/prompt/usePostPrompt";
 import InputTags from "./PropertyForm/InputTags";
 import TextArea from "antd/es/input/TextArea";
+import { QuestionCircleOutlined } from "@ant-design/icons";
+import styled from "styled-components";
+import { openUrlInNewTab } from "../../service/chrome/utils";
 
 const CategoryOptions = Object.keys(Categories);
 
@@ -44,6 +47,12 @@ export default function PromptForm({ onSubmit }: PromptFormProps) {
     function insert(tag: string) {
         const newPrompt = `${prompt} {{${tag}}}`;
         form.setFieldValue("prompt_template", newPrompt);
+    }
+
+    function handleHelp() {
+        openUrlInNewTab(
+            "https://pocket-prompt.notion.site/da477857a0cc44888b06dd23cf6682ff"
+        );
     }
 
     return (
@@ -103,6 +112,12 @@ export default function PromptForm({ onSubmit }: PromptFormProps) {
                 label="프롬프트"
                 rules={[{ required: true }]}
                 initialValue={""}
+                help={
+                    <Help onClick={handleHelp}>
+                        <QuestionCircleOutlined /> 어떻게 작성해야 할지
+                        모르겠어요
+                    </Help>
+                }
             >
                 <TextArea
                     style={{ minHeight: "100px" }}
@@ -124,3 +139,15 @@ export default function PromptForm({ onSubmit }: PromptFormProps) {
         </Form>
     );
 }
+
+const Help = styled.div`
+    ${({ theme }) => theme.fonts.select};
+    margin: 5px 5px 10px;
+    color: blue;
+
+    cursor: pointer;
+
+    &:hover {
+        opacity: 0.6;
+    }
+`;
