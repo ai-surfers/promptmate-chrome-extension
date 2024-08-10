@@ -51,7 +51,7 @@ const Description = styled.div`
     overflow: hidden;
     display: -webkit-box;
     -webkit-box-orient: vertical;
-    -webkit-line-clamp: 1;
+    -webkit-line-clamp: 3;
 `;
 
 const UseButton = styled.button`
