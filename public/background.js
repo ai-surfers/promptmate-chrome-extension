@@ -15,12 +15,11 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.action === "clickSidePanel") {
         const tabId = sender.tab.id;
         const windowId = sender.tab.windowId;
+
         if (!panelOpen) {
             openSidePanel(tabId, windowId);
-            chrome.tabs.sendMessage(tabId, { action: "deemphasizeButton" });
         } else {
-            closeSidePanel(tabId);
-            checkAndEmphasisButton(tabId, sender.tab.url);
+            closeSidePanel(tabId, sender.tab.url);
         }
     }
 });
@@ -65,7 +64,8 @@ chrome.webNavigation.onCompleted.addListener((details) => {
 function checkAndEmphasisButton(tabId, url) {
     const targetUrls = ["chatgpt.com", "claude.ai", "gemini.google.com"];
     if (!url) return;
-    if (targetUrls.some((targetUrl) => url.includes(targetUrl))) {
+
+    if (targetUrls.some((targetUrl) => url.includes(targetUrl)) && !panelOpen) {
         chrome.tabs.sendMessage(tabId, { action: "emphasizeButton" });
     } else {
         chrome.tabs.sendMessage(tabId, { action: "deemphasizeButton" });
@@ -85,13 +85,17 @@ function openSidePanel(tabId, windowId) {
 
     chrome.sidePanel.open({ windowId });
     panelOpen = true;
+
+    // 패널 open 시, 강조 off
+    chrome.tabs.sendMessage(tabId, { action: "deemphasizeButton" });
 }
 
 /**
  * closeSidePanel - 사이드 패널을 닫는 함수
  * @param {*} tabId
+ * @param {*} url
  */
-function closeSidePanel(tabId, windowId) {
+function closeSidePanel(tabId, url) {
     chrome.sidePanel.setOptions(
         {
             tabId,
@@ -99,6 +103,9 @@ function closeSidePanel(tabId, windowId) {
         },
         () => {
             panelOpen = false;
+
+            // 패널 close 시, 강조 on/off 체크
+            checkAndEmphasisButton(tabId, url);
         }
     );
 }
