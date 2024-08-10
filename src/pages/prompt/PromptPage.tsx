@@ -26,7 +26,6 @@ import {
 } from "../../hooks/mutations/prompt/usePostPromptExecute";
 import { useQueryClient } from "@tanstack/react-query";
 import { PROMPT_KEYS } from "../../hooks/queries/QueryKeys";
-import { AIPlatformType } from "../../core/Prompt";
 import NotSupportedModal from "../../components/common/modal/NotSupportedModal";
 
 export default function PromptPage() {
@@ -34,6 +33,7 @@ export default function PromptPage() {
     const { openModal, closeModal } = useModal();
 
     const [showNotSupportedModal, setShowNotSupportedModal] = useState(false);
+    const [prompt, setPrompt] = useState("");
 
     const [open, setOpen] = useState(false);
     const propertyRefs = useRef<Record<string, PropertyRef>>({});
@@ -44,6 +44,13 @@ export default function PromptPage() {
         onSuccess: (res) => {
             const { success, detail, data } = res;
             console.log(`>> `, success, detail);
+
+            if (!success) {
+                console.error("지원하지 않는 플랫폼입니다.");
+                setShowNotSupportedModal(true);
+                setPrompt(data.full_prompt);
+                return;
+            }
 
             insertPromptToDOMInput(data.full_prompt);
 
@@ -82,11 +89,6 @@ export default function PromptPage() {
 
         getCurrentTabUrl((url) => {
             const ai_platform = getAIPlatformType(url);
-            if (ai_platform === AIPlatformType.NONE) {
-                console.error("지원하지 않는 플랫폼입니다.");
-                setShowNotSupportedModal(true);
-                return;
-            }
 
             const req: ExecutePrompt = {
                 context: propertyValues,
@@ -175,6 +177,7 @@ export default function PromptPage() {
 
             <NotSupportedModal
                 isOpen={showNotSupportedModal}
+                prompt={prompt}
                 closeModal={() => setShowNotSupportedModal(false)}
             />
         </>

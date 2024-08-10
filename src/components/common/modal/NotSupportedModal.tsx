@@ -4,18 +4,24 @@ import { openUrlInNewTab } from "../../../service/chrome/utils";
 
 export interface NotSupportedModalProps {
     isOpen: boolean;
+    prompt: string;
     closeModal: () => void;
 }
 
 export default function NotSupportedModal({
+    prompt,
     isOpen,
     closeModal,
 }: NotSupportedModalProps) {
     const Footer = () => {
         function handleCopy() {
-            const textToCopy = "요아정먹고싶다";
+            if (!prompt) {
+                alert("복사할 프롬프트가 없습니다.");
+                return;
+            }
+
             navigator.clipboard
-                .writeText(textToCopy)
+                .writeText(prompt)
                 .then(() => {
                     alert("프롬프트가 클립보드에 복사되었습니다.");
                 })
@@ -24,8 +30,11 @@ export default function NotSupportedModal({
                     alert("클립보드 복사에 실패했습니다.");
                 });
         }
-        function handleGoToGPT() {
-            openUrlInNewTab("https://chatgpt.com/");
+
+        function handleGoToLanding() {
+            openUrlInNewTab(
+                "https://pocket-prompt.notion.site/Pocket-Prompt-23f9b19ea2cb4488a28a22a0fa8599de"
+            );
             closeModal();
         }
 
@@ -34,12 +43,17 @@ export default function NotSupportedModal({
                 <Button type="primary" onClick={handleCopy}>
                     프롬프트 복사
                 </Button>
-                <Button type="primary" onClick={handleGoToGPT}>
-                    ChatGPT로 이동
+                <Button type="primary" onClick={handleGoToLanding}>
+                    지원가능한 플랫폼 확인하기
                 </Button>
             </FooterContainer>
         );
     };
+
+    function handleGoToPlatform(url: string) {
+        openUrlInNewTab(url);
+        closeModal();
+    }
 
     return (
         <Modal
@@ -53,7 +67,24 @@ export default function NotSupportedModal({
                 현재 포켓 프롬프트에서 지원하지 않는 플랫폼입니다.
                 <br /> <br />
                 <b>지원 가능한 플랫폼</b>
-                <br />• ChatGPT <br />• Gemini <br />• Claude
+                <br />•
+                <Link
+                    onClick={() => handleGoToPlatform("https://chatgpt.com/")}
+                >
+                    ChatGPT
+                </Link>
+                <br />•
+                <Link
+                    onClick={() =>
+                        handleGoToPlatform("https://gemini.google.com/")
+                    }
+                >
+                    Gemini
+                </Link>
+                <br />•
+                <Link onClick={() => handleGoToPlatform("https://claude.ai/")}>
+                    Claude
+                </Link>
                 <br /> <br />
                 프롬프트를 복사하여 지원되는 플랫폼에서 사용하시겠습니까?
             </Text>
@@ -74,6 +105,11 @@ const Text = styled.div`
     b {
         font-weight: 600;
     }
+`;
+
+const Link = styled.span`
+    text-decoration: underline;
+    cursor: pointer;
 `;
 
 const FooterContainer = styled.div`
