@@ -25,11 +25,7 @@ export enum InputType {
     NUMBER = "number",
 }
 
-export type TypeOfInputType =
-    | InputType.TEXT
-    | InputType.LONGTEXT
-    | InputType.NUMBER
-    | InputType.DROPDOWN;
+export type TypeOfInputType = `${InputType}`;
 
 export enum AIPlatformType {
     CHATGPT = "ChatGPT",

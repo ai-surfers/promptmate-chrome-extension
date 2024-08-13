@@ -18,18 +18,18 @@ export function extractOptions(text: string): string[] {
 }
 
 // 240722 미사용 - 백에서 처리
-// /**
-//  * 입력받은 value들을 $$ 영역에 replace한 텍스트를 리턴하는 함수
-//  * @param template
-//  * @param values
-//  * @returns replace한 텍스트
-//  */
-// export function populateTemplate(
-//     template: string,
-//     values: Record<string, string>
-// ): string {
-//     return template.replace(/\$(.*?)\$/g, (_, key) => values[key]);
-// }
+/**
+ * 입력받은 value들을 {{}} 영역에 replace한 텍스트를 리턴하는 함수
+ * @param template
+ * @param values
+ * @returns replace한 텍스트
+ */
+export function populateTemplate(
+    template: string,
+    values: Record<string, string>
+): string {
+    return template.replace(/\{\{(.*?)\}\}/g, (_, key) => values[key]);
+}
 
 /**
  * 현재 url에 해당하는 AI Platform Type을 리턴하는 함수
