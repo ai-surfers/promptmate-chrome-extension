@@ -1,8 +1,8 @@
-import { Empty, Pagination, Tour, TourProps } from "antd";
+import { Button, Empty, Pagination, Result, Tour, TourProps } from "antd";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useGetPromptList } from "../../hooks/queries/prompt/useGetPromptList";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import ListItem from "./ListItem";
 import Search from "./Search";
 import dummies from "../../pages/tutorial/dummies.json";
@@ -14,8 +14,9 @@ const tutorial = dummies.data as GetPromptResponse;
 
 interface ListProps {
     type: string;
+    onChangeTab: (tab: string) => void;
 }
-export default function List({ type }: ListProps) {
+export default function List({ type, onChangeTab }: ListProps) {
     const navigate = useNavigate();
 
     const { userData } = useUser();
@@ -29,6 +30,20 @@ export default function List({ type }: ListProps) {
         query: query,
         sort_by: sortBy,
     });
+
+    const extra = useMemo(() => {
+        if (type === "starred")
+            return (
+                <Button
+                    type="primary"
+                    style={{ width: "100%" }}
+                    onClick={() => onChangeTab("open")}
+                >
+                    지금 바로 둘러보기
+                </Button>
+            );
+        else <></>;
+    }, [type, onChangeTab]);
 
     // 페이지 변경 시,
     function handleOnChange(page: number, pageSize: number) {
@@ -51,7 +66,7 @@ export default function List({ type }: ListProps) {
         [userData]
     );
 
-    const [isTour, setIsTour] = useState(false);
+    const [isTour, setIsTour] = useState(showTutorial);
     const tutorialRef = useRef(null);
     const steps: TourProps["steps"] = [
         {
@@ -66,11 +81,40 @@ export default function List({ type }: ListProps) {
         },
     ];
 
-    useEffect(() => {
-        if (promptListData && showTutorial) {
-            setIsTour(true);
-        }
-    }, [promptListData, showTutorial]);
+    if (showTutorial) {
+        return (
+            <ListContainer>
+                <Search onEnter={handleOnEnter} onClear={handleOnClear} />
+
+                <FilterContainer>
+                    <SortSelectBox
+                        onSelect={(value) => {
+                            setSortBy(value);
+                        }}
+                    />
+                </FilterContainer>
+
+                {/* Tutorial */}
+                {showTutorial && (
+                    <div ref={tutorialRef}>
+                        <ListItem
+                            key={"tutorial"}
+                            prompt={tutorial}
+                            onClick={() => navigate(`/prompt/tutorial`)}
+                        />
+                    </div>
+                )}
+
+                {/* Tutorial Tour*/}
+                <Tour
+                    open={isTour}
+                    onClose={() => setIsTour(false)}
+                    steps={steps}
+                    zIndex={999}
+                />
+            </ListContainer>
+        );
+    }
 
     return (
         <ListContainer>
@@ -79,25 +123,16 @@ export default function List({ type }: ListProps) {
             <FilterContainer>
                 <SortSelectBox
                     onSelect={(value) => {
-                        console.log("th", value);
                         setSortBy(value);
                     }}
                 />
             </FilterContainer>
 
             {!promptListData?.data.page_meta_data.total_count && (
-                <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
-            )}
-
-            {/* Tutorial */}
-            {showTutorial && (
-                <div ref={tutorialRef}>
-                    <ListItem
-                        key={"tutorial"}
-                        prompt={tutorial}
-                        onClick={() => navigate(`/prompt/tutorial`)}
-                    />
-                </div>
+                <Result
+                    icon={<Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />}
+                    extra={extra}
+                />
             )}
 
             {promptListData?.data.prompt_info_list.map((pt) => (
@@ -113,14 +148,6 @@ export default function List({ type }: ListProps) {
                 pageSize={10}
                 onChange={handleOnChange}
                 showSizeChanger={false}
-            />
-
-            {/* Tutorial Tour*/}
-            <Tour
-                open={isTour}
-                onClose={() => setIsTour(false)}
-                steps={steps}
-                zIndex={999}
             />
         </ListContainer>
     );
