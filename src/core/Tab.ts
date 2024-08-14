@@ -1,6 +1,6 @@
 // export const TabList = ["즐겨찾기", "전체", "내 프롬프트"] as const;
 export const TabList = {
-    star: "즐겨찾기",
+    starred: "즐겨찾기",
     open: "전체",
     my: "내 프롬프트",
 };

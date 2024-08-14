@@ -11,14 +11,13 @@ export default function HomePage() {
     const navigate = useNavigate();
     const [showVOC, setShowVOC] = useState(false);
 
-    const [tab, setTab] = useState("0");
+    const [tab, setTab] = useState(Object.keys(TabList)[0]);
 
     const handleOnChangeTab = (tab: string) => setTab(tab);
-
     const components = [
         <List type="starred" onChangeTab={handleOnChangeTab} />,
-        <List type="open" onChangeTab={handleOnChangeTab} />,
-        <List type="my" onChangeTab={handleOnChangeTab} />,
+        <List type="open" />,
+        <List type="my" />,
     ];
 
     const operation = (
@@ -34,11 +33,11 @@ export default function HomePage() {
                 items={Object.entries(TabList).map(([key, value], idx) => {
                     return {
                         label: `${value}`,
-                        key: `${idx}`,
+                        key: `${key}`,
                         children: components[idx],
                     };
                 })}
-                tabIndex={Number(tab)}
+                activeKey={tab}
                 onChange={(key) => {
                     setTab(key);
                 }}
