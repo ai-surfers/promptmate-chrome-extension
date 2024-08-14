@@ -77,6 +77,9 @@ body {
 p}
 
 .ant-tour-content {
+    max-width: fit-content;
+    max-height: fit-content;
+
     margin: auto;
 }
 `;

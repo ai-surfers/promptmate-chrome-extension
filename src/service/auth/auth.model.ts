@@ -13,4 +13,5 @@ export interface UserResponse {
     email: string;
     nickname: string;
     picture: string;
+    total_prompt_executions: number;
 }

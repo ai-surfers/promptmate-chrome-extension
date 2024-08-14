@@ -18,6 +18,11 @@ import { GetPromptResponse } from "../../hooks/queries/prompt/useGetPrompt";
 import NotSupportedModal from "../../components/common/modal/NotSupportedModal";
 import dummies from "./dummies.json";
 import StarButton from "../../components/common/button/StarButton";
+import {
+    ExecutePrompt,
+    usePostPromptExecute,
+} from "../../hooks/mutations/prompt/usePostPromptExecute";
+import { useNavigate } from "react-router-dom";
 import { AIPlatformType } from "../../core/Prompt";
 
 export default function TutorialPromptPage() {
@@ -67,6 +72,36 @@ export default function TutorialPromptPage() {
         },
     ];
 
+    const navigate = useNavigate();
+    const { mutate } = usePostPromptExecute({
+        onSuccess: (res) => {
+            const { success, detail, data } = res;
+            console.log(`>> `, success, detail);
+
+            if (!success) {
+                console.error("지원하지 않는 플랫폼입니다.");
+                setShowNotSupportedModal(true);
+                setPrompt(data.full_prompt);
+                return;
+            }
+
+            insertPromptToDOMInput(data.full_prompt);
+
+            // 인풋 values 초기화
+            for (const key in propertyRefs.current) {
+                if (propertyRefs.current[key]) {
+                    propertyRefs.current[key].setValue("");
+                }
+            }
+
+            // 유저 정보 다시 조회, Finish!
+            navigate(-1);
+        },
+        onError: (error) => {
+            console.error(error.message);
+        },
+    });
+
     /** EXECUTE **/
     async function handleUsePrompt() {
         const propertyValues: Record<string, string> = {};
@@ -77,25 +112,33 @@ export default function TutorialPromptPage() {
             }
         }
 
-        const full_prompt = populateTemplate(
-            data.prompt_template,
-            propertyValues
-        );
-        console.log(full_prompt);
-
         getCurrentTabUrl((url) => {
-            // 플랫폼 확인 (ChatGPT, Gemini, Claude)
-            if (getAIPlatformType(url) === AIPlatformType.NONE) {
+            const ai_platform = getAIPlatformType(url);
+
+            if (ai_platform === AIPlatformType.NONE) {
                 console.error("지원하지 않는 플랫폼입니다.");
                 setShowNotSupportedModal(true);
-                setPrompt(full_prompt);
                 return;
             }
 
-            // Inject
-            insertPromptToDOMInput(full_prompt);
+            const full_prompt = populateTemplate(prompt, propertyValues);
+            console.log(">> ", full_prompt);
 
-            // Finish!
+            insertPromptToDOMInput(full_prompt);
+            navigate(-1);
+
+            //////////////// 지우랑 수정해서 다시 처리.
+            // const testpromptid =
+            //     process.env.NODE_ENV === "production"
+            //         ? "6699c500d82933fcc40f0d38"
+            //         : "66a8a08ac307767e54451007";
+
+            // const req: ExecutePrompt = {
+            //     context: propertyValues,
+            //     ai_platform: ai_platform,
+            // };
+
+            // mutate({ prompt_id: "66a8a08ac307767e54451007", request: req });
         });
     }
 
