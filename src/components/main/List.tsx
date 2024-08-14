@@ -8,6 +8,7 @@ import Search from "./Search";
 import dummies from "../../pages/tutorial/dummies.json";
 import { GetPromptResponse } from "../../hooks/queries/prompt/useGetPrompt";
 import { useUser } from "../../hooks/useUser";
+import SortSelectBox from "../prompt/SortSelectBox";
 
 const tutorial = dummies.data as GetPromptResponse;
 
@@ -21,11 +22,12 @@ export default function List({ type }: ListProps) {
 
     const [page, setPage] = useState(1);
     const [query, setQuery] = useState<string | undefined>();
+    const [sortBy, setSortBy] = useState<string>();
     const { data: promptListData } = useGetPromptList({
         view_type: type,
         page: page,
         query: query,
-        sort_by: "relevance",
+        sort_by: sortBy,
     });
 
     // 페이지 변경 시,
@@ -74,6 +76,15 @@ export default function List({ type }: ListProps) {
         <ListContainer>
             <Search onEnter={handleOnEnter} onClear={handleOnClear} />
 
+            <FilterContainer>
+                <SortSelectBox
+                    onSelect={(value) => {
+                        console.log("th", value);
+                        setSortBy(value);
+                    }}
+                />
+            </FilterContainer>
+
             {!promptListData?.data.page_meta_data.total_count && (
                 <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
             )}
@@ -120,4 +131,10 @@ const ListContainer = styled.div`
     gap: 10px;
 
     padding-bottom: 20px;
+`;
+
+const FilterContainer = styled.div`
+    width: 100%;
+    ${({ theme }) => theme.mixins.flexBox("column", "flex-end", "flex-end")};
+    gap: 10px;
 `;
