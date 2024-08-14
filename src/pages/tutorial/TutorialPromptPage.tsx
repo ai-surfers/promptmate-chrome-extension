@@ -121,7 +121,10 @@ export default function TutorialPromptPage() {
                 return;
             }
 
-            const full_prompt = populateTemplate(prompt, propertyValues);
+            const full_prompt = populateTemplate(
+                data.prompt_template,
+                propertyValues
+            );
             console.log(">> ", full_prompt);
 
             insertPromptToDOMInput(full_prompt);
