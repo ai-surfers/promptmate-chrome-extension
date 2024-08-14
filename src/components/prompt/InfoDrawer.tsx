@@ -1,5 +1,6 @@
 import { Descriptions, Drawer } from "antd";
 import { GetPromptResponse } from "../../hooks/queries/prompt/useGetPrompt";
+import { Categories } from "../../core/Prompt";
 
 interface InfoDrawerProps {
     info: GetPromptResponse;
@@ -20,7 +21,9 @@ export default function InfoDrawer({ isOpen, onClose, info }: InfoDrawerProps) {
                 </Descriptions.Item>
 
                 <Descriptions.Item label="카테고리">
-                    {info?.categories.join(", ")}
+                    {info?.categories
+                        .map((cat) => Categories[cat].ko)
+                        .join(", ")}
                 </Descriptions.Item>
 
                 <Descriptions.Item label="사용된 횟수">
