@@ -11,6 +11,7 @@ import Search from "./Search";
 import SortSelectBox from "../prompt/SortSelectBox";
 import FilterSelectBox from "../prompt/FilterSelectBox";
 import { SortBy } from "../../core/Prompt";
+import { SmileTwoTone } from "@ant-design/icons";
 
 // const tutorial = dummies.data as GetPromptResponse;
 
@@ -114,14 +115,15 @@ export default function List({ type, onChangeTab }: ListProps) {
         if (type === "starred")
             return (
                 <Result
-                    icon={null}
+                    icon={<SmileTwoTone />}
+                    subTitle="즐겨찾는 프롬프트를 추가해 시간을 절약하세요"
                     extra={
                         <Button
                             type="primary"
                             style={{ width: "100%" }}
                             onClick={handleOnChangeTab}
                         >
-                            다른 프롬프트 둘러보기
+                            다른 프롬프트 둘러보기 프롬프트 둘러보러 가기
                         </Button>
                     }
                 />
