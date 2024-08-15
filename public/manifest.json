@@ -1,6 +1,6 @@
 {
   "manifest_version": 3,
-  "version": "1.0.4",
+  "version": "1.0.5",
   "short_name": "Pocket Prompt",
   "name": "Pocket Prompt",
   "icons": {
@@ -67,6 +67,6 @@
       "https://www.googleapis.com/auth/userinfo.profile",
       "https://www.googleapis.com/auth/userinfo.email"
     ],
-    "client_id": "1005663016022-hbhd20hf2f8pqdc15umlg4cvqvjt288e.apps.googleusercontent.com"
+    "client_id": "1005663016022-0pi3ugr3295cv6sj6lv9a8sdb373os0k.apps.googleusercontent.com"
   }
 }
