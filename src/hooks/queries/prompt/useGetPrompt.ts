@@ -1,19 +1,22 @@
 import { useQuery } from "@tanstack/react-query";
 import { GET } from "../../../service/client";
-import { CreatePromptRequest } from "../../mutations/prompt/usePostPrompt";
+import {
+    CreatePromptRequest,
+    InputFormat,
+} from "../../mutations/prompt/usePostPrompt";
 import { PROMPT_KEYS } from "../QueryKeys";
 
 /**
  * GetPromptResponse
  */
 export interface GetPromptResponse extends CreatePromptRequest {
+    id: string;
     author_nickname: string;
     star: number;
     usages: number;
-    created: string;
     is_starred_by_user: boolean;
     created_at: string;
-    id?: string;
+    user_input_format: InputFormat[];
 }
 
 /**

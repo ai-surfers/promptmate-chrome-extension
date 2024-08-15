@@ -66,6 +66,22 @@ body {
     height: 100%;
     background: #efefef;
 }
+
+
+// Ant Design Tour 
+.ant-tour {
+    max-width: fit-content;
+    max-height: fit-content;
+
+    padding: 20px;
+p}
+
+.ant-tour-content {
+    max-width: fit-content;
+    max-height: fit-content;
+
+    margin: auto;
+}
 `;
 
 export default GlobalStyle;

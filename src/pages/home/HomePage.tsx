@@ -11,10 +11,13 @@ export default function HomePage() {
     const navigate = useNavigate();
     const [showVOC, setShowVOC] = useState(false);
 
+    const [tab, setTab] = useState(Object.keys(TabList)[0]);
+
+    const handleOnChangeTab = (tab: string) => setTab(tab);
     const components = [
+        <List type="starred" onChangeTab={handleOnChangeTab} />,
         <List type="open" />,
         <List type="my" />,
-        <List type="starred" />,
     ];
 
     const operation = (
@@ -27,13 +30,17 @@ export default function HomePage() {
         <HomePageContainer>
             <Tabs
                 tabBarExtraContent={operation}
-                items={TabList.map((tab, idx) => {
+                items={Object.entries(TabList).map(([key, value], idx) => {
                     return {
-                        label: `${tab}`,
-                        key: tab,
+                        label: `${value}`,
+                        key: `${key}`,
                         children: components[idx],
                     };
                 })}
+                activeKey={tab}
+                onChange={(key) => {
+                    setTab(key);
+                }}
             />
 
             <FloatButton

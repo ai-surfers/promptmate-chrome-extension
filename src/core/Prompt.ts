@@ -10,7 +10,7 @@ export const Categories: Category = {
     business: { ko: "비즈니스", en: "business" },
     development: { ko: "개발", en: "development" },
     marketing: { ko: "마케팅", en: "marketing" },
-    research: { ko: "리서치", en: "research" },
+    research: { ko: "연구", en: "research" },
     writing: { ko: "글쓰기", en: "writing" },
     productivity: { ko: "생산성", en: "productivity" },
     language: { ko: "언어", en: "language" },
@@ -25,11 +25,7 @@ export enum InputType {
     NUMBER = "number",
 }
 
-export type TypeOfInputType =
-    | InputType.TEXT
-    | InputType.LONGTEXT
-    | InputType.NUMBER
-    | InputType.DROPDOWN;
+export type TypeOfInputType = `${InputType}`;
 
 export enum AIPlatformType {
     CHATGPT = "ChatGPT",
@@ -39,3 +35,10 @@ export enum AIPlatformType {
 }
 
 export type TypeOfAIPlatformType = AIPlatformType;
+
+export const SortBy = {
+    created_at: "최신 순",
+    star: "즐겨찾기 순",
+    usages: "사용 많은 순",
+    // relevance: "",
+};

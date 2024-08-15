@@ -26,7 +26,7 @@ export default function TopBox({
 interface InfoButtonProps {
     onInformationClick: () => void;
 }
-const InfoButton = ({ onInformationClick }: InfoButtonProps) => {
+export const InfoButton = ({ onInformationClick }: InfoButtonProps) => {
     return (
         <Tooltip title="information">
             <Button
@@ -38,7 +38,7 @@ const InfoButton = ({ onInformationClick }: InfoButtonProps) => {
     );
 };
 
-const InfoBoxWrapper = styled.div`
+export const InfoBoxWrapper = styled.div`
     width: 100%;
 
     ${({ theme }) => theme.mixins.flexBox("row", "flex-end", "center")};
