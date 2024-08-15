@@ -10,7 +10,7 @@ export const Categories: Category = {
     business: { ko: "비즈니스", en: "business" },
     development: { ko: "개발", en: "development" },
     marketing: { ko: "마케팅", en: "marketing" },
-    research: { ko: "리서치", en: "research" },
+    research: { ko: "연구", en: "research" },
     writing: { ko: "글쓰기", en: "writing" },
     productivity: { ko: "생산성", en: "productivity" },
     language: { ko: "언어", en: "language" },
