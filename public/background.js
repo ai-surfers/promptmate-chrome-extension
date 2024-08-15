@@ -62,14 +62,15 @@ chrome.webNavigation.onCompleted.addListener((details) => {
  * @param {*} url
  */
 function checkAndEmphasisButton(tabId, url) {
-    const targetUrls = ["chatgpt.com", "claude.ai", "gemini.google.com"];
+    // const targetUrls = ["chatgpt.com", "claude.ai", "gemini.google.com"];
     if (!url) return;
 
-    if (targetUrls.some((targetUrl) => url.includes(targetUrl)) && !panelOpen) {
-        chrome.tabs.sendMessage(tabId, { action: "emphasizeButton" });
-    } else {
-        chrome.tabs.sendMessage(tabId, { action: "deemphasizeButton" });
-    }
+    // 240815 미사용
+    // if (targetUrls.some((targetUrl) => url.includes(targetUrl)) && !panelOpen) {
+    //     chrome.tabs.sendMessage(tabId, { action: "emphasizeButton" });
+    // } else {
+    //     chrome.tabs.sendMessage(tabId, { action: "deemphasizeButton" });
+    // }
 }
 
 /**
@@ -87,7 +88,7 @@ function openSidePanel(tabId, windowId) {
     panelOpen = true;
 
     // 패널 open 시, 강조 off
-    chrome.tabs.sendMessage(tabId, { action: "deemphasizeButton" });
+    // chrome.tabs.sendMessage(tabId, { action: "deemphasizeButton" });
 }
 
 /**
