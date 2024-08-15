@@ -9,8 +9,7 @@ import { PROMPT_KEYS } from "../QueryKeys";
 export interface GetPromptListRequest {
     view_type: string;
     query?: string;
-    categories?: string[];
-    // categories?: string;
+    categories?: string;
     sort_by?: string;
     sort_order?: string;
     limit?: number;

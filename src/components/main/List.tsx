@@ -26,7 +26,7 @@ export default function List({ type, onChangeTab }: ListProps) {
     const [page, setPage] = useState(1);
     const [query, setQuery] = useState<string | undefined>();
     const [sortBy, setSortBy] = useState<string>(Object.keys(SortBy)[0]);
-    const [categories, setCategories] = useState<string[]>();
+    const [categories, setCategories] = useState<string>();
     const { data: promptListData } = useGetPromptList({
         view_type: type,
         page: page,
