@@ -8,7 +8,11 @@ interface SortByBoxProps {
 }
 export default function SortSelectBox({ onSelect }: SortByBoxProps) {
     return (
-        <Select onSelect={onSelect} defaultValue={SortByOptions[0]}>
+        <Select
+            onSelect={onSelect}
+            defaultValue={SortByOptions[0]}
+            style={{ minWidth: "100px" }}
+        >
             {SortByOptions.map(([key, value]) => (
                 <Select.Option key={value} value={key}>
                     {value}

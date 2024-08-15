@@ -9,6 +9,8 @@ import Search from "./Search";
 // import { GetPromptResponse } from "../../hooks/queries/prompt/useGetPrompt";
 // import { useUser } from "../../hooks/useUser";
 import SortSelectBox from "../prompt/SortSelectBox";
+import FilterSelectBox from "../prompt/FilterSelectBox";
+import { SortBy } from "../../core/Prompt";
 
 // const tutorial = dummies.data as GetPromptResponse;
 
@@ -23,12 +25,14 @@ export default function List({ type, onChangeTab }: ListProps) {
 
     const [page, setPage] = useState(1);
     const [query, setQuery] = useState<string | undefined>();
-    const [sortBy, setSortBy] = useState<string>();
+    const [sortBy, setSortBy] = useState<string>(Object.keys(SortBy)[0]);
+    const [categories, setCategories] = useState<string[]>();
     const { data: promptListData } = useGetPromptList({
         view_type: type,
         page: page,
         query: query,
         sort_by: sortBy,
+        categories: categories,
     });
 
     // 페이지 변경 시,
@@ -130,6 +134,7 @@ export default function List({ type, onChangeTab }: ListProps) {
         <ListContainer>
             <Search onEnter={handleOnEnter} onClear={handleOnClear} />
             <FilterContainer>
+                <FilterSelectBox onChange={(values) => setCategories(values)} />
                 <SortSelectBox
                     onSelect={(value) => {
                         setSortBy(value);
@@ -160,6 +165,7 @@ export default function List({ type, onChangeTab }: ListProps) {
 }
 
 const ListContainer = styled.div`
+    flex: 1;
     ${({ theme }) => theme.mixins.flexBox("column", "flex-end", "center")};
     gap: 10px;
 
@@ -168,6 +174,6 @@ const ListContainer = styled.div`
 
 const FilterContainer = styled.div`
     width: 100%;
-    ${({ theme }) => theme.mixins.flexBox("column", "flex-end", "flex-end")};
+    ${({ theme }) => theme.mixins.flexBox("row", "flex-end", "flex-end")};
     gap: 10px;
 `;

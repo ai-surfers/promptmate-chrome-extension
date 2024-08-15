@@ -37,8 +37,8 @@ export enum AIPlatformType {
 export type TypeOfAIPlatformType = AIPlatformType;
 
 export const SortBy = {
-    created_at: "최신순",
+    created_at: "최신 순",
     star: "즐겨찾기 순",
     usages: "사용 많은 순",
-    //    "relevance": ""
+    // relevance: "",
 };
