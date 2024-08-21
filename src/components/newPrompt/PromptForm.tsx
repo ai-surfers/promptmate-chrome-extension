@@ -1,4 +1,4 @@
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import { Button, Form, Input, Radio, Select } from "antd";
 import { Categories, InputType, Visibility } from "../../core/Prompt";
 import { useForm } from "antd/es/form/Form";
@@ -12,20 +12,28 @@ import TextArea from "antd/es/input/TextArea";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import styled from "styled-components";
 import { openUrlInNewTab } from "../../service/chrome/utils";
+import { GetPromptResponse } from "../../hooks/queries/prompt/useGetPrompt";
 
 const CategoryOptions = Object.keys(Categories);
 
 interface PromptFormProps {
     onSubmit: (promptData: CreatePromptRequest) => void;
+    initialData?: GetPromptResponse;
 }
 
-export default function PromptForm({ onSubmit }: PromptFormProps) {
+export default function PromptForm({ onSubmit, initialData }: PromptFormProps) {
     const [form] = useForm();
 
     const prompt = Form.useWatch("prompt_template", form);
     const inputs = useMemo(() => {
         return extractOptions(prompt);
     }, [prompt]);
+
+    useEffect(() => {
+        if (initialData) {
+            form.setFieldsValue(initialData);
+        }
+    }, [initialData, form]);
 
     const handleOnFinish = (values: CreatePromptRequest) => {
         const user_input_formats = inputs.map<InputFormat>((ip) => ({

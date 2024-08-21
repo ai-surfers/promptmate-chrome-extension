@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAlert } from "../../hooks/useAlert";
 import Header from "../../components/common/header/AHeader";
 import { Wrapper } from "../../layouts/Layout";
@@ -8,11 +8,16 @@ import {
     usePostPrompt,
 } from "../../hooks/mutations/prompt/usePostPrompt";
 import { useQueryClient } from "@tanstack/react-query";
+import { useGetPrompt } from "../../hooks/queries/prompt/useGetPrompt";
 
 export default function ModifyPromptPage() {
+    const { id = "" } = useParams();
+
     const navigate = useNavigate();
     const { openAlert, closeAlert } = useAlert();
     const queryClient = useQueryClient();
+
+    const { data } = useGetPrompt(id);
 
     const { mutate } = usePostPrompt({
         onSuccess: (res) => {
@@ -43,7 +48,9 @@ export default function ModifyPromptPage() {
         <>
             <Header title="프롬프트 수정하기" canGoBack={true} />
             <Wrapper>
-                <PromptForm onSubmit={savePrompt} />
+                {data?.data && (
+                    <PromptForm onSubmit={savePrompt} initialData={data.data} />
+                )}
             </Wrapper>
         </>
     );
