@@ -1,14 +1,14 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { useUser } from "../../../hooks/useUser";
 import { removeFromStorage } from "../../../service/chrome/storage";
 import { ACCESS_TOKEN } from "../../../service/chrome/storage.keys";
 import { useModal } from "../../../hooks/useModal";
 import { Header } from "antd/es/layout/layout";
 import Avatar from "antd/es/avatar/avatar";
 import { UserOutlined } from "@ant-design/icons";
-import LimitContent, { LimitFooter } from "../modal/content/LimitContent";
-import AdContent, { AdFooter } from "../modal/content/AdContent";
+import { useGetUser } from "../../../hooks/queries/auth/useGetUser";
+import { useQueryClient } from "@tanstack/react-query";
+import { USER_KEYS } from "../../../hooks/queries/QueryKeys";
 
 interface HeaderProps {
     title: string;
@@ -18,14 +18,16 @@ interface HeaderProps {
 export default function CustomHeader({ title, canGoBack }: HeaderProps) {
     const navigate = useNavigate();
     const { openModal, closeModal } = useModal();
-    const { userData, resetUserState } = useUser();
+
+    const { data } = useGetUser();
+    const queryClient = useQueryClient();
 
     function handleOnLogout() {
         openModal({
             title: "로그아웃하시겠습니까? ",
             callback: function logout() {
-                resetUserState();
                 removeFromStorage(ACCESS_TOKEN);
+                queryClient.setQueryData(USER_KEYS, null);
 
                 navigate(`/`, { replace: true });
                 closeModal();
@@ -62,10 +64,11 @@ export default function CustomHeader({ title, canGoBack }: HeaderProps) {
 
                 <Title>{title}</Title>
             </LeftContainer>
-            {userData.isLogin && (
+
+            {data?.data && (
                 <ImageWrapper onClick={handleOnLogout}>
                     <Avatar size={30} icon={<UserOutlined />} />
-                    <span>{userData.user?.nickname}</span>
+                    <span>{data?.data.nickname}</span>
                 </ImageWrapper>
             )}
         </Header>

@@ -143,6 +143,7 @@ export default function PromptPage() {
                         <TopBox
                             id={id}
                             isFavorite={data?.data.is_starred_by_user}
+                            author={data.data.author_nickname}
                             onInformationClick={() => setOpen(true)}
                         />
 
