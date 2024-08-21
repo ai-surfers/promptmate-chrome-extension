@@ -11,22 +11,29 @@ export interface ModifyPromptRequest {
 }
 
 /**
+ * ModifyPromptResponse
+ */
+export interface ModifyPromptResponse {
+    prompt_id: string;
+}
+
+/**
  *  프롬프트 수정하기
  */
 export const modifyPrompt = async ({ id, prompt }: ModifyPromptRequest) => {
-    const { data } = await PUT<string>(`/prompts/${id}`, prompt);
+    const { data } = await PUT<ModifyPromptResponse>(`/prompts/${id}`, prompt);
     return data;
 };
 
-interface PostPromptMutationProps {
-    onSuccess: (res: BaseResponse<string>) => void;
+interface PutPromptMutationProps {
+    onSuccess: (res: BaseResponse<ModifyPromptResponse>) => void;
     onError: (e: Error) => void;
 }
 
 export const usePutPrompt = ({
     onSuccess,
     onError,
-}: PostPromptMutationProps) => {
+}: PutPromptMutationProps) => {
     return useMutation({
         mutationFn: (req: ModifyPromptRequest) => modifyPrompt(req),
         onSuccess: onSuccess,

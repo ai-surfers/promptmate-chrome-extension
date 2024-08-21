@@ -28,7 +28,7 @@ export default function ModifyPromptPage() {
 
             // 성공
             openAlert({
-                content: `${data}가 수정되었습니다`,
+                content: `${data.prompt_id}가 수정되었습니다`,
                 callback: () => {
                     navigate(-1);
                     closeAlert();
