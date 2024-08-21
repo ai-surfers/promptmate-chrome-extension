@@ -145,7 +145,7 @@ export default function PromptForm({ onSubmit, initialData }: PromptFormProps) {
                 style={{ width: "100%", marginBottom: "50px" }}
                 htmlType="submit"
             >
-                추가
+                {initialData ? "수정" : "추가"}
             </Button>
         </Form>
     );
