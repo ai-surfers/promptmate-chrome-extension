@@ -9,6 +9,8 @@ import {
 } from "../../hooks/mutations/prompt/usePostPrompt";
 import { useQueryClient } from "@tanstack/react-query";
 import { useGetPrompt } from "../../hooks/queries/prompt/useGetPrompt";
+import { usePutPrompt } from "../../hooks/mutations/prompt/usePutPrompt";
+import { PROMPT_KEYS } from "../../hooks/queries/QueryKeys";
 
 export default function ModifyPromptPage() {
     const { id = "" } = useParams();
@@ -19,29 +21,32 @@ export default function ModifyPromptPage() {
 
     const { data } = useGetPrompt(id);
 
-    const { mutate } = usePostPrompt({
+    const { mutate: modify } = usePutPrompt({
         onSuccess: (res) => {
             const { data } = res;
             console.log(data);
 
-            // 성공 시, 홈화면으로 이동
+            // 성공
             openAlert({
-                content: `${data.prompt_id}가 등록되었습니다`,
+                content: `${data}가 수정되었습니다`,
                 callback: () => {
-                    navigate("/home");
+                    navigate(-1);
                     closeAlert();
                 },
             });
 
-            queryClient.invalidateQueries();
+            queryClient.invalidateQueries({ queryKey: PROMPT_KEYS.detail(id) });
         },
         onError: (error) => {
             console.error(error);
         },
     });
 
-    function savePrompt(promptData: CreatePromptRequest) {
-        mutate(promptData);
+    function modifyPrompt(promptData: CreatePromptRequest) {
+        modify({
+            id: id,
+            prompt: promptData,
+        });
     }
 
     return (
@@ -49,7 +54,10 @@ export default function ModifyPromptPage() {
             <Header title="프롬프트 수정하기" canGoBack={true} />
             <Wrapper>
                 {data?.data && (
-                    <PromptForm onSubmit={savePrompt} initialData={data.data} />
+                    <PromptForm
+                        onSubmit={modifyPrompt}
+                        initialData={data.data}
+                    />
                 )}
             </Wrapper>
         </>
