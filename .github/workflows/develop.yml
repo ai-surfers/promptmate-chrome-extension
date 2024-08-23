@@ -25,13 +25,10 @@ jobs:
             - name: Install dependencies
               run: yarn install
 
-            - name: Install env-cmd
-              run: yarn add env-cmd --dev
-
             - name: Build for ${{ matrix.env_file }}
               run: |
                   mkdir -p outputs/${{ matrix.env_file }}
-                  env-cmd -f promptmate-chrome-extension-envs/.env.development.${{ matrix.env_file }} yarn build:dev
+                  yarn build:dev --env-file=promptmate-chrome-extension-envs/.env.development.${{ matrix.env_file }}
                   mv build/* outputs/${{ matrix.env_file }}/
 
             - name: Commit build outputs
