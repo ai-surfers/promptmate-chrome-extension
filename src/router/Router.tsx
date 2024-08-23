@@ -5,6 +5,7 @@ import HomePage from "../pages/home/HomePage";
 import Layout from "../layouts/Layout";
 import PromptPage from "../pages/prompt/PromptPage";
 import NewPromptPage from "../pages/newPrompt/NewPromptPage";
+import ModifyPromptPage from "../pages/modifyPrompt/ModifyPromptPage";
 // import TutorialPromptPage from "../pages/tutorial/TutorialPromptPage";
 
 const router = createMemoryRouter([
@@ -33,6 +34,10 @@ const router = createMemoryRouter([
             {
                 path: "/prompt/:id",
                 element: <PromptPage />,
+            },
+            {
+                path: "/prompt/:id/modify",
+                element: <ModifyPromptPage />,
             },
             // {
             //     path: "/prompt/tutorial",

@@ -10,6 +10,6 @@ const PROMPT_KEYS = {
     detail: (id: string) => [...PROMPT_KEYS.details(), id] as const, // ["prompts", "detail", "id"]
 };
 
-const USER_KEYS = ["user"];
+const USER_KEYS = ["user"] as const;
 
 export { PROMPT_KEYS, USER_KEYS };
