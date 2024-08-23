@@ -1,0 +1,39 @@
+name: Build and Commit for Dev Environments
+
+on:
+    pull_request:
+        types: [opened, synchronize, reopened]
+
+jobs:
+    build-and-commit:
+        runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                env_file: ["ys", "jw"]
+
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v2
+
+            - name: Set up Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: "18"
+
+            - name: Install dependencies
+              run: yarn install
+
+            - name: Build for ${{ matrix.env_file }}
+              run: |
+                  mkdir -p outputs/${{ matrix.env_file }}
+                  env-cmd -f promptmate-chrome-extension-envs/.env.development.${{ matrix.env_file }} yarn build:dev
+                  mv build/* outputs/${{ matrix.env_file }}/
+
+            - name: Commit build outputs
+              run: |
+                  git config --global user.name "GitHub Actions"
+                  git config --global user.email "actions@github.com"
+                  git add outputs/${{ matrix.env_file }}
+                  git commit -m "Add build outputs for ${{ matrix.env_file }}"
+                  git push origin HEAD:${{ github.head_ref }}
+              if: success()
