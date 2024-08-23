@@ -15,10 +15,11 @@ jobs:
                 env_file: ["ys", "jw"]
 
         steps:
-            - name: Checkout repository
+            - name: Checkout
               uses: actions/checkout@v2
               with:
-                  token: ${{ secrets.GITHUB_TOKEN }}
+                  submodules: recursive
+                  token: ${{ secrets.ACTION_TOKEN }}
 
             - name: Set up Node.js
               uses: actions/setup-node@v3
