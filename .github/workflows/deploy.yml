@@ -1,9 +1,14 @@
+# [Reference] https://github.com/fregante/chrome-webstore-upload-keys?tab=readme-ov-file
+# [Reference] https://jam.dev/blog/automating-chrome-extension-publishing/
 name: Update Chrome Extension
 
 on:
-    push:
-        branches:
-            - "38-cicd"
+    workflow_dispatch:
+        inputs:
+            version:
+                description: "Version number"
+                required: true
+                default: "1.0.0"
 
 jobs:
     build-chrome-extension:

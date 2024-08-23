@@ -12,5 +12,11 @@ const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
 const clientId = process.env.REACT_APP_OAUTH_CLIENT_ID;
 manifest.oauth2.client_id = clientId;
 
+// GitHub Actions에서 설정한 버전 추가
+const version = process.env.VERSION;
+if (version) {
+    manifest.version = version;
+}
+
 // 변경된 manifest.json 쓰기
 fs.writeFileSync(manifestPath, JSON.stringify(manifest, null, 2));
