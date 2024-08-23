@@ -60,8 +60,7 @@ jobs:
                     --source chrome-extension-${{ github.event.inputs.version }}.zip \
                     --extension-id ${{ env.EXTENSION_ID }} \
                     --client-id ${{ secrets.CI_GOOGLE_CLIENT_ID }} \
-                    --client-secret ${{ secrets.CI_GOOGLE_CLIENT_SECRET }} \
-                    --refresh-token ${{ secrets.CI_GOOGLE_REFRESH_TOKEN }}
+                    --client-secret ${{ secrets.CI_GOOGLE_CLIENT_SECRET }} 
 
     commit-and-tag:
         name: Commit manifest.json and push version tag
