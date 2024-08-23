@@ -14,6 +14,8 @@ jobs:
         steps:
             - name: Checkout repository
               uses: actions/checkout@v2
+              with:
+                  token: ${{ secrets.GITHUB_TOKEN }}
 
             - name: Set up Node.js
               uses: actions/setup-node@v3
@@ -23,10 +25,13 @@ jobs:
             - name: Install dependencies
               run: yarn install
 
+            - name: Install env-cmd
+              run: yarn add env-cmd --dev
+
             - name: Build for ${{ matrix.env_file }}
               run: |
                   mkdir -p outputs/${{ matrix.env_file }}
-                  yarn build:dev --env-file=promptmate-chrome-extension-envs/.env.development.${{ matrix.env_file }}
+                  env-cmd -f promptmate-chrome-extension-envs/.env.development.${{ matrix.env_file }} yarn build:dev
                   mv build/* outputs/${{ matrix.env_file }}/
 
             - name: Commit build outputs
@@ -37,3 +42,5 @@ jobs:
                   git commit -m "Add build outputs for ${{ matrix.env_file }}"
                   git push origin HEAD:${{ github.head_ref }}
               if: success()
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
