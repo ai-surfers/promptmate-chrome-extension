@@ -13,7 +13,8 @@ jobs:
             - name: Checkout
               uses: actions/checkout@v2
               with:
-                  submodules: true
+                  submodules: recursive
+                  token: ${{ secrets.ACTION_TOKEN }}
 
             - name: Build and Archive
               run: |-
