@@ -3,10 +3,7 @@ import { useAlert } from "../../hooks/useAlert";
 import Header from "../../components/common/header/AHeader";
 import { Wrapper } from "../../layouts/Layout";
 import PromptForm from "../../components/newPrompt/PromptForm";
-import {
-    CreatePromptRequest,
-    usePostPrompt,
-} from "../../hooks/mutations/prompt/usePostPrompt";
+import { CreatePromptRequest } from "../../hooks/mutations/prompt/usePostPrompt";
 import { useQueryClient } from "@tanstack/react-query";
 import { useGetPrompt } from "../../hooks/queries/prompt/useGetPrompt";
 import { usePutPrompt } from "../../hooks/mutations/prompt/usePutPrompt";

@@ -1,0 +1,3 @@
+[submodule "promptmate-chrome-extension-envs"]
+	path = promptmate-chrome-extension-envs
+	url = https://github.com/ai-surfers/promptmate-chrome-extension-envs.git
