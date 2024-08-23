@@ -1,8 +1,6 @@
-import { Button, Form, Modal, Rate } from "antd";
+import { Button, Form, Modal } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import styled from "styled-components";
-import ASelectBox from "../input/ASelectBox";
-import { FeedBackCategories } from "../../../core/Etc";
 import { usePostFeedback } from "../../../hooks/mutations/feedback/usePostFeedback";
 
 type FormTypes = {
@@ -56,10 +54,6 @@ export default function VOCModal({ isOpen, closeModal }: VOCModalProps) {
                 onFinish={handleOnFinish}
                 layout="vertical"
             >
-                {/* <Form.Item name="rating" initialValue={0}>
-                    <Rate style={flexCenter} />
-                </Form.Item> */}
-
                 <FeedBackDescription>
                     추가되었으면 하는 기능이나 불편한 점이 있다면 자유롭게
                     말해주세요!
@@ -101,9 +95,3 @@ const FeedBackDescription = styled.div`
     color: ${({ theme }) => theme.colors.deep_gray};
     margin: 20px 0 10px;
 `;
-
-const flexCenter = {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-};

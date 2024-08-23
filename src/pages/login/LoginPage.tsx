@@ -32,6 +32,8 @@ export default function LoginPage() {
             // 2. 토큰 유효성 확인 (/my)
             getUserInfo();
         });
+
+        // eslint-disable-next-line
     }, []);
 
     /**

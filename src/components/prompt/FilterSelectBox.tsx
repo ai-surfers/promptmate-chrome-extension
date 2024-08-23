@@ -1,6 +1,5 @@
 import { Select } from "antd";
 import { Categories } from "../../core/Prompt";
-import { useState } from "react";
 
 const CategoriesOptions = Object.entries(Categories);
 
