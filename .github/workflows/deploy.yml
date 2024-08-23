@@ -25,6 +25,8 @@ jobs:
               run: |
                   yarn && yarn build:prod
                   zip -r chrome-extension-${{ github.event.pull_request.head.sha }}.zip build
+              env:
+                  VERSION: ${{ github.event.inputs.version }}
 
             - name: Archive chrome-extension artifact
               uses: actions/upload-artifact@v2
