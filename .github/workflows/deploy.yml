@@ -1,0 +1,19 @@
+name: Update Chrome Extension
+
+on:
+    push:
+        # tags:
+        #     - v*.*.*
+        branches: ["38-cicd"]
+jobs:
+    build-chrome-extension:
+        name: Build Chrome extension artifact
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v2
+
+            - name: Build and Archive
+              run: |-
+                  yarn build:prod
+                  zip -r chrome-extension-${{ github.event.pull_request.head.sha }}.zip build
