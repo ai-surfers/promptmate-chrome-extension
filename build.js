@@ -2,6 +2,8 @@ const fs = require("fs");
 const path = require("path");
 require("dotenv").config();
 
+console.log("ENV >>> ", process.env.REACT_APP_MODE);
+
 // manifest.json 파일 읽어오기
 const manifestPath = path.join(__dirname, "public", "manifest.json");
 const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));

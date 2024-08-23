@@ -7,6 +7,7 @@ import { QueryClientProvider } from "@tanstack/react-query";
 import { queryClient } from "./service/queryClient";
 
 function App() {
+    console.log(process.env.REACT_APP_MODE);
     return (
         <>
             <QueryClientProvider client={queryClient}>
