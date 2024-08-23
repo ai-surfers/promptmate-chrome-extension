@@ -15,5 +15,5 @@ jobs:
 
             - name: Build and Archive
               run: |-
-                  yarn build:prod
+                  yarn && yarn build:prod
                   zip -r chrome-extension-${{ github.event.pull_request.head.sha }}.zip build
