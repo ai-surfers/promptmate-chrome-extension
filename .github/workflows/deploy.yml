@@ -40,6 +40,9 @@ jobs:
         needs: build-chrome-extension
         env:
             EXTENSION_ID: ${{ secrets.EXTENSION_ID }}
+            CI_GOOGLE_CLIENT_ID: ${{ secrets.CI_GOOGLE_CLIENT_ID }}
+            CI_GOOGLE_CLIENT_SECRET: ${{ secrets.CI_GOOGLE_CLIENT_SECRET }}
+            CI_GOOGLE_REFRESH_TOKEN: ${{ secrets.CI_GOOGLE_REFRESH_TOKEN }}
         steps:
             - name: Set up Node.js
               uses: actions/setup-node@v3
@@ -52,15 +55,17 @@ jobs:
                   name: chrome-extension-${{ github.event.inputs.version }}
 
             - name: Install webstore CLI
-              run: npm install -g chrome-webstore-upload-cli
+              run: |
+                  npm install -g chrome-webstore-upload-cli
 
             - name: Upload step
-              run: |-
+              run: |
                   chrome-webstore-upload upload \
                     --source chrome-extension-${{ github.event.inputs.version }}.zip \
                     --extension-id ${{ env.EXTENSION_ID }} \
-                    --client-id ${{ secrets.CI_GOOGLE_CLIENT_ID }} \
-                    --client-secret ${{ secrets.CI_GOOGLE_CLIENT_SECRET }} 
+                    --client-id ${{ env.CI_GOOGLE_CLIENT_ID }} \
+                    --client-secret ${{ env.CI_GOOGLE_CLIENT_SECRET }} \
+                    --refresh-token ${{ env.CI_GOOGLE_REFRESH_TOKEN }}
 
     commit-and-tag:
         name: Commit manifest.json and push version tag
