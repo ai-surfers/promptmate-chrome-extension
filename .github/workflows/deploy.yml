@@ -34,9 +34,10 @@ jobs:
         env:
             EXTENSION_ID: ${{ secrets.EXTENSION_ID }}
         steps:
-            - uses: actions/setup-node@v2-beta
+            - name: Set up Node.js
+              uses: actions/setup-node@v3
               with:
-                  node-version: "16.10"
+                  node-version: "18"
 
             - name: Download bundle artifact
               uses: actions/download-artifact@v3
