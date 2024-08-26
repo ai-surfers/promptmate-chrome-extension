@@ -114,9 +114,11 @@ const fonts = {
         line-height: 125%;
     `,
     description: css`
-        font-family: "Suit";
-        font-size: 1rem;
-        font-weight: 500;
+        font-family: Suit;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 140%;
+        text-align: center;
     `,
 };
 
