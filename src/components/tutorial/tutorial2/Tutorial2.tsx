@@ -1,3 +1,4 @@
+import { openUrlInNewTab } from "../../../service/chrome/utils";
 import Button from "../../common/button/Button";
 import styles from "../tutorial.styles";
 
@@ -7,7 +8,10 @@ interface Tutorial2Props {
 export default function Tutorial2({ onNext }: Tutorial2Props) {
     function handleGoGPT() {
         // 이동 후,
-        onNext();
+        openUrlInNewTab("https://chatgpt.com/");
+        setTimeout(() => {
+            onNext();
+        }, 800);
     }
 
     return (
