@@ -13,6 +13,9 @@ enum TUTORIAL_STEPS {
     FINISH = "finish",
 }
 
+type TUTORIAL_STEP_KEYS = keyof typeof TUTORIAL_STEPS;
+const STEPS: string[] = Object.values(TUTORIAL_STEPS);
+
 export default function TutorialPage() {
     const { Funnel, Step, setStep, currentStep } = useFunnel(
         TUTORIAL_STEPS.INTRO
@@ -20,7 +23,7 @@ export default function TutorialPage() {
 
     return (
         <div>
-            tutorial
+            tutorial {currentStep}
             <Funnel>
                 <Step name={TUTORIAL_STEPS.INTRO}>
                     <Tutorial1
