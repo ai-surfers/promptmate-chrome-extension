@@ -25,8 +25,8 @@ export default function TutorialPage() {
     return (
         <TutorialContainer>
             <DotConatiner>
-                {steps.map((step) => (
-                    <Dot active={step === currentStep} />
+                {steps.map((step, idx) => (
+                    <Dot $active={step === currentStep} key={idx} />
                 ))}
 
                 <SkipButton>skip</SkipButton>
@@ -83,11 +83,11 @@ const ContentContainer = styled.div`
     margin-top: 80px;
 `;
 
-const Dot = styled.div<{ active?: boolean }>`
+const Dot = styled.div<{ $active?: boolean }>`
     width: 8px;
     height: 8px;
     border-radius: 6px;
-    background: ${({ theme, active }) => (active ? "#4FB8E7" : "#e1e2e1")};
+    background: ${({ theme, $active }) => ($active ? "#4FB8E7" : "#e1e2e1")};
 `;
 
 const TutorialContainer = styled.div`
