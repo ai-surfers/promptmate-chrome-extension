@@ -7,19 +7,35 @@ import {
 } from "../../service/chrome/storage";
 import { getAuthToken } from "../../service/chrome/utils";
 import { useNavigate } from "react-router-dom";
-import { ACCESS_TOKEN } from "../../service/chrome/storage.keys";
+import { ACCESS_TOKEN, ONBOARING } from "../../service/chrome/storage.keys";
 import GoogleLogin from "../../components/login/GoogleButton";
 import { useAlert } from "../../hooks/useAlert";
 import { useEffect } from "react";
 import { useUser } from "../../hooks/useUser";
+import router from "../../router/Router";
 
 export default function LoginPage() {
     const navigate = useNavigate();
     const { openAlert, closeAlert } = useAlert();
     const { setUser, setAccessToken, resetUserState } = useUser();
 
-    // 첫 렌더링 시, 자동 로그인 여부 확인
-    useEffect(function checkAutoLogin() {
+    // 첫 렌더링 시,
+    // 1. 온보딩 여부 확인
+    // 2. 자동 로그인 여부 확인
+    useEffect(function checkOnboarding() {
+        getFromStorage(ONBOARING, (value) => {
+            if (value) {
+                checkAutoLogin();
+                return;
+            }
+
+            navigate("/tutorial");
+        });
+
+        // eslint-disable-next-line
+    }, []);
+
+    function checkAutoLogin() {
         // 1. 스토리지에서 액세스 토큰 확인
         getFromStorage(ACCESS_TOKEN, (value) => {
             setAccessToken(value);
@@ -32,9 +48,7 @@ export default function LoginPage() {
             // 2. 토큰 유효성 확인 (/my)
             getUserInfo();
         });
-
-        // eslint-disable-next-line
-    }, []);
+    }
 
     /**
      * Update User State
