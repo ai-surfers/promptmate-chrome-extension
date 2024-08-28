@@ -5,6 +5,9 @@ import Tutorial4 from "../../components/tutorial/tutorial4/Tutorial4";
 import Tutorial5 from "../../components/tutorial/tutorial5/Tutorial5";
 import { useFunnel } from "../../hooks/useFunnel";
 import styled from "styled-components";
+import { setToStorage } from "../../service/chrome/storage";
+import { ONBOARING } from "../../service/chrome/storage.keys";
+import { useNavigate } from "react-router-dom";
 
 enum TUTORIAL_STEPS {
     INTRO = "intro",
@@ -21,6 +24,14 @@ export default function TutorialPage() {
     const { Funnel, Step, nextStep, currentStep, currentIndex } =
         useFunnel<TUTORIAL_STEP_VALUES>(steps, 0);
 
+    const navigate = useNavigate();
+    function onFinish() {
+        // 스토리지 저장 후, 로그인 화면으로 이동
+        setToStorage(ONBOARING, "true", () => {
+            navigate("/", { replace: true });
+        });
+    }
+
     return (
         <TutorialContainer>
             <DotConatiner>
@@ -28,7 +39,9 @@ export default function TutorialPage() {
                     <Dot $active={step === currentStep} key={idx} />
                 ))}
 
-                <SkipButton>skip</SkipButton>
+                {currentStep !== TUTORIAL_STEPS.FINISH && (
+                    <SkipButton onClick={onFinish}>skip</SkipButton>
+                )}
             </DotConatiner>
 
             <ContentContainer>
@@ -46,7 +59,7 @@ export default function TutorialPage() {
                         <Tutorial4 onNext={nextStep} />
                     </Step>
                     <Step name={TUTORIAL_STEPS.FINISH}>
-                        <Tutorial5 onNext={nextStep} />
+                        <Tutorial5 onNext={onFinish} />
                     </Step>
                 </Funnel>
             </ContentContainer>
@@ -73,6 +86,7 @@ const SkipButton = styled.div`
     right: 20px;
 
     transform: translateY(-50%);
+    cursor: pointer;
 `;
 
 const ContentContainer = styled.div`
