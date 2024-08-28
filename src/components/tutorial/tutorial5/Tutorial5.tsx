@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import styles from "../tutorial.styles";
 import Button from "../../common/button/Button";
 
@@ -6,7 +5,6 @@ interface Tutorial5Props {
     onNext: () => void;
 }
 export default function Tutorial4({ onNext }: Tutorial5Props) {
-    function handleOnFinish() {}
     return (
         <styles.Container>
             <styles.Wrapper>
@@ -23,7 +21,7 @@ export default function Tutorial4({ onNext }: Tutorial5Props) {
                     당신의 AI에 날개를 달아주세요!
                 </styles.Content>
 
-                <Button title="시작하기" onClick={handleOnFinish} />
+                <Button title="시작하기" onClick={onNext} />
             </styles.Wrapper>
         </styles.Container>
     );
