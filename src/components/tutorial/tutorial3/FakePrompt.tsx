@@ -9,7 +9,10 @@ import { StarOutlined } from "@ant-design/icons";
 
 const data = dummies.data;
 
-export default function FakePrompt() {
+interface FakePromptProps {
+    onNext: () => void;
+}
+export default function FakePrompt({ onNext }: FakePromptProps) {
     const ref1 = useRef(null);
     const propertyRefs = useRef<Record<string, PropertyRef>>({});
 

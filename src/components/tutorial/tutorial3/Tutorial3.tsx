@@ -18,7 +18,7 @@ export default function Tutorial3({ onNext }: Tutorial3Props) {
             <Line />
 
             <PromptContainer style={{ flex: 8 }}>
-                <FakePrompt />
+                <FakePrompt onNext={onNext} />
             </PromptContainer>
         </styles.Container2>
     );
