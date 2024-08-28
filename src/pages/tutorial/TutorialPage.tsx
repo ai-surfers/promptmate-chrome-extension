@@ -76,6 +76,7 @@ const ContentContainer = styled.div`
     flex: 9;
     width: 100%;
     padding: 30px 40px;
+    ${({ theme }) => theme.mixins.flexBox("column", "space-between", "center")};
 `;
 
 const Dot = styled.div<{ active?: boolean }>`

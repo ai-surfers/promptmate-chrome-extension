@@ -120,6 +120,20 @@ const fonts = {
         line-height: 140%;
         text-align: center;
     `,
+    tutorial_title: css`
+        font-family: Suit;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 140%;
+        text-align: center;
+    `,
+    tutorial_desc: css`
+        font-family: Suit;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 140%;
+        text-align: center;
+    `,
 };
 
 /* 믹스인 */
