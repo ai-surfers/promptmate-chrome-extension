@@ -72,3 +72,7 @@
 #float-btn:hover .tooltip {
     opacity: 1;
 }
+
+.ant-tour {
+    padding: 0;
+}

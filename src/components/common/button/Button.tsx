@@ -7,9 +7,19 @@ export interface ButtonProps {
     onClick?: () => void;
 }
 
-export default function Button({ width, title, enable, onClick }: ButtonProps) {
+export default function Button({
+    width,
+    title,
+    enable = true,
+    onClick,
+}: ButtonProps) {
+    function handleOnClick() {
+        if (enable && onClick) {
+            onClick();
+        }
+    }
     return (
-        <ButtonContainer width={width} onClick={onClick} $enable={enable}>
+        <ButtonContainer width={width} onClick={handleOnClick} $enable={enable}>
             {title}
         </ButtonContainer>
     );
@@ -28,7 +38,8 @@ const ButtonContainer = styled.button<{
     padding: 15px 0;
     margin: 5px 0;
 
-    background: ${({ theme }) => theme.colors.main};
+    background: ${({ theme, $enable = true }) =>
+        $enable ? theme.colors.main : theme.colors.main_light};
     color: ${({ theme }) => theme.colors.white};
 
     &:hover {

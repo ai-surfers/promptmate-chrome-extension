@@ -30,7 +30,7 @@
         "web-vitals": "^2.1.0"
     },
     "scripts": {
-        "start": "env-cmd -f promptmate-chrome-extension-envs/.env.development react-scripts start",
+        "start": "env-cmd -f promptmate-chrome-extension-envs/.env.development.ys react-scripts start",
         "start:prod": "env-cmd -f promptmate-chrome-extension-envs/.env.production react-scripts start",
         "build:dev": "node build.js && react-scripts build",
         "build:prod": "env-cmd -f promptmate-chrome-extension-envs/.env.production node build.js && react-scripts build",

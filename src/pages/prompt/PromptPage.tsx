@@ -148,6 +148,7 @@ export default function PromptPage() {
                         />
 
                         <Title>{data?.data.title}</Title>
+                        <Description>{data?.data.description}</Description>
 
                         {data?.data.user_input_format.map((opt) => (
                             <Property
@@ -187,7 +188,13 @@ export default function PromptPage() {
 
 const Title = styled.h2`
     ${({ theme }) => theme.fonts.title};
-    margin: 10px 0 20px;
+    margin: 10px 0;
+`;
+
+const Description = styled.h2`
+    ${({ theme }) => theme.fonts.description};
+    color: ${({ theme }) => theme.colors.deep_gray};
+    margin-bottom: 20px;
 `;
 
 const FullWrapper = styled.div`
