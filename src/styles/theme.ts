@@ -120,6 +120,20 @@ const fonts = {
         line-height: 140%;
         text-align: center;
     `,
+    tutorial_title: css`
+        font-family: Suit;
+        font-size: 24px;
+        font-weight: 700;
+        line-height: 140%;
+        text-align: center;
+    `,
+    tutorial_desc: css`
+        font-family: Suit;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 140%;
+        text-align: center;
+    `,
 };
 
 /* 믹스인 */
@@ -157,6 +171,24 @@ const mixins = {
                 box-shadow: 0px 0px 50px 30px #d1d5db;
                 animation: ${moveRight} 1s infinite linear;
             }
+        `;
+    },
+
+    blinkOutline: () => {
+        const blink = keyframes`
+        0% {
+          outline-color: transparent;
+        }
+        50% {
+          outline-color: #ff0000; // Customize the outline color as needed
+        }
+        100% {
+          outline-color: transparent;
+        }
+      `;
+
+        return css`
+            animation: ${blink} 1s ease-in-out infinite;
         `;
     },
 };
