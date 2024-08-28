@@ -13,7 +13,8 @@ interface Tutorial4Props {
 export default function Tutorial4({ onNext }: Tutorial4Props) {
     function handleUsePrompt() {
         const propertyValues: Record<string, string> = {};
-        propertyValues["번역할 문장"] = "오늘은 날씨가 너무 춥다.";
+        propertyValues["번역할 문장"] =
+            "당신의 AI에 날개를 달아줄 최고의 프롬프트, 포켓 프롬프트";
 
         const full_prompt = populateTemplate(
             data.prompt_template,
