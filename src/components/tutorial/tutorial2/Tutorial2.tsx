@@ -11,7 +11,7 @@ export default function Tutorial2({ onNext }: Tutorial2Props) {
     }
 
     return (
-        <>
+        <styles.Container>
             <styles.Wrapper>
                 <styles.Title>프롬프트 사용하기</styles.Title>
                 <styles.Subtitle>
@@ -29,6 +29,6 @@ export default function Tutorial2({ onNext }: Tutorial2Props) {
 
                 <Button title="chatGPT로 이동" onClick={handleGoGPT} />
             </styles.Wrapper>
-        </>
+        </styles.Container>
     );
 }

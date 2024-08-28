@@ -173,6 +173,24 @@ const mixins = {
             }
         `;
     },
+
+    blinkOutline: () => {
+        const blink = keyframes`
+        0% {
+          outline-color: transparent;
+        }
+        50% {
+          outline-color: #ff0000; // Customize the outline color as needed
+        }
+        100% {
+          outline-color: transparent;
+        }
+      `;
+
+        return css`
+            animation: ${blink} 1s ease-in-out infinite;
+        `;
+    },
 };
 
 const theme = { colors, fonts, mixins };

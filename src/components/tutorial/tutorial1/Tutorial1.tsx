@@ -6,7 +6,7 @@ interface Tutorial1Props {
 }
 export default function Tutorial1({ onNext }: Tutorial1Props) {
     return (
-        <>
+        <styles.Container>
             <styles.Wrapper>
                 <styles.Title>반가워요! 👋</styles.Title>
                 <styles.Subtitle>
@@ -25,6 +25,6 @@ export default function Tutorial1({ onNext }: Tutorial1Props) {
 
                 <Button title="다음" onClick={onNext} />
             </styles.Wrapper>
-        </>
+        </styles.Container>
     );
 }

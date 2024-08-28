@@ -61,7 +61,11 @@ const DotConatiner = styled.div`
     gap: 8px;
 
     width: 100%;
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    height: 80px;
 `;
 
 const SkipButton = styled.div`
@@ -73,10 +77,10 @@ const SkipButton = styled.div`
 `;
 
 const ContentContainer = styled.div`
-    flex: 9;
     width: 100%;
     padding: 30px 40px;
-    ${({ theme }) => theme.mixins.flexBox("column", "space-between", "center")};
+    height: calc(100% - 80px);
+    margin-top: 80px;
 `;
 
 const Dot = styled.div<{ active?: boolean }>`
@@ -92,4 +96,6 @@ const TutorialContainer = styled.div`
     width: 100%;
     height: 100%;
     border: 1px solid red;
+
+    position: relative;
 `;

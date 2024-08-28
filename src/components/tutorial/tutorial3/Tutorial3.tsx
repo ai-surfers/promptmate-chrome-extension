@@ -7,8 +7,8 @@ interface Tutorial3Props {
 }
 export default function Tutorial3({ onNext }: Tutorial3Props) {
     return (
-        <>
-            <styles.Wrapper>
+        <styles.Container2>
+            <styles.Wrapper style={{ flex: 2 }}>
                 <styles.Title>내용 입력하기</styles.Title>
                 <styles.Subtitle>
                     이미 만들어진 템플릿에 내용만 입력하세요
@@ -17,17 +17,20 @@ export default function Tutorial3({ onNext }: Tutorial3Props) {
 
             <Line />
 
-            <PromptContainer>
+            <PromptContainer style={{ flex: 8 }}>
                 <FakePrompt />
             </PromptContainer>
-        </>
+        </styles.Container2>
     );
 }
 
-const PromptContainer = styled.div``;
+const PromptContainer = styled.div`
+    overflow: scroll;
+`;
 
 const Line = styled.div`
     width: 100%;
     height: 2px;
     background: #efefef;
+    margin: 20px 0;
 `;
