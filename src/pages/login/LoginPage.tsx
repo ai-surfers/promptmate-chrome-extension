@@ -12,7 +12,6 @@ import GoogleLogin from "../../components/login/GoogleButton";
 import { useAlert } from "../../hooks/useAlert";
 import { useEffect } from "react";
 import { useUser } from "../../hooks/useUser";
-import router from "../../router/Router";
 
 export default function LoginPage() {
     const navigate = useNavigate();
@@ -24,6 +23,7 @@ export default function LoginPage() {
     // 2. 자동 로그인 여부 확인
     useEffect(function checkOnboarding() {
         getFromStorage(ONBOARING, (value) => {
+            console.log("[ONBOARING]", value);
             if (value) {
                 checkAutoLogin();
                 return;

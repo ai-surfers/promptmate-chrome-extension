@@ -1,13 +1,14 @@
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import dummies from "../dummies.json";
 import { InfoBoxWrapper, InfoButton } from "../../prompt/TopBox";
 import { InputFormat } from "../../../hooks/mutations/prompt/usePostPrompt";
 import TextArea from "antd/es/input/TextArea";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
-import { Button, Tooltip, Tour, TourProps } from "antd";
+import { Button, Tooltip } from "antd";
 import { StarOutlined } from "@ant-design/icons";
 
 const data = dummies.data;
+const option = data.user_input_format[0];
 
 interface FakePromptProps {
     onNext: () => void;
@@ -15,40 +16,7 @@ interface FakePromptProps {
 
 export default function FakePrompt({ onNext }: FakePromptProps) {
     const ref1 = useRef<HTMLDivElement>(null);
-    const ref2 = useRef<HTMLButtonElement>(null); // Ref for the button
     const propertyRefs = useRef<Record<string, PropertyRef>>({});
-
-    // const scrollToBottom = () => {
-    //     if (ref2.current) {
-    //         ref2.current.scrollIntoView({ behavior: "smooth", block: "end" });
-    //     }
-    // };
-
-    // const fillProperties = () => {
-    //     for (const key in propertyRefs.current) {
-    //         if (propertyRefs.current[key]) {
-    //             propertyRefs.current[key].fill();
-    //         }
-    //     }
-
-    //     // Delay calling scrollToBottom to ensure that the UI updates first
-    //     setTimeout(() => {
-    //         // scrollToBottom();
-    //         onNext();
-    //     }, 800);
-    // };
-
-    // const steps: TourProps["steps"] = [
-    //     {
-    //         title: "내용 작성하기",
-    //         description: "프롬프트에 들어갈 내용을 작성해요",
-    //         target: () => ref1.current as HTMLElement,
-    //         nextButtonProps: {
-    //             children: <>자동으로 채우기</>,
-    //             onClick: fillProperties,
-    //         },
-    //     },
-    // ];
 
     return (
         <>
@@ -58,18 +26,14 @@ export default function FakePrompt({ onNext }: FakePromptProps) {
             <Description>{data.description}</Description>
 
             <div ref={ref1}>
-                {data.user_input_format.map((option, index) => (
-                    <FakeProperty
-                        key={option.name}
-                        option={option as InputFormat}
-                        ref={(el) => {
-                            if (el) propertyRefs.current[option.name] = el;
-                        }}
-                    />
-                ))}
+                <FakeProperty
+                    key={option.name}
+                    option={option as InputFormat}
+                    ref={(el) => {
+                        if (el) propertyRefs.current[option.name] = el;
+                    }}
+                />
             </div>
-
-            {/* <Tour onClose={() => {}} steps={steps} zIndex={999} /> */}
         </>
     );
 }
@@ -114,7 +78,7 @@ const FakeProperty = forwardRef<PropertyRef, PropertyProps>(
                 <PropertyTitle>{option.name}</PropertyTitle>
 
                 {option.type === "text" && (
-                    <TextArea
+                    <PulsingTextArea
                         placeholder={option.placeholder}
                         value={value}
                         onClick={handleOnClick}
@@ -144,3 +108,25 @@ const FakeTopBox = () => {
         </InfoBoxWrapper>
     );
 };
+
+// Define the pulse animation
+const pulse = keyframes`
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.7);
+    }
+    60% {
+        transform: scale(1);
+        box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+    }
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+    }
+`;
+
+const PulsingTextArea = styled(TextArea)`
+    box-shadow: 0 0 0 0 rgba(0, 0, 0, 1);
+    transform: scale(1);
+    animation: ${pulse} 2s infinite;
+`;
