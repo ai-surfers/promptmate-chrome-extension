@@ -18,38 +18,6 @@ export default function FakePrompt({ onNext }: FakePromptProps) {
     const ref2 = useRef<HTMLButtonElement>(null); // Ref for the button
     const propertyRefs = useRef<Record<string, PropertyRef>>({});
 
-    const scrollToBottom = () => {
-        if (ref2.current) {
-            ref2.current.scrollIntoView({ behavior: "smooth", block: "end" });
-        }
-    };
-
-    const fillProperties = () => {
-        for (const key in propertyRefs.current) {
-            if (propertyRefs.current[key]) {
-                propertyRefs.current[key].fill();
-            }
-        }
-
-        // Delay calling scrollToBottom to ensure that the UI updates first
-        setTimeout(() => {
-            // scrollToBottom();
-            onNext();
-        }, 800);
-    };
-
-    const steps: TourProps["steps"] = [
-        {
-            title: "내용 작성하기",
-            description: "프롬프트에 들어갈 내용을 작성해요",
-            target: () => ref1.current as HTMLElement,
-            nextButtonProps: {
-                children: <>자동으로 채우기</>,
-                onClick: fillProperties,
-            },
-        },
-    ];
-
     function handleUsePrompt() {
         // Implement the use prompt functionality here
     }
@@ -72,8 +40,6 @@ export default function FakePrompt({ onNext }: FakePromptProps) {
                     />
                 ))}
             </div>
-
-            <Tour onClose={() => {}} steps={steps} zIndex={999} />
         </>
     );
 }
@@ -99,30 +65,14 @@ export interface PropertyRef {
 
 const FakeProperty = forwardRef<PropertyRef, PropertyProps>(
     ({ option }, ref) => {
-        const [value, setValue] = useState<string | undefined>();
-
-        useImperativeHandle(ref, () => ({
-            fill: fillValue,
-        }));
-
-        function fillValue() {
-            setValue(option.placeholder.replace("ex. ", ""));
-        }
-
-        function handleOnClick() {
-            fillValue();
-        }
-
         return (
             <PropertyContainer>
                 <PropertyTitle>{option.name}</PropertyTitle>
 
                 {option.type === "text" && (
-                    <TextArea
-                        placeholder={option.placeholder}
-                        value={value}
-                        onClick={handleOnClick}
-                    />
+                    <FakeTextArea>
+                        {option.placeholder.replace("ex. ", "")}
+                    </FakeTextArea>
                 )}
             </PropertyContainer>
         );
@@ -138,6 +88,30 @@ const PropertyTitle = styled.h3`
     margin: 5px 0;
 `;
 
+const FakeTextArea = styled.div`
+    background: #ffffff;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #d9d9d9;
+    border-radius: 5px;
+    padding: 4px 11px;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.88);
+    box-sizing: border-box;
+    margin: 0;
+    padding: 4px 11px;
+    color: rgba(0, 0, 0, 0.88);
+    font-size: 14px;
+    line-height: 1.5714285714285714;
+    list-style: none;
+    font-family: Suit;
+    position: relative;
+    display: inline-block;
+    width: 100%;
+    min-width: 0;
+    border-radius: 6px;
+    transition: all 0.2s;
+`;
 const FakeTopBox = () => {
     return (
         <InfoBoxWrapper>
