@@ -7,7 +7,7 @@ import { AIPlatformType } from "./core/Prompt";
  */
 export function extractOptions(text: string): string[] {
     console.log(">> text", text);
-    const regex = /\{\{(.*?)\}\}/g;
+    const regex = /\[(.*?)\]/g;
     let matches;
 
     const options = new Set<string>();

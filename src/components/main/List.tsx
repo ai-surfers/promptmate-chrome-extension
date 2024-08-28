@@ -123,7 +123,7 @@ export default function List({ type, onChangeTab }: ListProps) {
                             style={{ width: "100%" }}
                             onClick={handleOnChangeTab}
                         >
-                            다른 프롬프트 둘러보기 프롬프트 둘러보러 가기
+                            프롬프트 둘러보러 가기
                         </Button>
                     }
                 />

@@ -1,4 +1,4 @@
-import { createMemoryRouter } from "react-router-dom";
+import { createBrowserRouter, createMemoryRouter } from "react-router-dom";
 import HeaderLayout from "../layouts/HeaderLayout";
 import LoginPage from "../pages/login/LoginPage";
 import HomePage from "../pages/home/HomePage";
@@ -8,7 +8,12 @@ import NewPromptPage from "../pages/newPrompt/NewPromptPage";
 import ModifyPromptPage from "../pages/modifyPrompt/ModifyPromptPage";
 // import TutorialPromptPage from "../pages/tutorial/TutorialPromptPage";
 
-const router = createMemoryRouter([
+const createRouter =
+    process.env.NODE_ENV === "production"
+        ? createMemoryRouter
+        : createBrowserRouter;
+
+const router = createRouter([
     {
         path: "/",
         element: <HeaderLayout />,
