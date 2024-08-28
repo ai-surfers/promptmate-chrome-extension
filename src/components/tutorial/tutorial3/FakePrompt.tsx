@@ -18,41 +18,37 @@ export default function FakePrompt({ onNext }: FakePromptProps) {
     const ref2 = useRef<HTMLButtonElement>(null); // Ref for the button
     const propertyRefs = useRef<Record<string, PropertyRef>>({});
 
-    const scrollToBottom = () => {
-        if (ref2.current) {
-            ref2.current.scrollIntoView({ behavior: "smooth", block: "end" });
-        }
-    };
+    // const scrollToBottom = () => {
+    //     if (ref2.current) {
+    //         ref2.current.scrollIntoView({ behavior: "smooth", block: "end" });
+    //     }
+    // };
 
-    const fillProperties = () => {
-        for (const key in propertyRefs.current) {
-            if (propertyRefs.current[key]) {
-                propertyRefs.current[key].fill();
-            }
-        }
+    // const fillProperties = () => {
+    //     for (const key in propertyRefs.current) {
+    //         if (propertyRefs.current[key]) {
+    //             propertyRefs.current[key].fill();
+    //         }
+    //     }
 
-        // Delay calling scrollToBottom to ensure that the UI updates first
-        setTimeout(() => {
-            // scrollToBottom();
-            onNext();
-        }, 800);
-    };
+    //     // Delay calling scrollToBottom to ensure that the UI updates first
+    //     setTimeout(() => {
+    //         // scrollToBottom();
+    //         onNext();
+    //     }, 800);
+    // };
 
-    const steps: TourProps["steps"] = [
-        {
-            title: "내용 작성하기",
-            description: "프롬프트에 들어갈 내용을 작성해요",
-            target: () => ref1.current as HTMLElement,
-            nextButtonProps: {
-                children: <>자동으로 채우기</>,
-                onClick: fillProperties,
-            },
-        },
-    ];
-
-    function handleUsePrompt() {
-        // Implement the use prompt functionality here
-    }
+    // const steps: TourProps["steps"] = [
+    //     {
+    //         title: "내용 작성하기",
+    //         description: "프롬프트에 들어갈 내용을 작성해요",
+    //         target: () => ref1.current as HTMLElement,
+    //         nextButtonProps: {
+    //             children: <>자동으로 채우기</>,
+    //             onClick: fillProperties,
+    //         },
+    //     },
+    // ];
 
     return (
         <>
@@ -73,7 +69,7 @@ export default function FakePrompt({ onNext }: FakePromptProps) {
                 ))}
             </div>
 
-            <Tour onClose={() => {}} steps={steps} zIndex={999} />
+            {/* <Tour onClose={() => {}} steps={steps} zIndex={999} /> */}
         </>
     );
 }

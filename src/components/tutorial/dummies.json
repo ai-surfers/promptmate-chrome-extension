@@ -1,9 +1,9 @@
 {
     "data": {
         "id": "66ba864d843fade61e09d7c7",
-        "title": "마케팅을 위한 카피라이팅 만들기",
-        "description": "각기 다른 컨셉으로 3가지의 카피라이팅을 만들어줍니다",
-        "prompt_template": "너는 고객들의 구매욕구를 자극하는 마케팅 전문가야.\n\n\"{{상품 이름}}\"에 대한 마케팅 카피라이팅을 만들어줘. 예상 청중은 {{예상 청중}}이야.\n\n이들의 마음을 사로잡을 수 있는 매력적이고 센스있는 카피라이팅을 각기 다른 컨셉으로 총 3개 만들어줘.\n\n상품의 특징: {{상품의 특징}}",
+        "title": "자연스러운 한영 번역기",
+        "description": "한글을 영어로 자연스럽게 번역해줍니다.",
+        "prompt_template": "너는 한글을 영어로 번역하는 번역기야. 다음 문장을 자연스럽게 영어로 번역해 줘.\n\n번역할 문장: [번역할 문장]",
         "visibility": "public",
         "categories": ["marketing"],
         "author_nickname": "윤권",
@@ -12,19 +12,9 @@
         "created_at": "2024-08-13T07:01:49.247000",
         "user_input_format": [
             {
-                "name": "상품 이름",
+                "name": "번역할 문장",
                 "type": "text",
-                "placeholder": "ex. 하림 블랙페퍼 닭가슴살"
-            },
-            {
-                "name": "예상 청중",
-                "type": "text",
-                "placeholder": "ex. 다이어트를 하는 20대 여성"
-            },
-            {
-                "name": "상품의 특징",
-                "type": "text",
-                "placeholder": "ex. 안심할 수 있는 HACCP 인증, 닭고기와 양파 등 함유, 샐러드 토핑 등으로 활용 가능"
+                "placeholder": "ex. 오늘은 날씨가 너무 춥다."
             }
         ],
         "is_starred_by_user": false

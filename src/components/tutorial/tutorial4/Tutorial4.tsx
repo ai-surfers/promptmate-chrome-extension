@@ -15,7 +15,8 @@ export default function Tutorial4({ onNext }: Tutorial4Props) {
             <styles.Wrapper style={{ flex: 2 }}>
                 <styles.Title>프롬프트 전송하기</styles.Title>
                 <styles.Subtitle>
-                    버튼을 누르면 AI 채팅창에 프롬프트가 자동으로 전송돼요
+                    사용하기 버튼을 누르면 AI 채팅창에 <br />
+                    프롬프트가 자동으로 전송돼요
                 </styles.Subtitle>
             </styles.Wrapper>
 

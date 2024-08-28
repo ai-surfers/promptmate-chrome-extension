@@ -1,4 +1,3 @@
-import { Steps } from "antd";
 import Tutorial1 from "../../components/tutorial/tutorial1/Tutorial1";
 import Tutorial2 from "../../components/tutorial/tutorial2/Tutorial2";
 import Tutorial3 from "../../components/tutorial/tutorial3/Tutorial3";
