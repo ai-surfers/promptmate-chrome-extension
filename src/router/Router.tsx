@@ -6,6 +6,7 @@ import Layout from "../layouts/Layout";
 import PromptPage from "../pages/prompt/PromptPage";
 import NewPromptPage from "../pages/newPrompt/NewPromptPage";
 import ModifyPromptPage from "../pages/modifyPrompt/ModifyPromptPage";
+import TutorialPage from "../pages/tutorial/TutorialPage";
 // import TutorialPromptPage from "../pages/tutorial/TutorialPromptPage";
 
 const createRouter =
@@ -44,10 +45,10 @@ const router = createRouter([
                 path: "/prompt/:id/modify",
                 element: <ModifyPromptPage />,
             },
-            // {
-            //     path: "/prompt/tutorial",
-            //     element: <TutorialPromptPage />,
-            // },
+            {
+                path: "/tutorial",
+                element: <TutorialPage />,
+            },
         ],
     },
 ]);
