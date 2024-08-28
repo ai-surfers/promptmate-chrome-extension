@@ -2,10 +2,11 @@ import styled from "styled-components";
 import dummies from "../dummies.json";
 import { InfoBoxWrapper, InfoButton } from "../../prompt/TopBox";
 import { InputFormat } from "../../../hooks/mutations/prompt/usePostPrompt";
-import TextArea from "antd/es/input/TextArea";
 import { forwardRef, useImperativeHandle, useRef, useState } from "react";
 import { Button, Tooltip, Tour, TourProps } from "antd";
 import { StarOutlined } from "@ant-design/icons";
+import { populateTemplate } from "../../../utils";
+import { insertPromptToDOMInput } from "../../../service/chrome/utils";
 
 const data = dummies.data;
 
@@ -17,10 +18,6 @@ export default function FakePrompt({ onNext }: FakePromptProps) {
     const ref1 = useRef<HTMLDivElement>(null);
     const ref2 = useRef<HTMLButtonElement>(null); // Ref for the button
     const propertyRefs = useRef<Record<string, PropertyRef>>({});
-
-    function handleUsePrompt() {
-        // Implement the use prompt functionality here
-    }
 
     return (
         <>

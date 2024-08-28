@@ -28,7 +28,7 @@ export function populateTemplate(
     template: string,
     values: Record<string, string>
 ): string {
-    return template.replace(/\{\{(.*?)\}\}/g, (_, key) => values[key]);
+    return template.replace(/\[(.*?)\]/g, (_, key) => values[key]);
 }
 
 /**

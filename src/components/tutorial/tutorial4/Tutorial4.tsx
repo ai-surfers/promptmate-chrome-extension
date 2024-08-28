@@ -2,14 +2,31 @@ import styled from "styled-components";
 import styles from "../tutorial.styles";
 import FakePrompt from "./FakePrompt";
 import Button from "../../common/button/Button";
+import { populateTemplate } from "../../../utils";
+import { insertPromptToDOMInput } from "../../../service/chrome/utils";
+import dummies from "../dummies.json";
+const data = dummies.data;
 
 interface Tutorial4Props {
     onNext: () => void;
 }
 export default function Tutorial4({ onNext }: Tutorial4Props) {
     function handleUsePrompt() {
-        onNext();
+        const propertyValues: Record<string, string> = {};
+        propertyValues["번역할 문장"] = "오늘은 날씨가 너무 춥다.";
+
+        const full_prompt = populateTemplate(
+            data.prompt_template,
+            propertyValues
+        );
+        console.log(">> ", full_prompt);
+        insertPromptToDOMInput(full_prompt);
+
+        setTimeout(() => {
+            onNext();
+        }, 800);
     }
+
     return (
         <styles.Container2>
             <styles.Wrapper style={{ flex: 2 }}>
