@@ -16,7 +16,8 @@ const getAccessToken = (): Promise<string> => {
     });
 };
 
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+// const BASE_URL = process.env.REACT_APP_BASE_URL;
+const BASE_URL = "https://api.pocket-prompt.com";
 const API = axios.create({
     baseURL: BASE_URL,
 });
