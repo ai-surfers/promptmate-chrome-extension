@@ -5,10 +5,8 @@ import {
     removeFromStorage,
     setToStorage,
 } from "../../service/chrome/storage";
-import { getAuthToken } from "../../service/chrome/utils";
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN, ONBOARING } from "../../service/chrome/storage.keys";
-import GoogleLogin from "../../components/login/GoogleButton";
 import { useAlert } from "../../hooks/useAlert";
 import { useEffect } from "react";
 import { useUser } from "../../hooks/useUser";
@@ -76,19 +74,23 @@ export default function LoginPage() {
             });
     };
 
-    /**
-     * Login With Google
-     */
-    const loginWithGoogle = async () => {
-        // 1) chrome API로 google auth token
-        getAuthToken((token) => {
-            if (token === "") {
-                openAlert({
-                    content: "Google 로그인 후 이용 가능합니다. ",
-                });
-                return;
-            }
+    // 1) signInWithPopup으로 google auth token
+    const handleIframeMessage = (event: MessageEvent) => {
+        const { data } = event;
 
+        if (data.startsWith("!_{")) return;
+
+        const jsonData = JSON.parse(data);
+
+        console.log("jsonData >> ", jsonData);
+
+        const token = jsonData.token;
+        const user = jsonData.user;
+
+        console.log("token >> ", token);
+        console.log("user >> ", user);
+
+        if (token) {
             // 2) 로그인 API 호출
             login(token)
                 .then((res) => {
@@ -116,7 +118,9 @@ export default function LoginPage() {
                 .catch((error) => {
                     handleError(`[${error.code}] ${error.message}`);
                 });
-        });
+        } else if (jsonData.error) {
+            handleError(data.error);
+        }
     };
 
     const handleError = (msg: string) => {
@@ -126,9 +130,27 @@ export default function LoginPage() {
         });
     };
 
+    useEffect(() => {
+        window.addEventListener("message", handleIframeMessage);
+        return () => {
+            window.removeEventListener("message", handleIframeMessage);
+        };
+
+        // eslint-disable-next-line
+    }, []);
+
     return (
         <LoginPageContainer>
-            <GoogleLogin onClick={loginWithGoogle} />
+            <IframeContainer>
+                <iframe
+                    src="https://prompt-mate-d3b25.web.app"
+                    title="Google Login"
+                    width="100%"
+                    height="100%"
+                    style={{ border: "none" }}
+                    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+                ></iframe>
+            </IframeContainer>
         </LoginPageContainer>
     );
 }
@@ -138,5 +160,12 @@ const LoginPageContainer = styled.section`
     min-height: 100%;
     padding: 40px;
 
+    ${({ theme }) => theme.mixins.flexBox("column", "center", "center")};
+`;
+
+const IframeContainer = styled.div`
+    max-width: 452px;
+    width: 100vw;
+    height: calc(100% - 60px);
     ${({ theme }) => theme.mixins.flexBox("column", "center", "center")};
 `;

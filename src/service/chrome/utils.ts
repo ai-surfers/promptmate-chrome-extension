@@ -6,27 +6,6 @@ import { AIPlatformType } from "../../core/Prompt";
 import { getAIPlatformType } from "../../utils";
 
 /**
- * Chrome identity API 이용하여 토큰 조회
- * @param callback
- */
-export const getAuthToken = (callback: (token: string) => void) => {
-    chrome.identity.getAuthToken({ interactive: true }, (token) => {
-        if (chrome.runtime.lastError || !token) {
-            chrome.tabs.create({
-                url: "https://accounts.google.com/signin",
-            });
-
-            callback("");
-            return;
-        }
-        console.log("signed in!", token);
-
-        console.log(`🟠 [Chrome Identity] getAuthToken - ${token}`);
-        callback(token);
-    });
-};
-
-/**
  * DOM의 첫번째 인풋에 텍스트 inject & send
  * @param text
  */

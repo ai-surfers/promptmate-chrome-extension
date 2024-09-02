@@ -8,10 +8,6 @@ console.log("ENV >>> ", process.env.REACT_APP_MODE);
 const manifestPath = path.join(__dirname, "public", "manifest.json");
 const manifest = JSON.parse(fs.readFileSync(manifestPath, "utf8"));
 
-// 환경변수 manifest.json 추가  (후에 추가 시 여기에)
-const clientId = process.env.REACT_APP_OAUTH_CLIENT_ID;
-manifest.oauth2.client_id = clientId;
-
 // GitHub Actions에서 설정한 버전 추가
 const version = process.env.VERSION;
 if (version) {
