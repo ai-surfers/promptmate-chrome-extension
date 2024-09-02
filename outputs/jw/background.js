@@ -6,6 +6,9 @@ chrome.runtime.onInstalled.addListener(() => {
     console.log("Extension Installed");
 
     chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true });
+    chrome.identity.clearAllCachedAuthTokens(() => {
+        console.log("Clear All Cached");
+    });
 });
 
 // [메시지 수신 Listener]
