@@ -211,7 +211,8 @@ const LoginPageContainer = styled.section`
 `;
 
 const IframeContainer = styled.div`
-    width: 100%;
+    max-width: 452px;
+    width: 100vw;
     height: calc(100% - 60px);
     ${({ theme }) => theme.mixins.flexBox("column", "center", "center")};
 `;
