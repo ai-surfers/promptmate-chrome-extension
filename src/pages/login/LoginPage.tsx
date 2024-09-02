@@ -5,7 +5,6 @@ import {
     removeFromStorage,
     setToStorage,
 } from "../../service/chrome/storage";
-import { getAuthToken } from "../../service/chrome/utils";
 import { useNavigate } from "react-router-dom";
 import { ACCESS_TOKEN, ONBOARING } from "../../service/chrome/storage.keys";
 import { useAlert } from "../../hooks/useAlert";
@@ -75,51 +74,7 @@ export default function LoginPage() {
             });
     };
 
-    /**
-     * Login With Google
-     */
-    const loginWithGoogle = async () => {
-        // 1) chrome API로 google auth token
-        getAuthToken((token) => {
-            if (token === "") {
-                openAlert({
-                    content: "Google 로그인 후 이용 가능합니다. ",
-                });
-                return;
-            }
-
-            // 2) 로그인 API 호출
-            login(token)
-                .then((res) => {
-                    const { success, detail, data } = res.data;
-
-                    if (!success) {
-                        removeFromStorage(ACCESS_TOKEN);
-                        resetUserState();
-
-                        handleError(`${detail}`);
-                        return;
-                    }
-
-                    // 성공 시, 스토리지에 저장 & 유저 조회 후 로그인 화면으로 이동
-                    setToStorage(ACCESS_TOKEN, data.access_token, () => {
-                        openAlert({
-                            content: detail,
-                            callback: () => {
-                                closeAlert();
-                                getUserInfo();
-                            },
-                        });
-                    });
-                })
-                .catch((error) => {
-                    handleError(`[${error.code}] ${error.message}`);
-                });
-        });
-    };
-
     // 1) signInWithPopup으로 google auth token
-
     const handleIframeMessage = (event: MessageEvent) => {
         const { data } = event;
 
@@ -136,8 +91,6 @@ export default function LoginPage() {
         console.log("user >> ", user);
 
         if (token) {
-            console.log("success", token);
-
             // 2) 로그인 API 호출
             login(token)
                 .then((res) => {
