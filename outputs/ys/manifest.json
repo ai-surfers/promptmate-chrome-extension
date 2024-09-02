@@ -16,7 +16,6 @@
     "default_path": "index.html"
   },
   "permissions": [
-    "identity",
     "storage",
     "sidePanel",
     "commands",
@@ -61,12 +60,5 @@
         "mac": "Command+P"
       }
     }
-  },
-  "oauth2": {
-    "scopes": [
-      "https://www.googleapis.com/auth/userinfo.profile",
-      "https://www.googleapis.com/auth/userinfo.email"
-    ],
-    "client_id": "1005663016022-hbhd20hf2f8pqdc15umlg4cvqvjt288e.apps.googleusercontent.com"
   }
 }
