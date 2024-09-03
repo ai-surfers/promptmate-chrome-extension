@@ -6,9 +6,7 @@ import { useModal } from "../../../hooks/useModal";
 import { Header } from "antd/es/layout/layout";
 import Avatar from "antd/es/avatar/avatar";
 import { UserOutlined } from "@ant-design/icons";
-import { useGetUser } from "../../../hooks/queries/auth/useGetUser";
-import { useQueryClient } from "@tanstack/react-query";
-import { USER_KEYS } from "../../../hooks/queries/QueryKeys";
+import { useUser } from "../../../hooks/useUser";
 
 interface HeaderProps {
     title: string;
@@ -19,15 +17,14 @@ export default function CustomHeader({ title, canGoBack }: HeaderProps) {
     const navigate = useNavigate();
     const { openModal, closeModal } = useModal();
 
-    const { data } = useGetUser();
-    const queryClient = useQueryClient();
+    const { userData, resetUserState } = useUser();
 
     function handleOnLogout() {
         openModal({
             title: "로그아웃하시겠습니까? ",
             callback: function logout() {
                 removeFromStorage(ACCESS_TOKEN);
-                queryClient.setQueryData(USER_KEYS, null);
+                resetUserState();
 
                 navigate(`/`, { replace: true });
                 closeModal();
@@ -65,10 +62,10 @@ export default function CustomHeader({ title, canGoBack }: HeaderProps) {
                 <Title>{title}</Title>
             </LeftContainer>
 
-            {data?.data && (
+            {userData.isLogin && (
                 <ImageWrapper onClick={handleOnLogout}>
                     <Avatar size={30} icon={<UserOutlined />} />
-                    <span>{data?.data.nickname}</span>
+                    <span>{userData.user?.nickname}</span>
                 </ImageWrapper>
             )}
         </Header>
