@@ -19,7 +19,7 @@ echo "Building using .env.production"
 ./node_modules/.bin/env-cmd -f promptmate-chrome-extension-envs/.env.production yarn build:prod
 
 # 빌드 결과물 이동
-mv build/* "$OUTPUT_DIR/"
+# mv build/* "$OUTPUT_DIR/"
 
 # 압축 파일 생성
 ZIP_FILE="build-${VERSION}.zip"
