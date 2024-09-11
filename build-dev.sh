@@ -1,6 +1,6 @@
 #!/bin/bash
-# 1) chmod +x build-and-commit.sh
-# 2) ./build-and-commit.sh
+# 1) chmod +x build-dev.sh
+# 2) ./build-dev.sh
 
 # 종료 시점을 설정
 set -e
@@ -16,7 +16,3 @@ echo "Building using .env.development"
 
 # 빌드 결과물 이동
 mv build/* "$OUTPUT_DIR/"
-
-# 변경 사항 커밋
-git add "$OUTPUT_DIR/"
-git commit -m "Add build outputs"
