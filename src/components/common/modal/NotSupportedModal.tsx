@@ -34,9 +34,9 @@ export default function NotSupportedModal({
 
         return (
             <FooterContainer>
-                {/* <Button type="primary" onClick={handleCopy}>
-                    프롬프트 복사
-                </Button> */}
+                <Button type="primary" onClick={() => closeModal()}>
+                    확인
+                </Button>
             </FooterContainer>
         );
     };
@@ -55,28 +55,8 @@ export default function NotSupportedModal({
         >
             <Title>플랫폼 안내</Title>
             <Text>
-                현재 포켓 프롬프트에서 지원되지 않는 플랫폼입니다.
-                <br /> <br />
-                <b>지원 가능한 플랫폼</b>
-                <br />•
-                <Link
-                    onClick={() => handleGoToPlatform("https://chatgpt.com/")}
-                >
-                    ChatGPT
-                </Link>
-                <br />•
-                <Link
-                    onClick={() =>
-                        handleGoToPlatform("https://gemini.google.com/")
-                    }
-                >
-                    Gemini
-                </Link>
-                <br />•
-                <Link onClick={() => handleGoToPlatform("https://claude.ai/")}>
-                    Claude
-                </Link>
-                <br /> <br />
+                원클릭 프롬프트 실행을 위해
+                <br /> ChatGPT로 이동합니다.
             </Text>
         </Modal>
     );
