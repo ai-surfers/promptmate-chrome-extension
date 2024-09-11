@@ -78,9 +78,19 @@ export default function LoginPage() {
     const handleIframeMessage = (event: MessageEvent) => {
         const { data } = event;
 
-        if (data.startsWith("!_{")) return;
+        if (typeof data === "string" && data.startsWith("!_{")) return;
 
-        const jsonData = JSON.parse(data);
+        let jsonData;
+        try {
+            if (typeof data === "string") {
+                jsonData = JSON.parse(data);
+            } else {
+                jsonData = data;
+            }
+        } catch (error) {
+            console.error("Invalid JSON format", error);
+            return;
+        }
 
         console.log("jsonData >> ", jsonData);
 
