@@ -24,6 +24,7 @@ export default function NotSupportedModal({
                 .writeText(prompt)
                 .then(() => {
                     alert("프롬프트가 클립보드에 복사되었습니다.");
+                    closeModal();
                 })
                 .catch((err) => {
                     console.error("클립보드 복사 실패:", err);
@@ -31,21 +32,11 @@ export default function NotSupportedModal({
                 });
         }
 
-        function handleGoToLanding() {
-            openUrlInNewTab(
-                "https://pocket-prompt.notion.site/Pocket-Prompt-23f9b19ea2cb4488a28a22a0fa8599de"
-            );
-            closeModal();
-        }
-
         return (
             <FooterContainer>
-                <Button type="primary" onClick={handleCopy}>
+                {/* <Button type="primary" onClick={handleCopy}>
                     프롬프트 복사
-                </Button>
-                <Button type="primary" onClick={handleGoToLanding}>
-                    지원가능한 플랫폼 확인하기
-                </Button>
+                </Button> */}
             </FooterContainer>
         );
     };
@@ -60,11 +51,11 @@ export default function NotSupportedModal({
             open={isOpen}
             onClose={closeModal}
             onCancel={closeModal}
-            footer={Footer}
+            footer={<Footer />}
         >
             <Title>플랫폼 안내</Title>
             <Text>
-                현재 포켓 프롬프트에서 지원하지 않는 플랫폼입니다.
+                현재 포켓 프롬프트에서 지원되지 않는 플랫폼입니다.
                 <br /> <br />
                 <b>지원 가능한 플랫폼</b>
                 <br />•
@@ -86,7 +77,6 @@ export default function NotSupportedModal({
                     Claude
                 </Link>
                 <br /> <br />
-                프롬프트를 복사하여 지원되는 플랫폼에서 사용하시겠습니까?
             </Text>
         </Modal>
     );
