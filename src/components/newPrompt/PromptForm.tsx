@@ -57,6 +57,12 @@ export default function PromptForm({ onSubmit, initialData }: PromptFormProps) {
         form.setFieldValue("prompt_template", newPrompt);
     }
 
+    function remove(tag: string) {
+        // const regex = new RegExp(`\\[${tag}\\]`, "g");
+        // const newPrompt = prompt.replace(regex, "").trim();
+        // form.setFieldValue("prompt_template", newPrompt);
+    }
+
     function handleHelp() {
         openUrlInNewTab(
             "https://pocket-prompt.notion.site/da477857a0cc44888b06dd23cf6682ff"
@@ -138,7 +144,7 @@ export default function PromptForm({ onSubmit, initialData }: PromptFormProps) {
                 />
             </Form.Item>
 
-            <InputTags tags={inputs} onInsert={insert} />
+            <InputTags tags={inputs} onInsert={insert} onRemove={remove} />
 
             <Button
                 type="primary"

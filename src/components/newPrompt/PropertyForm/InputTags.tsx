@@ -6,9 +6,14 @@ import styled from "styled-components";
 interface InputTagsProps {
     tags: string[];
     onInsert: (tag: string) => void;
+    onRemove: (tag: string) => void;
 }
 
-export default function InputTags({ tags, onInsert }: InputTagsProps) {
+export default function InputTags({
+    tags,
+    onInsert,
+    onRemove,
+}: InputTagsProps) {
     const [inputValue, setInputValue] = useState<string>("");
     const [inputVisible, setInputVisible] = useState<boolean>(false);
     const inputRef = useRef<InputRef>(null);
@@ -58,7 +63,12 @@ export default function InputTags({ tags, onInsert }: InputTagsProps) {
         >
             <TagsContainer>
                 {tags.map((tag, idx) => (
-                    <Tag color={TAG_COLORS[idx % TAG_COLORS.length]} key={tag}>
+                    <Tag
+                        color={TAG_COLORS[idx % TAG_COLORS.length]}
+                        key={tag}
+                        closable
+                        onClose={() => onRemove(tag)}
+                    >
                         {tag}
                     </Tag>
                 ))}
