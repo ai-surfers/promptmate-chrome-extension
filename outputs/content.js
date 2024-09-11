@@ -11,7 +11,7 @@ const buttonContainer = document.createElement("div");
 buttonContainer.id = "float-btn";
 
 const img = document.createElement("img");
-img.src = chrome.runtime.getURL("images/logo.png");
+img.src = chrome.runtime.getURL("images/logo_icon.png");
 buttonContainer.appendChild(img);
 
 const span = document.createElement("span");
