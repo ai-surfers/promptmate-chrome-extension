@@ -1,4 +1,4 @@
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Button, Form, Input, Radio, Select } from "antd";
 import { Categories, InputType, Visibility } from "../../core/Prompt";
 import { useForm } from "antd/es/form/Form";
@@ -25,15 +25,20 @@ export default function PromptForm({ onSubmit, initialData }: PromptFormProps) {
     const [form] = useForm();
 
     const prompt = Form.useWatch("prompt_template", form);
-    const inputs = useMemo(() => {
-        return extractOptions(prompt);
-    }, [prompt]);
+    const [inputs, setInputs] = useState<string[]>([]);
 
     useEffect(() => {
         if (initialData) {
             form.setFieldsValue(initialData);
         }
     }, [initialData, form]);
+
+    useEffect(() => {
+        if (prompt) {
+            const newTags = extractOptions(prompt);
+            setInputs(newTags);
+        }
+    }, [prompt]);
 
     const handleOnFinish = (values: CreatePromptRequest) => {
         const user_input_formats = inputs.map<InputFormat>((ip) => ({
@@ -52,9 +57,13 @@ export default function PromptForm({ onSubmit, initialData }: PromptFormProps) {
         onSubmit(promptData);
     };
 
-    function insert(tag: string) {
+    function insertTag(tag: string) {
         const newPrompt = `${prompt} [${tag}]`;
         form.setFieldValue("prompt_template", newPrompt);
+    }
+
+    function removeTag(tag: string) {
+        setInputs((prevInputs) => prevInputs.filter((input) => input !== tag));
     }
 
     function handleHelp() {
@@ -138,7 +147,11 @@ export default function PromptForm({ onSubmit, initialData }: PromptFormProps) {
                 />
             </Form.Item>
 
-            <InputTags tags={inputs} onInsert={insert} />
+            <InputTags
+                tags={inputs}
+                onInsert={insertTag}
+                onRemove={removeTag}
+            />
 
             <Button
                 type="primary"

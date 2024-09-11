@@ -8,6 +8,7 @@ import Property, { PropertyRef } from "../../components/prompt/Property";
 import {
     getCurrentTabUrl,
     insertPromptToDOMInput,
+    openUrlInNewTab,
 } from "../../service/chrome/utils";
 
 import { Button, Result, Spin } from "antd";
@@ -47,6 +48,7 @@ export default function PromptPage() {
 
             if (!success) {
                 console.error("지원하지 않는 플랫폼입니다.");
+                openUrlInNewTab("https://chatgpt.com/");
                 setShowNotSupportedModal(true);
                 setPrompt(data.full_prompt);
                 return;

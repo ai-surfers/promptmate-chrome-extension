@@ -1,13 +1,13 @@
 import { AIPlatformType } from "./core/Prompt";
 
 /**
- * text에서 {{}}로 묶어진 옵션들을 추출하는 함수
+ * text에서 []로 묶어진 옵션들을 추출하는 함수
  * @param text
- * @returns {{}}로 작성한 옵션들 (중복 X)
+ * @returns []로 작성한 옵션들 (중복 X, \[\]는 무시)
  */
 export function extractOptions(text: string): string[] {
     console.log(">> text", text);
-    const regex = /\[(.*?)\]/g;
+    const regex = /(?<!\\)\[(.*?)]/g;
     let matches;
 
     const options = new Set<string>();
