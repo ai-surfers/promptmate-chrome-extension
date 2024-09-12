@@ -28,6 +28,7 @@ import {
 import { useQueryClient } from "@tanstack/react-query";
 import { PROMPT_KEYS } from "../../hooks/queries/QueryKeys";
 import NotSupportedModal from "../../components/common/modal/NotSupportedModal";
+import ResultPrompt from "../../components/prompt/ResultPrompt";
 
 export default function PromptPage() {
     const { id = "" } = useParams();
@@ -162,9 +163,15 @@ export default function PromptPage() {
                             />
                         ))}
 
+                        {prompt && <ResultPrompt prompt={prompt} />}
+
                         <Button
                             type="primary"
-                            style={{ width: "100%", marginBottom: "30px" }}
+                            style={{
+                                width: "100%",
+                                marginTop: "20px",
+                                marginBottom: "30px",
+                            }}
                             onClick={handleUsePrompt}
                         >
                             사용
@@ -196,7 +203,6 @@ const Title = styled.h2`
 const Description = styled.h2`
     ${({ theme }) => theme.fonts.description};
     color: ${({ theme }) => theme.colors.deep_gray};
-    margin-bottom: 20px;
 `;
 
 const FullWrapper = styled.div`

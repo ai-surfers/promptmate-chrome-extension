@@ -42,3 +42,12 @@ export function getAIPlatformType(url: string) {
     else if (url.includes("gemini.google.com")) return AIPlatformType.GEMINI;
     else return AIPlatformType.NONE; // "Not Supported Platform";
 }
+
+/**
+ * 클립보드에 텍스트 복사하는 함수
+ * @param text
+ * @return Promise 함수
+ */
+export function copyClipboard(text: string) {
+    return navigator.clipboard.writeText(text);
+}
