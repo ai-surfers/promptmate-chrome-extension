@@ -38,6 +38,18 @@ export const insertPromptToDOMInput = (text: string) => {
             textarea.value = value;
             triggetInputEvent(textarea);
             triggerSendButton();
+            return;
+        }
+
+        const contentEditableDivs = document.querySelectorAll(
+            'div[contenteditable="true"]'
+        );
+        if (contentEditableDivs.length > 0) {
+            const editableDiv = contentEditableDivs[0] as HTMLElement;
+            editableDiv.innerText = value;
+            triggetInputEvent(editableDiv);
+            triggerSendButton();
+            return;
         }
     };
 
