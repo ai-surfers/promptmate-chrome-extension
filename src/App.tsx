@@ -19,10 +19,13 @@ function App() {
                     function () {
                         (c[a].q = c[a].q || []).push(arguments);
                     };
+
                 const t = l.createElement(r) as HTMLScriptElement;
-                t.async = true; // Use true instead of 1
-                t.src = "https://www.clarity.ms/tag/YOUR_CLARITY_ID";
+                t.async = true;
+                t.src = `https://www.clarity.ms/tag/${i}`;
+
                 const y = l.getElementsByTagName(r)[0];
+
                 if (y && y.parentNode) {
                     y.parentNode.insertBefore(t, y);
                 }
