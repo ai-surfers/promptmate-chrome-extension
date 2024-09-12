@@ -55,6 +55,7 @@ export default function PromptPage() {
                 return;
             }
 
+            setPrompt(data.full_prompt);
             insertPromptToDOMInput(data.full_prompt);
 
             // 광고 있는 경우, 광고 팝업 노출
@@ -77,6 +78,8 @@ export default function PromptPage() {
     });
 
     async function handleUsePrompt() {
+        setPrompt("");
+
         const propertyValues: Record<string, string> = {};
 
         for (const key in propertyRefs.current) {
