@@ -47,8 +47,11 @@ export const insertPromptToDOMInput = (text: string) => {
         if (contentEditableDivs.length > 0) {
             const editableDiv = contentEditableDivs[0] as HTMLElement;
             editableDiv.innerText = value;
-            triggetInputEvent(editableDiv);
-            triggerSendButton();
+
+            setTimeout(() => {
+                triggerSendButton();
+            }, 100);
+
             return;
         }
     };
