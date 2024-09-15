@@ -24,6 +24,15 @@ buttonContainer.addEventListener("click", () => {
 
 document.body.appendChild(buttonContainer);
 
+// [메시지 수신 Listener]
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    console.log("***Message received", request, sender);
+});
+
+/**
+ * 미사용 코드
+ */
+
 // // 버튼 강조, 해제 함수
 // function emphasizeButton() {
 //     console.log("emphasize!");
@@ -52,8 +61,3 @@ document.body.appendChild(buttonContainer);
 //         }
 //     }
 // }
-
-// [메시지 수신 Listener]
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    console.log("***Message received", request, sender);
-});
