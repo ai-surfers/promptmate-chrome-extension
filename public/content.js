@@ -50,6 +50,7 @@ button.addEventListener(
     (e) => {
         isDragging = true;
         offsetY = button.getBoundingClientRect().bottom - e.clientY;
+        buttonContainer.style.transition = "none";
         console.log("mousedown", offsetY);
     },
     true
@@ -60,6 +61,7 @@ document.addEventListener(
     () => {
         isDragging = false;
         console.log("mouseup");
+        buttonContainer.style.transition = "all 0.3s ease";
 
         if (animationFrameId) {
             cancelAnimationFrame(animationFrameId);
