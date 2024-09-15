@@ -24,6 +24,58 @@ buttonContainer.addEventListener("click", () => {
 
 document.body.appendChild(buttonContainer);
 
+/**
+ * 버튼 드래그 로직
+ */
+
+var offsetY = 0;
+var button = document.getElementById("float-btn");
+var isDragging = false;
+var containerHeight = window.innerHeight;
+
+button.addEventListener(
+    "mousedown",
+    (e) => {
+        isDragging = true;
+        offsetY = button.getBoundingClientRect().bottom - e.clientY;
+        console.log("mousedown", offsetY);
+    },
+    true
+);
+
+document.addEventListener(
+    "mouseup",
+    () => {
+        isDragging = false;
+        console.log("mouseup");
+    },
+    true
+);
+
+document.addEventListener(
+    "mousemove",
+    (e) => {
+        e.preventDefault();
+        if (!isDragging) return;
+
+        var newBottom = containerHeight - e.clientY - offsetY;
+
+        // 바운더리 설정 (최소 10px, 최대 window height - button height)
+        var minBottom = 10;
+        var maxBottom = containerHeight - button.offsetHeight - 10;
+
+        // 바운더리 내에서만 이동
+        newBottom = Math.max(minBottom, Math.min(newBottom, maxBottom));
+
+        // bottom 위치 업데이트
+        button.style.bottom = newBottom + "px";
+    },
+    true
+);
+
+/**
+ * 이벤트 리스너
+ */
 // [메시지 수신 Listener]
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.log("***Message received", request, sender);
