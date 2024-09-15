@@ -37,12 +37,12 @@ var animationFrameId = null;
 function updateButtonPosition(clientY) {
     var newBottom = containerHeight - clientY - offsetY;
 
-    // 바운더리 설정 (최소 10px, 최대 window height - button height)
-    var minBottom = 10;
-    var maxBottom = containerHeight - button.offsetHeight - 10;
+    // 바운더리 설정 (최소 20px, 최대 window height - button height - 20)
+    var minBottom = 20;
+    var maxBottom = containerHeight - button.offsetHeight - 20;
     newBottom = Math.max(minBottom, Math.min(newBottom, maxBottom));
 
-    button.style.bottom = newBottom + "px";
+    button.style.transform = `translateY(${-newBottom}px)`;
 }
 
 button.addEventListener(
