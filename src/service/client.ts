@@ -11,7 +11,7 @@ const getAccessToken = (): Promise<string> => {
             });
         else
             resolve(
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ5dXNpbmtpbS5vckBnbWFpbC5jb20iLCJleHAiOjE3MjYxNDAxNTN9.57ctmfKsz_8MSNF6Zeb16IlGxBKbuF7Fbfk9K7ZebMI"
+                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ5dXNpbmtpbS5vckBnbWFpbC5jb20iLCJleHAiOjE3Mjg5ODU0Mjl9.h7TdGSDO5M7YLYBuIGAIpQFd_sTWPuQ_YY15qPJTgkc"
             );
     });
 };
