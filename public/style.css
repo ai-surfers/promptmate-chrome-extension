@@ -17,6 +17,8 @@
     user-select: none;
     transition: all 0.3s ease;
     margin-right: -35px;
+
+    will-change: transform;
 }
 
 #float-btn > img {
