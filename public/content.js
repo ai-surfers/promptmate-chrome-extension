@@ -32,6 +32,18 @@ var offsetY = 0;
 var button = document.getElementById("float-btn");
 var isDragging = false;
 var containerHeight = window.innerHeight;
+var animationFrameId = null;
+
+function updateButtonPosition(clientY) {
+    var newBottom = containerHeight - clientY - offsetY;
+
+    // 바운더리 설정 (최소 10px, 최대 window height - button height)
+    var minBottom = 10;
+    var maxBottom = containerHeight - button.offsetHeight - 10;
+    newBottom = Math.max(minBottom, Math.min(newBottom, maxBottom));
+
+    button.style.bottom = newBottom + "px";
+}
 
 button.addEventListener(
     "mousedown",
@@ -48,6 +60,11 @@ document.addEventListener(
     () => {
         isDragging = false;
         console.log("mouseup");
+
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+        }
     },
     true
 );
@@ -58,17 +75,15 @@ document.addEventListener(
         e.preventDefault();
         if (!isDragging) return;
 
-        var newBottom = containerHeight - e.clientY - offsetY;
+        // 기존 애니메이션 프레임이 있으면 취소
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+        }
 
-        // 바운더리 설정 (최소 10px, 최대 window height - button height)
-        var minBottom = 10;
-        var maxBottom = containerHeight - button.offsetHeight - 10;
-
-        // 바운더리 내에서만 이동
-        newBottom = Math.max(minBottom, Math.min(newBottom, maxBottom));
-
-        // bottom 위치 업데이트
-        button.style.bottom = newBottom + "px";
+        // requestAnimationFrame으로 화면 업데이트 요청
+        animationFrameId = requestAnimationFrame(() =>
+            updateButtonPosition(e.clientY)
+        );
     },
     true
 );
