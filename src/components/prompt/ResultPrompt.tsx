@@ -21,7 +21,6 @@ export default function ResultPrompt({ prompt }: ResultPromptProps) {
 
     return (
         <Collapse
-            defaultActiveKey={["1"]}
             expandIcon={({ isActive }) => (
                 <CaretRightFilled rotate={isActive ? 90 : 0} />
             )}
