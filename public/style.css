@@ -34,7 +34,7 @@
     color: #7580ea;
 }
 
-#float-btn:hover {
+#float-btn:not(.dragging):hover {
     margin-right: 0;
     background-color: #cedeff;
     transform: scale(1.05);

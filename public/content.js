@@ -19,7 +19,7 @@ span.innerText = "⌘P";
 buttonContainer.appendChild(span);
 
 buttonContainer.addEventListener("click", () => {
-    chrome.runtime.sendMessage({ action: "clickSidePanel" });
+    if (!isDragging) chrome.runtime.sendMessage({ action: "clickSidePanel" });
 });
 
 document.body.appendChild(buttonContainer);
@@ -50,6 +50,7 @@ button.addEventListener(
     (e) => {
         isDragging = true;
         offsetY = button.getBoundingClientRect().bottom - e.clientY;
+        buttonContainer.classList.add("dragging");
         buttonContainer.style.transition = "none";
         console.log("mousedown", offsetY);
     },
@@ -61,6 +62,7 @@ document.addEventListener(
     () => {
         isDragging = false;
         console.log("mouseup");
+        buttonContainer.classList.remove("dragging");
         buttonContainer.style.transition = "all 0.3s ease";
 
         if (animationFrameId) {
