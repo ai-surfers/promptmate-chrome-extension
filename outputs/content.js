@@ -19,10 +19,90 @@ span.innerText = "⌘P";
 buttonContainer.appendChild(span);
 
 buttonContainer.addEventListener("click", () => {
-    chrome.runtime.sendMessage({ action: "clickSidePanel" });
+    if (!isDragging) chrome.runtime.sendMessage({ action: "clickSidePanel" });
 });
 
 document.body.appendChild(buttonContainer);
+
+/**
+ * 버튼 드래그 로직
+ */
+
+var offsetY = 0;
+var button = document.getElementById("float-btn");
+var isDragging = false;
+var containerHeight = window.innerHeight;
+var animationFrameId = null;
+
+function updateButtonPosition(clientY) {
+    var newBottom = containerHeight - clientY - offsetY;
+
+    // 바운더리 설정 (최소 20px, 최대 window height - button height - 20)
+    var minBottom = 20;
+    var maxBottom = containerHeight - button.offsetHeight - 20;
+    newBottom = Math.max(minBottom, Math.min(newBottom, maxBottom));
+
+    button.style.transform = `translateY(${-newBottom}px)`;
+}
+
+button.addEventListener(
+    "mousedown",
+    (e) => {
+        isDragging = true;
+        offsetY = button.getBoundingClientRect().bottom - e.clientY;
+        buttonContainer.classList.add("dragging");
+        buttonContainer.style.transition = "none";
+        console.log("mousedown", offsetY);
+    },
+    true
+);
+
+document.addEventListener(
+    "mouseup",
+    () => {
+        isDragging = false;
+        console.log("mouseup");
+        buttonContainer.classList.remove("dragging");
+        buttonContainer.style.transition = "all 0.3s ease";
+
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+        }
+    },
+    true
+);
+
+document.addEventListener(
+    "mousemove",
+    (e) => {
+        e.preventDefault();
+        if (!isDragging) return;
+
+        // 기존 애니메이션 프레임이 있으면 취소
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+        }
+
+        // requestAnimationFrame으로 화면 업데이트 요청
+        animationFrameId = requestAnimationFrame(() =>
+            updateButtonPosition(e.clientY)
+        );
+    },
+    true
+);
+
+/**
+ * 이벤트 리스너
+ */
+// [메시지 수신 Listener]
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+    console.log("***Message received", request, sender);
+});
+
+/**
+ * 미사용 코드
+ */
 
 // // 버튼 강조, 해제 함수
 // function emphasizeButton() {
@@ -52,8 +132,3 @@ document.body.appendChild(buttonContainer);
 //         }
 //     }
 // }
-
-// [메시지 수신 Listener]
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-    console.log("***Message received", request, sender);
-});
