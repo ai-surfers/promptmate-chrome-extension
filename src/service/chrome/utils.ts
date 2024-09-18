@@ -12,6 +12,7 @@ import { getAIPlatformType } from "../../utils";
 export const insertPromptToDOMInput = (text: string) => {
     // ChatGPT
     const insertValueToChatGPT = (value: string) => {
+        console.log("value is", value);
         const triggerSendButton = () => {
             const sendButton = document.querySelector(
                 '[data-testid="send-button"]'
@@ -32,10 +33,27 @@ export const insertPromptToDOMInput = (text: string) => {
         };
 
         // ChatGPT - <input>
+        const promptTextarea = document.getElementById("prompt-textarea");
+        console.log("Is promptTextarea?", promptTextarea);
+        if (promptTextarea) {
+            const editableDiv = promptTextarea as HTMLElement;
+            editableDiv.innerText = value;
+
+            setTimeout(() => {
+                triggerSendButton();
+            }, 100);
+            return;
+        }
+
         const inputFields = document.querySelectorAll("textarea");
+        console.log("Is inputFields?", inputFields);
         if (inputFields.length > 0) {
             const textarea = inputFields[0] as HTMLTextAreaElement;
             textarea.value = value;
+
+            const inputEvent = new Event("input", { bubbles: true });
+            textarea.dispatchEvent(inputEvent);
+
             triggetInputEvent(textarea);
             triggerSendButton();
             return;
@@ -44,6 +62,7 @@ export const insertPromptToDOMInput = (text: string) => {
         const contentEditableDivs = document.querySelectorAll(
             'div[contenteditable="true"]'
         );
+        console.log("Is div[contenteditable]?", contentEditableDivs);
         if (contentEditableDivs.length > 0) {
             const editableDiv = contentEditableDivs[0] as HTMLElement;
             editableDiv.innerText = value;
