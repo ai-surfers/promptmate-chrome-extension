@@ -33,6 +33,7 @@ export const insertPromptToDOMInput = (text: string) => {
 
         // ChatGPT - <input>
         const inputFields = document.querySelectorAll("textarea");
+        console.log("Is inputFields?", inputFields);
         if (inputFields.length > 0) {
             const textarea = inputFields[0] as HTMLTextAreaElement;
             textarea.value = value;
@@ -44,9 +45,23 @@ export const insertPromptToDOMInput = (text: string) => {
         const contentEditableDivs = document.querySelectorAll(
             'div[contenteditable="true"]'
         );
+        console.log("Is div[contenteditable]?", contentEditableDivs);
         if (contentEditableDivs.length > 0) {
             const editableDiv = contentEditableDivs[0] as HTMLElement;
             editableDiv.innerText = value;
+
+            setTimeout(() => {
+                triggerSendButton();
+            }, 100);
+
+            return;
+        }
+
+        const promptTextarea = document.getElementById("prompt-textarea");
+        console.log("Is promptTextarea?", promptTextarea);
+        if (promptTextarea) {
+            const textarea = promptTextarea as HTMLTextAreaElement;
+            textarea.value = value;
 
             setTimeout(() => {
                 triggerSendButton();
