@@ -34,10 +34,9 @@
     color: #7580ea;
 }
 
-#float-btn:not(.dragging):hover {
+#float-btn:hover {
     margin-right: 0;
     background-color: #cedeff;
-    transform: scale(1.05);
 }
 
 #float-btn.emphasized {
