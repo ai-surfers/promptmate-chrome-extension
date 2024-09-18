@@ -19,6 +19,8 @@ span.innerText = "⌘P";
 buttonContainer.appendChild(span);
 
 buttonContainer.addEventListener("click", () => {
+    hideMenu();
+
     if (!isDragging) {
         chrome.runtime.sendMessage({ action: "clickSidePanel" });
     }
@@ -46,6 +48,7 @@ closeButton.addEventListener("mouseover", (e) => {
 
 closeButton.addEventListener("click", (e) => {
     e.stopPropagation();
+    hideMenu();
     showHideMenu();
 });
 
@@ -54,9 +57,16 @@ document.body.appendChild(buttonContainer);
 /**
  * x 버튼 관련 로직
  */
-function showHideMenu() {
-    const menu = document.createElement("div");
+function hideMenu() {
+    let menu = document.getElementById("hide-menu");
+    if (menu) {
+        menu.remove();
+        return;
+    }
+}
 
+function showHideMenu() {
+    let menu = document.createElement("div");
     menu.id = "hide-menu";
     menu.innerHTML = `
         <ul>
@@ -65,6 +75,11 @@ function showHideMenu() {
             <li id="disable-everywhere">전역적으로 비활성화</li>
         </ul>
     `;
+    const buttonRect = buttonContainer.getBoundingClientRect();
+    menu.style.position = "absolute";
+    menu.style.top = `${buttonRect.bottom + window.scrollY}px`;
+    menu.style.right = `10px`;
+
     document.body.appendChild(menu);
 
     // Add event listeners for each menu option
