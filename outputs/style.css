@@ -19,6 +19,8 @@
     margin-right: -35px;
 
     will-change: transform;
+    user-select: none;
+    -webkit-user-drag: none;
 }
 
 #float-btn > img {
@@ -34,12 +36,77 @@
     color: #7580ea;
 }
 
-#float-btn:not(.dragging):hover {
+#float-btn:hover,
+#float-btn.hover {
     margin-right: 0;
     background-color: #cedeff;
-    transform: scale(1.05);
 }
 
+#float-btn:not(.dragging):hover #close-btn {
+    opacity: 1;
+}
+
+/* Close button styling */
+#close-btn {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+
+    position: absolute;
+    top: -8px;
+    left: 0;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.close-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(51, 51, 51, 0.2);
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+}
+
+.close-icon:hover {
+    background-color: rgba(51, 51, 51, 0.5);
+}
+
+.close-icon svg {
+    fill: #fff;
+    width: 12px;
+    height: 12px;
+}
+
+#hide-menu {
+    position: fixed;
+    bottom: 50px;
+    right: 10px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    z-index: 1001;
+    padding: 10px;
+    font-size: 14px;
+}
+
+#hide-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#hide-menu li {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#hide-menu li:hover {
+    background-color: #f0f0f0;
+}
+
+/* 강조 */
 #float-btn.emphasized {
     animation: emphasize 2s infinite;
 }

@@ -19,10 +19,122 @@ span.innerText = "⌘P";
 buttonContainer.appendChild(span);
 
 buttonContainer.addEventListener("click", () => {
-    if (!isDragging) chrome.runtime.sendMessage({ action: "clickSidePanel" });
+    if (!isDragging) {
+        chrome.runtime.sendMessage({ action: "clickSidePanel" });
+    }
+});
+
+// Close Button 추가
+const closeButton = document.createElement("div");
+closeButton.id = "close-btn";
+closeButton.innerHTML = `
+  <div class="close-icon" style="width: 16px; height: 16px; border-radius: 50%;">
+    <img src="${chrome.runtime.getURL(
+        "images/icon_close.svg"
+    )}" alt="close-icon" style="width: 100%; height: 100%;">
+  </div>
+`;
+buttonContainer.appendChild(closeButton);
+
+closeButton.addEventListener("mouseout", (e) => {
+    buttonContainer.classList.remove("hover");
+});
+
+closeButton.addEventListener("mouseover", (e) => {
+    buttonContainer.classList.add("hover");
+});
+
+closeButton.addEventListener("click", (e) => {
+    e.stopPropagation();
+    showHideMenu();
 });
 
 document.body.appendChild(buttonContainer);
+
+/**
+ * x 버튼 관련 로직
+ */
+function showHideMenu() {
+    const menu = document.createElement("div");
+
+    menu.id = "hide-menu";
+    menu.innerHTML = `
+        <ul>
+            <li id="hide-next-visit">다음 방문 때까지 숨기기</li>
+            <li id="disable-this-site">이 사이트에 대해 비활성화</li>
+            <li id="disable-everywhere">전역적으로 비활성화</li>
+        </ul>
+    `;
+    document.body.appendChild(menu);
+
+    // Add event listeners for each menu option
+    document.getElementById("hide-next-visit").addEventListener("click", () => {
+        chrome.storage.local.set({ hideButtonUntilNextVisit: true });
+        hideButton();
+    });
+
+    document
+        .getElementById("disable-this-site")
+        .addEventListener("click", () => {
+            const currentSite = window.location.hostname;
+            chrome.storage.local.get({ disabledSites: [] }, (result) => {
+                const disabledSites = result.disabledSites || [];
+                disabledSites.push(currentSite);
+                chrome.storage.local.set({ disabledSites });
+                hideButton();
+            });
+        });
+
+    document
+        .getElementById("disable-everywhere")
+        .addEventListener("click", () => {
+            chrome.storage.local.set({ hideButtonGlobally: true });
+            hideButton();
+        });
+
+    // 메뉴 외부 클릭 시 메뉴 닫기
+    document.addEventListener(
+        "click",
+        function closeMenuOnClickOutside(event) {
+            if (
+                !menu.contains(event.target) &&
+                !closeButton.contains(event.target)
+            ) {
+                menu.remove();
+                document.removeEventListener("click", closeMenuOnClickOutside); // 이벤트 리스너 제거
+            }
+        },
+        true
+    );
+}
+
+function hideButton() {
+    buttonContainer.style.display = "none";
+    const menu = document.getElementById("hide-menu");
+    if (menu) menu.remove();
+}
+
+// On page load, check if the button should be hidden
+chrome.storage.local.get(
+    ["hideButtonUntilNextVisit", "disabledSites", "hideButtonGlobally"],
+    (result) => {
+        const { hideButtonUntilNextVisit, disabledSites, hideButtonGlobally } =
+            result;
+        const currentSite = window.location.hostname;
+        console.log("result", result);
+        console.log("currentSite", currentSite);
+
+        if (hideButtonGlobally) {
+            hideButton();
+        } else if (disabledSites && disabledSites.includes(currentSite)) {
+            hideButton();
+        } else if (hideButtonUntilNextVisit) {
+            hideButton();
+            // Reset for the next visit
+            chrome.storage.local.set({ hideButtonUntilNextVisit: false });
+        }
+    }
+);
 
 /**
  * 버튼 드래그 로직
