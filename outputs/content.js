@@ -65,11 +65,6 @@ document.body.appendChild(buttonContainer);
 /**
  * x 버튼 관련 로직
  */
-function hasHideMenu() {
-    let menu = document.getElementById("hide-menu");
-    return menu;
-}
-
 function hideMenu() {
     let menu = document.getElementById("hide-menu");
     if (menu) {
@@ -90,12 +85,27 @@ function showHideMenu() {
             <li id="disable-everywhere">전역적으로 비활성화</li>
         </ul>
     `;
-    const buttonRect = buttonContainer.getBoundingClientRect();
-    menu.style.position = "absolute";
-    menu.style.top = `${buttonRect.bottom + window.scrollY}px`;
-    menu.style.right = `10px`;
-
     document.body.appendChild(menu);
+
+    const buttonRect = buttonContainer.getBoundingClientRect();
+    const menuHeight = menu.offsetHeight;
+    const viewportHeight = window.innerHeight;
+
+    let topPosition = buttonRect.bottom + window.scrollY;
+    let bottomPosition = buttonRect.top + window.scrollY - menuHeight;
+
+    // 메뉴가 화면 아래를 벗어나는지 체크
+    if (topPosition + menuHeight > viewportHeight) {
+        if (bottomPosition < 0) {
+            topPosition = 0;
+        } else {
+            topPosition = bottomPosition;
+        }
+    }
+
+    menu.style.position = "absolute";
+    menu.style.top = `${topPosition}px`;
+    menu.style.right = `10px`;
 
     // Add event listeners for each menu option
     document.getElementById("hide-next-visit").addEventListener("click", () => {
