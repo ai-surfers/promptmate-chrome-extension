@@ -38,6 +38,14 @@ closeButton.innerHTML = `
 `;
 buttonContainer.appendChild(closeButton);
 
+buttonContainer.addEventListener("mouseover", () => {
+    closeButton.style.display = "block";
+});
+
+buttonContainer.addEventListener("mouseout", () => {
+    closeButton.style.display = "none";
+});
+
 closeButton.addEventListener("mouseout", (e) => {
     buttonContainer.classList.remove("hover");
 });
@@ -48,8 +56,8 @@ closeButton.addEventListener("mouseover", (e) => {
 
 closeButton.addEventListener("click", (e) => {
     e.stopPropagation();
-    hideMenu();
-    showHideMenu();
+
+    if (!hideMenu()) showHideMenu();
 });
 
 document.body.appendChild(buttonContainer);
@@ -57,12 +65,19 @@ document.body.appendChild(buttonContainer);
 /**
  * x 버튼 관련 로직
  */
+function hasHideMenu() {
+    let menu = document.getElementById("hide-menu");
+    return menu;
+}
+
 function hideMenu() {
     let menu = document.getElementById("hide-menu");
     if (menu) {
         menu.remove();
-        return;
+        return true;
     }
+
+    return false;
 }
 
 function showHideMenu() {
