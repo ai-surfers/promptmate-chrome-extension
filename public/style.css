@@ -12,21 +12,22 @@
     align-items: center;
     box-shadow: 0 0 8px 4px #00000014;
     pointer-events: all;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
+
     transition: all 0.3s ease;
     margin-right: -35px;
 
     will-change: transform;
-    user-select: none;
-    -webkit-user-drag: none;
 }
 
 #float-btn > img {
     width: 28px;
     height: 28px;
-    transition: all 0.2s;
+
+    user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
 }
 
 #float-btn > span {
