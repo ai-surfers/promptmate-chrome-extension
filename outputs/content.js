@@ -140,10 +140,19 @@ function hideButton() {
 
 // On page load, check if the button should be hidden
 chrome.storage.local.get(
-    ["hideButtonUntilNextVisit", "disabledSites", "hideButtonGlobally"],
+    [
+        "hideButtonUntilNextVisit",
+        "disabledSites",
+        "hideButtonGlobally",
+        "buttonPosition",
+    ],
     (result) => {
-        const { hideButtonUntilNextVisit, disabledSites, hideButtonGlobally } =
-            result;
+        const {
+            hideButtonUntilNextVisit,
+            disabledSites,
+            hideButtonGlobally,
+            buttonPosition,
+        } = result;
         const currentSite = window.location.hostname;
         console.log("result", result);
         console.log("currentSite", currentSite);
@@ -156,6 +165,11 @@ chrome.storage.local.get(
             hideButton();
             // Reset for the next visit
             chrome.storage.local.set({ hideButtonUntilNextVisit: false });
+        }
+
+        // 버튼 위치 복원
+        if (buttonPosition) {
+            buttonContainer.style.transform = `translateY(${buttonPosition}px)`;
         }
     }
 );
@@ -179,6 +193,7 @@ function updateButtonPosition(clientY) {
     newBottom = Math.max(minBottom, Math.min(newBottom, maxBottom));
 
     button.style.transform = `translateY(${-newBottom}px)`;
+    chrome.storage.local.set({ buttonPosition: -newBottom });
 }
 
 button.addEventListener("mouseover", () => {
