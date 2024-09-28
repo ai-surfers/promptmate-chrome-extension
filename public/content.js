@@ -18,14 +18,6 @@ const span = document.createElement("span");
 span.innerText = "⌘P";
 buttonContainer.appendChild(span);
 
-buttonContainer.addEventListener("click", () => {
-    hideMenu();
-
-    if (!isDragging) {
-        chrome.runtime.sendMessage({ action: "clickSidePanel" });
-    }
-});
-
 // Close Button 추가
 const closeButton = document.createElement("div");
 closeButton.id = "close-btn";
@@ -37,14 +29,6 @@ closeButton.innerHTML = `
   </div>
 `;
 buttonContainer.appendChild(closeButton);
-
-buttonContainer.addEventListener("mouseover", () => {
-    closeButton.style.display = "block";
-});
-
-buttonContainer.addEventListener("mouseout", () => {
-    closeButton.style.display = "none";
-});
 
 closeButton.addEventListener("mouseout", (e) => {
     buttonContainer.classList.remove("hover");
@@ -196,6 +180,22 @@ function updateButtonPosition(clientY) {
 
     button.style.transform = `translateY(${-newBottom}px)`;
 }
+
+button.addEventListener("mouseover", () => {
+    closeButton.style.display = "block";
+});
+
+button.addEventListener("mouseout", () => {
+    closeButton.style.display = "none";
+});
+
+button.addEventListener("click", () => {
+    hideMenu();
+
+    if (!isDragging) {
+        chrome.runtime.sendMessage({ action: "clickSidePanel" });
+    }
+});
 
 button.addEventListener(
     "mousedown",
