@@ -5,7 +5,10 @@ let panelOpen = false;
 chrome.runtime.onInstalled.addListener(() => {
     console.log("Extension Installed");
 
-    chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true });
+    chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: false });
+
+    // 팝업 기본값 설정
+    chrome.action.setPopup({ popup: "popup.html" });
 });
 
 // [메시지 수신 Listener]
@@ -25,14 +28,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 // [툴바 아이콘 클릭 Listener]
-chrome.action.onClicked.addListener((tab) => {
-    const tabId = tab.id;
-    const windowId = tab.windowId;
+// chrome.action.onClicked.addListener((tab) => {
+//     const tabId = tab.id;
+//     const windowId = tab.windowId;
 
-    openSidePanel(tabId, windowId);
-    // 사이드바 클릭 버튼으로 닫을 시, close 되나 이를 확인할 수 있는 이벤트 리스너 함수 제공 X
-    // 따라서, 간혹 버튼을 눌렀지만 바로 열리지 않는 경우가 있을 수 있다
-});
+//     openSidePanel(tabId, windowId);
+//     // 사이드바 클릭 버튼으로 닫을 시, close 되나 이를 확인할 수 있는 이벤트 리스너 함수 제공 X
+//     // 따라서, 간혹 버튼을 눌렀지만 바로 열리지 않는 경우가 있을 수 있다
+// });
 
 // [탭 활성화 Listener]
 chrome.tabs.onActivated.addListener((activeInfo) => {
