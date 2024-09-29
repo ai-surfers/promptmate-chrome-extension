@@ -12,9 +12,7 @@
     align-items: center;
     box-shadow: 0 0 8px 4px #00000014;
     pointer-events: all;
-    -webkit-user-select: none;
-    -moz-user-select: none;
-    user-select: none;
+
     transition: all 0.3s ease;
     margin-right: -35px;
 
@@ -24,7 +22,12 @@
 #float-btn > img {
     width: 28px;
     height: 28px;
-    transition: all 0.2s;
+
+    user-select: none;
+    -webkit-user-drag: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
 }
 
 #float-btn > span {
@@ -34,11 +37,74 @@
     color: #7580ea;
 }
 
-#float-btn:hover {
+#float-btn:hover,
+#float-btn.hover {
     margin-right: 0;
     background-color: #cedeff;
 }
 
+/* Close button styling */
+#close-btn {
+    display: none;
+    transition: all 0.3s ease-in-out;
+
+    position: absolute;
+    top: -8px;
+    left: 0;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.close-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(51, 51, 51, 0.2);
+    border-radius: 50%;
+    width: 16px;
+    height: 16px;
+}
+
+.close-icon:hover {
+    background-color: rgba(51, 51, 51, 0.5);
+}
+
+.close-icon svg {
+    fill: #fff;
+    width: 12px;
+    height: 12px;
+}
+
+#hide-menu {
+    position: fixed;
+    min-width: fit-content;
+    padding: 10px;
+    height: fit-content;
+    border-radius: 15px;
+
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1001;
+    font-size: 14px;
+}
+
+#hide-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#hide-menu li {
+    padding: 10px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#hide-menu li:hover {
+    background-color: #f0f0f0;
+}
+
+/* 강조 */
 #float-btn.emphasized {
     animation: emphasize 2s infinite;
 }
