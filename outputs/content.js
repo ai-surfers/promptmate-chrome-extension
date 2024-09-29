@@ -196,13 +196,13 @@ function updateButtonPosition(clientY) {
     chrome.storage.local.set({ buttonPosition: -newBottom });
 }
 
-button.addEventListener("mouseover", () => {
-    closeButton.style.display = "block";
-});
+// button.addEventListener("mouseover", () => {
+//     closeButton.style.display = "block";
+// });
 
-button.addEventListener("mouseout", () => {
-    closeButton.style.display = "none";
-});
+// button.addEventListener("mouseout", () => {
+//     closeButton.style.display = "none";
+// });
 
 button.addEventListener("click", () => {
     hideMenu();

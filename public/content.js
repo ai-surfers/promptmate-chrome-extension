@@ -196,13 +196,14 @@ function updateButtonPosition(clientY) {
     chrome.storage.local.set({ buttonPosition: -newBottom });
 }
 
-button.addEventListener("mouseover", () => {
-    closeButton.style.display = "block";
-});
+// 240929 close 버튼 숨김
+// button.addEventListener("mouseover", () => {
+//     closeButton.style.display = "block";
+// });
 
-button.addEventListener("mouseout", () => {
-    closeButton.style.display = "none";
-});
+// button.addEventListener("mouseout", () => {
+//     closeButton.style.display = "none";
+// });
 
 button.addEventListener("click", () => {
     hideMenu();
