@@ -196,6 +196,7 @@ function updateButtonPosition(clientY) {
     chrome.storage.local.set({ buttonPosition: -newBottom });
 }
 
+// 240929 close 버튼 숨김
 // button.addEventListener("mouseover", () => {
 //     closeButton.style.display = "block";
 // });
