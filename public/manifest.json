@@ -10,8 +10,7 @@
         "128": "images/logo.png"
     },
     "action": {
-        "default_title": "FAB Control",
-        "default_popup": "popup.html"
+        "default_title": "Click to open panel"
     },
     "side_panel": {
         "default_path": "index.html"

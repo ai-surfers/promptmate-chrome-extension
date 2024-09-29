@@ -265,17 +265,6 @@ document.addEventListener(
 // [메시지 수신 Listener]
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     console.log("***Message received", request, sender);
-
-    if (request.action === "resetFAB") {
-        buttonContainer.style.display = "block"; // 버튼을 다시 보이도록 설정
-        buttonContainer.style.transform = `translateY(0px)`; // 버튼 위치를 초기화
-
-        buttonContainer.style.display = "flex";
-        buttonContainer.style.justifyContent = "center";
-        buttonContainer.style.alignItems = "center";
-
-        console.log("FAB has been reset to the default position and state.");
-    }
 });
 
 /**
