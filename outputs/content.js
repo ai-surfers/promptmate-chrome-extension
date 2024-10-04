@@ -170,7 +170,6 @@ chrome.storage.local.get(
         // 버튼 위치 복원
         if (buttonClientY) {
             updateButtonPosition(buttonClientY);
-            // buttonContainer.style.transform = `translateY(${buttonPosition}px)`;
         }
     }
 );
@@ -194,7 +193,6 @@ function updateButtonPosition(clientY) {
     newBottom = Math.max(minBottom, Math.min(newBottom, maxBottom));
 
     button.style.transform = `translateY(${-newBottom}px)`;
-    // chrome.storage.local.set({ buttonPosition: -newBottom });
     chrome.storage.local.set({ buttonClientY: clientY });
 }
 

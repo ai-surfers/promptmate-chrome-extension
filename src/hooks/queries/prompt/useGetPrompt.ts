@@ -14,6 +14,7 @@ export interface GetPromptResponse extends CreatePromptRequest {
     author_nickname: string;
     star: number;
     usages: number;
+    views: number;
     is_starred_by_user: boolean;
     created_at: string;
     user_input_format: InputFormat[];
