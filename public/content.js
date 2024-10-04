@@ -144,14 +144,14 @@ chrome.storage.local.get(
         "hideButtonUntilNextVisit",
         "disabledSites",
         "hideButtonGlobally",
-        "buttonPosition",
+        "buttonClientY",
     ],
     (result) => {
         const {
             hideButtonUntilNextVisit,
             disabledSites,
             hideButtonGlobally,
-            buttonPosition,
+            buttonClientY,
         } = result;
         const currentSite = window.location.hostname;
         console.log("result", result);
@@ -168,8 +168,8 @@ chrome.storage.local.get(
         }
 
         // 버튼 위치 복원
-        if (buttonPosition) {
-            buttonContainer.style.transform = `translateY(${buttonPosition}px)`;
+        if (buttonClientY) {
+            updateButtonPosition(buttonClientY);
         }
     }
 );
@@ -193,7 +193,7 @@ function updateButtonPosition(clientY) {
     newBottom = Math.max(minBottom, Math.min(newBottom, maxBottom));
 
     button.style.transform = `translateY(${-newBottom}px)`;
-    chrome.storage.local.set({ buttonPosition: -newBottom });
+    chrome.storage.local.set({ buttonClientY: clientY });
 }
 
 // 240929 close 버튼 숨김
