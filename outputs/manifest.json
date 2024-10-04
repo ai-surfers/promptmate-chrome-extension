@@ -39,7 +39,7 @@
     ],
     "web_accessible_resources": [
         {
-            "resources": ["images/*", "style.css"],
+            "resources": ["images/*"],
             "matches": ["<all_urls>"]
         }
     ],

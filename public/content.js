@@ -9,7 +9,6 @@ document.head.appendChild(link);
 // Floating Button 추가
 const buttonContainer = document.createElement("div");
 buttonContainer.id = "float-btn";
-buttonContainer.draggable = true;
 
 const img = document.createElement("img");
 img.src = chrome.runtime.getURL("images/logo_icon.png");
@@ -214,93 +213,52 @@ button.addEventListener("click", () => {
     }
 });
 
-document.addEventListener("drag", (e) => {
-    console.log("dragging");
-    e.preventDefault();
-    if (!isDragging) return;
+button.addEventListener(
+    "mousedown",
+    (e) => {
+        isDragging = true;
+        offsetY = button.getBoundingClientRect().bottom - e.clientY;
+        buttonContainer.classList.add("dragging");
+        buttonContainer.style.transition = "none";
+        console.log("mousedown", offsetY);
+    },
+    true
+);
 
-    // 기존 애니메이션 프레임이 있으면 취소
-    if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-    }
+document.addEventListener(
+    "mouseup",
+    () => {
+        isDragging = false;
+        console.log("mouseup");
+        buttonContainer.classList.remove("dragging");
+        buttonContainer.style.transition = "all 0.3s ease";
 
-    // requestAnimationFrame으로 화면 업데이트 요청
-    animationFrameId = requestAnimationFrame(() =>
-        updateButtonPosition(e.clientY)
-    );
-});
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+        }
+    },
+    true
+);
 
-document.addEventListener("dragstart", (e) => {
-    console.log("dragstart");
+document.addEventListener(
+    "mousemove",
+    (e) => {
+        e.preventDefault();
+        if (!isDragging) return;
 
-    e.dataTransfer.setDragImage(new Image(), 0, 0);
-    e.dataTransfer.effectAllowed = "move";
-    e.dataTransfer.dropEffect = "move";
+        // 기존 애니메이션 프레임이 있으면 취소
+        if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+        }
 
-    isDragging = true;
-    offsetY = button.getBoundingClientRect().bottom - e.clientY;
-    buttonContainer.classList.add("dragging");
-    buttonContainer.style.transition = "none";
-});
-
-document.addEventListener("dragend", (e) => {
-    console.log("dragend");
-    isDragging = false;
-    buttonContainer.classList.remove("dragging");
-    buttonContainer.style.transition = "all 0.3s ease";
-
-    if (animationFrameId) {
-        cancelAnimationFrame(animationFrameId);
-        animationFrameId = null;
-    }
-});
-
-// button.addEventListener(
-//     "mousedown",
-//     (e) => {
-//         isDragging = true;
-//         offsetY = button.getBoundingClientRect().bottom - e.clientY;
-//         buttonContainer.classList.add("dragging");
-//         buttonContainer.style.transition = "none";
-//         console.log("mousedown", offsetY);
-//     },
-//     true
-// );
-
-// document.addEventListener(
-//     "mouseup",
-//     () => {
-//         isDragging = false;
-//         console.log("mouseup");
-//         buttonContainer.classList.remove("dragging");
-//         buttonContainer.style.transition = "all 0.3s ease";
-
-//         if (animationFrameId) {
-//             cancelAnimationFrame(animationFrameId);
-//             animationFrameId = null;
-//         }
-//     },
-//     true
-// );
-
-// document.addEventListener(
-//     "mousemove",
-//     (e) => {
-//         e.preventDefault();
-//         if (!isDragging) return;
-
-//         // 기존 애니메이션 프레임이 있으면 취소
-//         if (animationFrameId) {
-//             cancelAnimationFrame(animationFrameId);
-//         }
-
-//         // requestAnimationFrame으로 화면 업데이트 요청
-//         animationFrameId = requestAnimationFrame(() =>
-//             updateButtonPosition(e.clientY)
-//         );
-//     },
-//     true
-// );
+        // requestAnimationFrame으로 화면 업데이트 요청
+        animationFrameId = requestAnimationFrame(() =>
+            updateButtonPosition(e.clientY)
+        );
+    },
+    true
+);
 
 /**
  * 이벤트 리스너
