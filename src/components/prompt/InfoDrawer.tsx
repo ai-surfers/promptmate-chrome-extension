@@ -26,6 +26,10 @@ export default function InfoDrawer({ isOpen, onClose, info }: InfoDrawerProps) {
                         .join(", ")}
                 </Descriptions.Item>
 
+                <Descriptions.Item label="조회수">
+                    {info?.views}
+                </Descriptions.Item>
+
                 <Descriptions.Item label="사용된 횟수">
                     {info?.usages}
                 </Descriptions.Item>
