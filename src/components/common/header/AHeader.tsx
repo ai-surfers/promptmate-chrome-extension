@@ -7,6 +7,7 @@ import { Header } from "antd/es/layout/layout";
 import Avatar from "antd/es/avatar/avatar";
 import { UserOutlined } from "@ant-design/icons";
 import { useUser } from "../../../hooks/useUser";
+import { sendGAEvent } from "../../../utils/ga";
 
 interface HeaderProps {
     title: string;
@@ -20,6 +21,8 @@ export default function CustomHeader({ title, canGoBack }: HeaderProps) {
     const { userData, resetUserState } = useUser();
 
     function handleOnLogout() {
+        sendGAEvent("click_logout");
+
         openModal({
             title: "로그아웃하시겠습니까? ",
             callback: function logout() {
