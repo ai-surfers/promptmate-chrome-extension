@@ -43,6 +43,9 @@
             "matches": ["<all_urls>"]
         }
     ],
+    "content_security_policy": {
+        "script-src": "self"
+    },
     "commands": {
         "_execute_action": {
             "suggested_key": {
