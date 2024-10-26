@@ -4,6 +4,8 @@
 
 import { AIPlatformType } from "../../core/Prompt";
 import { getAIPlatformType } from "../../utils";
+import { getFromStorage } from "./storage";
+import { ACCESS_TOKEN } from "./storage.keys";
 
 /**
  * DOM의 첫번째 인풋에 텍스트 inject & send
@@ -146,4 +148,18 @@ export const getCurrentTabUrl = (callback: (url: string) => void) => {
  */
 export const openUrlInNewTab = (url: string) => {
     chrome.tabs.create({ url });
+};
+
+/**
+ * 포켓 프롬프트 웹버전 열기
+ * @param path
+ */
+export type PocketPromptPathType = "prompt-new" | "my";
+export const openPocketPromptInNewTab = (path: PocketPromptPathType) => {
+    getFromStorage(ACCESS_TOKEN, (value) => {
+        // [TODO] 실제 웹버전 baseURL로 변경
+        const baseUrl = "https://80e764c7.pocket-prompt-frontend.pages.dev";
+        const url = `${baseUrl}/${path}?token=${value}`;
+        chrome.tabs.create({ url });
+    });
 };
