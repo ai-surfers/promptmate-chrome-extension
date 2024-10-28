@@ -1,4 +1,3 @@
-import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { Button, FloatButton, Tabs } from "antd";
 import { TabList } from "../../core/Tab";
@@ -6,9 +5,9 @@ import List from "../../components/main/List";
 import { CustomerServiceOutlined } from "@ant-design/icons";
 import VOCModal from "../../components/common/modal/VOCModal";
 import { useState } from "react";
+import { openPocketPromptInNewTab } from "../../service/chrome/utils";
 
 export default function HomePage() {
-    const navigate = useNavigate();
     const [showVOC, setShowVOC] = useState(false);
 
     const [tab, setTab] = useState(Object.keys(TabList)[0]);
@@ -20,8 +19,12 @@ export default function HomePage() {
         <List type="my" />,
     ];
 
+    const handleNewPrompt = () => {
+        openPocketPromptInNewTab("prompt-new");
+    };
+
     const operation = (
-        <Button type="primary" onClick={() => navigate("/new-prompt")}>
+        <Button type="primary" onClick={handleNewPrompt}>
             +
         </Button>
     );

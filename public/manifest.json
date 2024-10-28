@@ -1,57 +1,57 @@
 {
-    "manifest_version": 3,
-    "version": "1.0.16",
-    "short_name": "Pocket Prompt",
-    "name": "Pocket Prompt",
-    "icons": {
-        "16": "images/logo.png",
-        "32": "images/logo.png",
-        "48": "images/logo.png",
-        "128": "images/logo.png"
-    },
-    "action": {
-        "default_title": "Click to open panel"
-    },
-    "side_panel": {
-        "default_path": "index.html"
-    },
-    "permissions": [
-        "storage",
-        "sidePanel",
-        "commands",
-        "scripting",
-        "webNavigation"
-    ],
-    "host_permissions": [
-        "https://chatgpt.com/*",
-        "https://claude.ai/*",
-        "https://gemini.google.com/*"
-    ],
-    "background": {
-        "service_worker": "background.js"
-    },
-    "content_scripts": [
-        {
-            "matches": ["<all_urls>"],
-            "css": ["style.css"],
-            "js": ["content.js"]
-        }
-    ],
-    "web_accessible_resources": [
-        {
-            "resources": ["images/*"],
-            "matches": ["<all_urls>"]
-        }
-    ],
-    "content_security_policy": {
-        "script-src": "self"
-    },
-    "commands": {
-        "_execute_action": {
-            "suggested_key": {
-                "default": "Ctrl+P",
-                "mac": "Command+P"
-            }
-        }
+  "manifest_version": 3,
+  "version": "1.0.17",
+  "short_name": "Pocket Prompt",
+  "name": "Pocket Prompt",
+  "icons": {
+    "16": "images/logo.png",
+    "32": "images/logo.png",
+    "48": "images/logo.png",
+    "128": "images/logo.png"
+  },
+  "action": {
+    "default_title": "Click to open panel"
+  },
+  "side_panel": {
+    "default_path": "index.html"
+  },
+  "permissions": [
+    "storage",
+    "sidePanel",
+    "commands",
+    "scripting",
+    "webNavigation"
+  ],
+  "host_permissions": [
+    "https://chatgpt.com/*",
+    "https://claude.ai/*",
+    "https://gemini.google.com/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "css": ["style.css"],
+      "js": ["content.js"]
     }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["images/*"],
+      "matches": ["<all_urls>"]
+    }
+  ],
+  "content_security_policy": {
+    "script-src": "self"
+  },
+  "commands": {
+    "_execute_action": {
+      "suggested_key": {
+        "default": "Ctrl+P",
+        "mac": "Command+P"
+      }
+    }
+  }
 }
