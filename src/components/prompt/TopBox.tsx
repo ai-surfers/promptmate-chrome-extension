@@ -2,8 +2,8 @@ import styled from "styled-components";
 import { EditOutlined, InfoOutlined } from "@ant-design/icons";
 import { Button, Tooltip } from "antd";
 import StarButton from "../common/button/StarButton";
-import { useNavigate } from "react-router-dom";
-// import { useGetUser } from "../../hooks/queries/auth/useGetUser";
+import { useGetUser } from "../../hooks/queries/auth/useGetUser";
+import { openPocketPromptInNewTab } from "../../service/chrome/utils";
 
 interface TopBoxProps {
     id: string;
@@ -18,13 +18,13 @@ export default function TopBox({
     author,
     onInformationClick,
 }: TopBoxProps) {
-    // const { data } = useGetUser();
+    const { data } = useGetUser();
 
     return (
         <InfoBoxWrapper>
             <StarButton id={id} isFavorite={isFavorite} />
             <InfoButton onInformationClick={onInformationClick} />
-            {/* {author === data?.data.nickname && <ModifyButton id={id} />} */}
+            {author === data?.data.nickname && <ModifyButton id={id} />}
         </InfoBoxWrapper>
     );
 }
@@ -55,10 +55,8 @@ interface ModifyButtonProps {
     id: string;
 }
 export const ModifyButton = ({ id }: ModifyButtonProps) => {
-    const navigate = useNavigate();
-
     function handleOnModify() {
-        navigate(`/prompt/${id}/modify`);
+        openPocketPromptInNewTab(`prompt-edit/${id}`);
     }
 
     return (
