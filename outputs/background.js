@@ -5,6 +5,7 @@ let panelOpen = false;
 chrome.runtime.onInstalled.addListener(() => {
     console.log("Extension Installed");
 
+    chrome.runtime.setUninstallURL("https://tally.so/r/w2bbGe");
     chrome.sidePanel.setPanelBehavior({ openPanelOnActionClick: true });
 });
 
