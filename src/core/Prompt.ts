@@ -40,5 +40,5 @@ export const SortBy = {
     star: "즐겨찾기 순",
     created_at: "최신 순",
     usages: "사용 많은 순",
-    // relevance: "",
+    relevance: "관련도 순",
 };
