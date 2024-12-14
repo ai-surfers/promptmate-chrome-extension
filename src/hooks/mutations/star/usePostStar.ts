@@ -9,7 +9,11 @@ interface AddStarResponse {
  *  즐겨찾기 등록하기
  */
 export const addStar = async (prompt_id: string) => {
-    const { data } = await POST<AddStarResponse>(`/prompts/${prompt_id}/star`);
+    const { data } = await POST<AddStarResponse>(
+        `/prompts/${prompt_id}/star`,
+        {},
+        { headers: { utm_campaign: "prompt_start_limit" } }
+    );
     return data;
 };
 

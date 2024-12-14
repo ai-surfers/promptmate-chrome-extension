@@ -36,6 +36,7 @@ function handleAxiosError(error: any) {
         const args: ErrorArgs = {
             code: errorCode,
             message: errorMessage,
+            headers: error.config?.headers,
         };
 
         eventEmitter.emit(EventType.Error, args);
