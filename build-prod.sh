@@ -10,13 +10,13 @@ VERSION=$(node -p "require('./public/manifest.json').version")
 echo "Version: $VERSION"
 
 # 출력 디렉토리 생성
-OUTPUT_DIR="build"
+OUTPUT_DIR="dist"
 rm -rf "$OUTPUT_DIR"
 mkdir -p "$OUTPUT_DIR"
 
 # 빌드 수행
 echo "Building using .env.production"
-./node_modules/.bin/env-cmd -f promptmate-chrome-extension-envs/.env.production yarn build:prod
+yarn build:prod
 
 # 빌드 결과물 이동
 # mv build/* "$OUTPUT_DIR/"
