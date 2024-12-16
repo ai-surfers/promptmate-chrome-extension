@@ -4,7 +4,7 @@ import { ACCESS_TOKEN } from "./chrome/storage.keys";
 
 const getAccessToken = (): Promise<string> => {
     return new Promise((resolve) => {
-        if (process.env.NODE_ENV === "production")
+        if (import.meta.env.NODE_ENV === "production")
             getFromStorage(ACCESS_TOKEN, (token) => {
                 console.log(">>", token);
                 resolve(token ? token : "");
@@ -16,7 +16,7 @@ const getAccessToken = (): Promise<string> => {
     });
 };
 
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API = axios.create({
     baseURL: BASE_URL,
 });

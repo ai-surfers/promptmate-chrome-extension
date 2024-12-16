@@ -10,7 +10,7 @@ import TutorialPage from "../pages/tutorial/TutorialPage";
 // import TutorialPromptPage from "../pages/tutorial/TutorialPromptPage";
 
 const createRouter =
-    process.env.NODE_ENV === "production"
+    import.meta.env.NODE_ENV === "production"
         ? createMemoryRouter
         : createBrowserRouter;
 
