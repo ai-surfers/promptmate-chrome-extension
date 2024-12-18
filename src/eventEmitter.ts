@@ -1,6 +1,6 @@
 // eventEmitter.ts
 import { AxiosRequestHeaders } from "axios";
-import { EventEmitter } from "events";
+import EventEmitter from "eventemitter3";
 
 export const enum EventType {
     Error = "error",

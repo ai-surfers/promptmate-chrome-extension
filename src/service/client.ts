@@ -4,19 +4,14 @@ import { ACCESS_TOKEN } from "./chrome/storage.keys";
 
 const getAccessToken = (): Promise<string> => {
     return new Promise((resolve) => {
-        if (process.env.NODE_ENV === "production")
-            getFromStorage(ACCESS_TOKEN, (token) => {
-                console.log(">>", token);
-                resolve(token ? token : "");
-            });
-        else
-            resolve(
-                "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJ5dXNpbmtpbS5vckBnbWFpbC5jb20iLCJleHAiOjE3Mjg5ODU0Mjl9.h7TdGSDO5M7YLYBuIGAIpQFd_sTWPuQ_YY15qPJTgkc"
-            );
+        getFromStorage(ACCESS_TOKEN, (token) => {
+            console.log(">>", token);
+            resolve(token ? token : "");
+        });
     });
 };
 
-const BASE_URL = process.env.REACT_APP_BASE_URL;
+const BASE_URL = import.meta.env.VITE_BASE_URL;
 const API = axios.create({
     baseURL: BASE_URL,
 });

@@ -10,6 +10,7 @@ import { ACCESS_TOKEN, ONBOARING } from "../../service/chrome/storage.keys";
 import { useAlert } from "../../hooks/useAlert";
 import { useEffect } from "react";
 import { useUser } from "../../hooks/useUser";
+import CustomHeader from "@/components/common/header/AHeader";
 
 export default function LoginPage() {
     const navigate = useNavigate();
@@ -70,6 +71,9 @@ export default function LoginPage() {
                 navigate("/home");
             })
             .catch((error) => {
+                removeFromStorage(ACCESS_TOKEN);
+                resetUserState();
+
                 handleError(`[${error.code}] ${error.message}`);
             });
     };
@@ -115,6 +119,7 @@ export default function LoginPage() {
                     }
 
                     // 성공 시, 스토리지에 저장 & 유저 조회 후 로그인 화면으로 이동
+                    console.log("!저장", data.access_token);
                     setToStorage(ACCESS_TOKEN, data.access_token, () => {
                         openAlert({
                             content: detail,
@@ -151,6 +156,7 @@ export default function LoginPage() {
 
     return (
         <LoginPageContainer>
+            <CustomHeader title="Pocket Prompt" />
             <IframeContainer>
                 <iframe
                     src="https://prompt-mate-d3b25.web.app"
@@ -166,9 +172,17 @@ export default function LoginPage() {
 }
 
 const LoginPageContainer = styled.section`
-    width: 100%;
-    min-height: 100%;
-    padding: 40px;
+    max-width: 452px;
+
+    width: 100vw;
+    height: 100vh;
+
+    background: #fff;
+
+    margin: 0 auto;
+    overflow: scroll;
+
+    position: relative;
 
     ${({ theme }) => theme.mixins.flexBox("column", "center", "center")};
 `;

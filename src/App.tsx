@@ -8,10 +8,10 @@ import { queryClient } from "./service/queryClient";
 import { useEffect } from "react";
 import { initializeGA } from "./utils/ga";
 
-const TRACKING_ID = process.env.REACT_APP_GA_MEASUREMENT_ID;
+const TRACKING_ID = import.meta.env.VITE_GA_MEASUREMENT_ID;
 
 function App() {
-    console.log(process.env.REACT_APP_MODE);
+    console.log(`🍀 ENVIRONMENT: ${import.meta.env.VITE_MODE}`);
 
     useEffect(() => {
         TRACKING_ID && initializeGA(TRACKING_ID);

@@ -156,7 +156,7 @@ export const openUrlInNewTab = (url: string) => {
  */
 export const openPocketPromptInNewTab = (path: string) => {
     getFromStorage(ACCESS_TOKEN, (value) => {
-        const baseUrl = process.env.REACT_APP_WEB_URL;
+        const baseUrl = import.meta.env.VITE_WEB_URL;
         const url = `${baseUrl}/${path}?token=${value}`;
         chrome.tabs.create({ url });
     });
