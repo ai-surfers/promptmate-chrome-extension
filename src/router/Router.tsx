@@ -9,20 +9,15 @@ import ModifyPromptPage from "../pages/modifyPrompt/ModifyPromptPage";
 import TutorialPage from "../pages/tutorial/TutorialPage";
 // import TutorialPromptPage from "../pages/tutorial/TutorialPromptPage";
 
-const createRouter =
-    import.meta.env.NODE_ENV === "production"
-        ? createMemoryRouter
-        : createBrowserRouter;
-
-const router = createRouter([
+const routes = [
+    {
+        path: "/",
+        element: <LoginPage />,
+    },
     {
         path: "/",
         element: <HeaderLayout />,
         children: [
-            {
-                path: "/",
-                element: <LoginPage />,
-            },
             {
                 path: "/home",
                 element: <HomePage />,
@@ -51,6 +46,17 @@ const router = createRouter([
             },
         ],
     },
-]);
+    {
+        path: "/*",
+        element: <LoginPage />,
+    },
+];
+
+const createRouter =
+    import.meta.env.NODE_ENV === "production"
+        ? () => createMemoryRouter(routes, {})
+        : () => createBrowserRouter(routes);
+
+const router = createRouter();
 
 export default router;
