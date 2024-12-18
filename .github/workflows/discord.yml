@@ -38,12 +38,25 @@ jobs:
                   echo "Zip link: $ZIP_LINK"
                   echo "ZIP_LINK=$ZIP_LINK" >> $GITHUB_ENV
 
-            # 5. Discord 알림 전송
-            - name: Send Discord notification
+            # 5. Discord 알림 전송 (open 시)
+            - name: Send Discord notification for PR opened
+              if: github.event.action == 'opened'
               run: |
-                  echo "**[Pocket Prompt Extension]**\n- PR : ${{ github.event.pull_request.html_url }}\n- Build file : ${ZIP_LINK}"
-                  #   curl -X POST -H 'Content-type:application/json' \
-                  #   -d '{
-                  #       "content": "**[Pocket Prompt Extension]**\n- PR : ${{ github.event.pull_request.html_url }}\n- Build file : ${ZIP_LINK}"
-                  #   }' \
-                  #   ${{ secrets.DISCORD_WEBHOOK_URL }}
+                  PR_TITLE="${{ github.event.pull_request.title }}"
+                  PR_LINK="${{ github.event.pull_request.html_url }}"
+                  curl -X POST -H 'Content-type:application/json' \
+                  -d "{
+                      \"content\": \"**[Pocket Prompt Extension]** - ${PR_TITLE} \n- PR Link : ${PR_LINK}\n- Zip file : ${ZIP_LINK}\"
+                  }" \
+                  ${{ secrets.DISCORD_WEBHOOK_URL }}
+
+            # 6. Discord 알림 전송 (synchronized 시)
+            - name: Send Discord notification for PR synchronized
+              if: github.event.action == 'synchronize'
+              run: |
+                  PR_TITLE="${{ github.event.pull_request.title }}"
+                  curl -X POST -H 'Content-type:application/json' \
+                  -d "{
+                      \"content\": \"**[Pocket Prompt Extension]** - ${PR_TITLE} 🔄 \n- Zip file : ${ZIP_LINK}\"
+                  }" \
+                  ${{ secrets.DISCORD_WEBHOOK_URL }}
