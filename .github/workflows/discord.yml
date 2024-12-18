@@ -1,0 +1,46 @@
+# 개발 후, 테스트 링크 전달
+# 현재 브랜치의 develop, production.zip을 전달
+name: Discord Notification
+
+on:
+    pull_request:
+        types: [opened, synchronize]
+        branches: [main]
+    workflow_dispatch:
+
+jobs:
+    notify-discord:
+        runs-on: ubuntu-latest
+        steps:
+            # 1. 저장소 클론
+            - name: Checkout code
+              uses: actions/checkout@v3
+
+            # 2. Node.js 설치
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: "20"
+
+            # 3. manifest.json에서 version 읽기
+            - name: Extract version from manifest.json
+              id: get_version
+              run: |
+                  VERSION=$(node -p "require('./public/manifest.json').version")
+                  echo "Version: $VERSION"
+                  echo "VERSION=$VERSION" >> $GITHUB_ENV
+
+            # 4. 링크 생성
+            - name: Create zip file link
+              id: create_link
+              run: |
+                  ZIP_LINK="https://github.com/${{ github.repository }}/blob/${{ github.head_ref }}/build/production/build-${VERSION}.zip"
+                  echo "Zip link: $ZIP_LINK"
+                  echo "ZIP_LINK=$ZIP_LINK" >> $GITHUB_ENV
+
+            # # 5. Discord 알림 전송
+            # - name: Send Discord notification
+            #   run: |
+            #       curl -X POST -H 'Content-type:application/json' \
+            #       -d '{"content":"New PR opened! Build file link: $ZIP_LINK"}' \
+            #       ${{ secrets.DISCORD_WEBHOOK_URL }}
