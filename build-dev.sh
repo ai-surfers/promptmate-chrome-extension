@@ -6,7 +6,7 @@
 set -e
 
 # 출력 디렉토리 생성
-OUTPUT_DIR="outputs"
+OUTPUT_DIR="build/develop"
 rm -rf "$OUTPUT_DIR"
 mkdir -p "$OUTPUT_DIR"
 

@@ -9,11 +9,6 @@ set -e
 VERSION=$(node -p "require('./public/manifest.json').version")
 echo "Version: $VERSION"
 
-# 출력 디렉토리 생성
-OUTPUT_DIR="dist"
-rm -rf "$OUTPUT_DIR"
-mkdir -p "$OUTPUT_DIR"
-
 # 빌드 수행
 echo "Building using .env.production"
 yarn build:prod
@@ -24,4 +19,8 @@ yarn build:prod
 # 압축 파일 생성
 ZIP_FILE="build-${VERSION}.zip"
 echo "Creating zip file: $ZIP_FILE"
-zip -r "$ZIP_FILE" "$OUTPUT_DIR/"
+zip -r "$ZIP_FILE" "dist/"
+
+# 압축 파일 저장 경로 
+OUTPUT_DIR="build/production"
+mv "$ZIP_FILE" "$OUTPUT_DIR"
