@@ -1,4 +1,4 @@
-import { openUrlInNewTab } from "../../../service/chrome/utils";
+import { openUrlInNewTab } from "@/service/chrome/tabs";
 import Button from "../../common/button/Button";
 import styles from "../tutorial.styles";
 

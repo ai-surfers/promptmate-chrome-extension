@@ -2,6 +2,7 @@
 // https://developer.chrome.com/docs/extensions/reference/api/identity
 // https://developer.chrome.com/docs/extensions/reference/api/scripting
 
+import { openUrlInNewTab } from "@/service/chrome/tabs";
 import { AIPlatformType } from "../../core/Prompt";
 import { getAIPlatformType } from "../../utils";
 import { getFromStorage } from "./storage";
@@ -133,23 +134,6 @@ export const insertPromptToDOMInput = (text: string) => {
     });
 };
 
-export const getCurrentTabUrl = (callback: (url: string) => void) => {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        const activeTab = tabs[0];
-
-        if (activeTab.url) callback(activeTab.url);
-        else callback("");
-    });
-};
-
-/**
- * 특정 URL을 새 탭에서 열기
- * @param url
- */
-export const openUrlInNewTab = (url: string) => {
-    chrome.tabs.create({ url });
-};
-
 /**
  * 포켓 프롬프트 웹버전 열기
  * @param path
@@ -158,6 +142,6 @@ export const openPocketPromptInNewTab = (path: string) => {
     getFromStorage(ACCESS_TOKEN, (value) => {
         const baseUrl = import.meta.env.VITE_WEB_URL;
         const url = `${baseUrl}/${path}?token=${value}`;
-        chrome.tabs.create({ url });
+        openUrlInNewTab(url);
     });
 };

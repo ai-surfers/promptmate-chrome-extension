@@ -4,10 +4,7 @@ import { useRef, useState } from "react";
 import Header from "../../components/common/header/AHeader";
 import { Wrapper } from "../../layouts/Layout";
 import Property, { PropertyRef } from "../../components/prompt/Property";
-import {
-    getCurrentTabUrl,
-    insertPromptToDOMInput,
-} from "../../service/chrome/utils";
+import { insertPromptToDOMInput } from "../../service/chrome/utils";
 
 import { Button, Tour, TourProps } from "antd";
 import { InfoBoxWrapper, InfoButton } from "../../components/prompt/TopBox";
@@ -24,6 +21,7 @@ import {
 } from "../../hooks/mutations/prompt/usePostPromptExecute";
 import { useNavigate } from "react-router-dom";
 import { AIPlatformType } from "../../core/Prompt";
+import { getCurrentTabUrl } from "@/service/chrome/tabs";
 
 export default function TutorialPromptPage() {
     const [showNotSupportedModal, setShowNotSupportedModal] = useState(false);

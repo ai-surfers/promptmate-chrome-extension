@@ -11,8 +11,8 @@ import InputTags from "./PropertyForm/InputTags";
 import TextArea from "antd/es/input/TextArea";
 import { QuestionCircleOutlined } from "@ant-design/icons";
 import styled from "styled-components";
-import { openUrlInNewTab } from "../../service/chrome/utils";
 import { GetPromptResponse } from "../../hooks/queries/prompt/useGetPrompt";
+import { openUrlInNewTab } from "@/service/chrome/tabs";
 
 const CategoryOptions = Object.keys(Categories);
 

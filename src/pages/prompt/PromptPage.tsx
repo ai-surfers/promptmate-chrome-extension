@@ -5,11 +5,7 @@ import { useRef, useState } from "react";
 import Header from "../../components/common/header/AHeader";
 import { Wrapper } from "../../layouts/Layout";
 import Property, { PropertyRef } from "../../components/prompt/Property";
-import {
-    getCurrentTabUrl,
-    insertPromptToDOMInput,
-    openUrlInNewTab,
-} from "../../service/chrome/utils";
+import { insertPromptToDOMInput } from "../../service/chrome/utils";
 
 import { Button, Result, Spin } from "antd";
 import TopBox from "../../components/prompt/TopBox";
@@ -29,6 +25,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { PROMPT_KEYS } from "../../hooks/queries/QueryKeys";
 import NotSupportedModal from "../../components/common/modal/NotSupportedModal";
 import ResultPrompt from "../../components/prompt/ResultPrompt";
+import { getCurrentTabUrl, openUrlInNewTab } from "@/service/chrome/tabs";
 
 export default function PromptPage() {
     const { id = "" } = useParams();

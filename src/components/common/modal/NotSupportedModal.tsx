@@ -1,6 +1,6 @@
+import { openUrlInNewTab } from "@/service/chrome/tabs";
 import { Button, Modal } from "antd";
 import styled from "styled-components";
-import { openUrlInNewTab } from "../../../service/chrome/utils";
 
 export interface NotSupportedModalProps {
     isOpen: boolean;
