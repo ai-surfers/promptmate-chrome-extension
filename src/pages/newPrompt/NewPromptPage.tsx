@@ -31,7 +31,7 @@ export default function NewPromptPage() {
             queryClient.invalidateQueries();
         },
         onError: (error) => {
-            console.error(error);
+            console.log(error);
         },
     });
 

@@ -2,6 +2,7 @@
 // https://developer.chrome.com/docs/extensions/reference/api/identity
 // https://developer.chrome.com/docs/extensions/reference/api/scripting
 
+import { openUrlInNewTab } from "@/service/chrome/tabs";
 import { AIPlatformType } from "../../core/Prompt";
 import { getAIPlatformType } from "../../utils";
 import { getFromStorage } from "./storage";
@@ -22,7 +23,7 @@ export const insertPromptToDOMInput = (text: string) => {
             if (sendButton) {
                 (sendButton as HTMLElement).click();
             } else {
-                console.error("Send button not found");
+                console.log("Send button not found");
             }
         };
 
@@ -117,7 +118,7 @@ export const insertPromptToDOMInput = (text: string) => {
         ) {
             func = insertValue;
         } else {
-            console.error("* 지원하지 않는 플랫폼입니다.");
+            console.log("* 지원하지 않는 플랫폼입니다.");
             return;
         }
 
@@ -128,26 +129,9 @@ export const insertPromptToDOMInput = (text: string) => {
                     func: func,
                     args: [text],
                 });
-            else console.error("* 처리할 탭이 없습니다. ");
+            else console.log("* 처리할 탭이 없습니다. ");
         });
     });
-};
-
-export const getCurrentTabUrl = (callback: (url: string) => void) => {
-    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-        const activeTab = tabs[0];
-
-        if (activeTab.url) callback(activeTab.url);
-        else callback("");
-    });
-};
-
-/**
- * 특정 URL을 새 탭에서 열기
- * @param url
- */
-export const openUrlInNewTab = (url: string) => {
-    chrome.tabs.create({ url });
 };
 
 /**
@@ -158,6 +142,6 @@ export const openPocketPromptInNewTab = (path: string) => {
     getFromStorage(ACCESS_TOKEN, (value) => {
         const baseUrl = import.meta.env.VITE_WEB_URL;
         const url = `${baseUrl}/${path}?token=${value}`;
-        chrome.tabs.create({ url });
+        openUrlInNewTab(url);
     });
 };

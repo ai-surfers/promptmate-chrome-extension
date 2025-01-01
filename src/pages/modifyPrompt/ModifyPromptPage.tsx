@@ -35,7 +35,7 @@ export default function ModifyPromptPage() {
             queryClient.invalidateQueries({ queryKey: PROMPT_KEYS.detail(id) });
         },
         onError: (error) => {
-            console.error(error);
+            console.log(error);
         },
     });
 

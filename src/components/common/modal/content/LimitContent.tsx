@@ -1,6 +1,6 @@
+import { openUrlInNewTab } from "@/service/chrome/tabs";
 import { Button } from "antd";
 import styled from "styled-components";
-import { openUrlInNewTab } from "../../../../service/chrome/utils";
 
 const defaultText = `안녕하세요! 현재 사용 중인 계정의 Private 프롬프트 저장 한도에 도달했습니다.
 

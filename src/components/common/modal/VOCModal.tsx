@@ -25,7 +25,7 @@ export default function VOCModal({ isOpen, closeModal }: VOCModalProps) {
             handleCloseModal();
         },
         onError: (error) => {
-            console.error(error.message);
+            console.log(error.message);
             closeModal();
             handleCloseModal();
         },

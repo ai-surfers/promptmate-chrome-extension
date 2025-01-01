@@ -24,3 +24,5 @@ yarn-error.log*
 
 # vite
 /dist
+# Sentry Config File
+.env.sentry-build-plugin

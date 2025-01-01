@@ -4,10 +4,7 @@ import { useRef, useState } from "react";
 import Header from "../../components/common/header/AHeader";
 import { Wrapper } from "../../layouts/Layout";
 import Property, { PropertyRef } from "../../components/prompt/Property";
-import {
-    getCurrentTabUrl,
-    insertPromptToDOMInput,
-} from "../../service/chrome/utils";
+import { insertPromptToDOMInput } from "../../service/chrome/utils";
 
 import { Button, Tour, TourProps } from "antd";
 import { InfoBoxWrapper, InfoButton } from "../../components/prompt/TopBox";
@@ -24,6 +21,7 @@ import {
 } from "../../hooks/mutations/prompt/usePostPromptExecute";
 import { useNavigate } from "react-router-dom";
 import { AIPlatformType } from "../../core/Prompt";
+import { getCurrentTabUrl } from "@/service/chrome/tabs";
 
 export default function TutorialPromptPage() {
     const [showNotSupportedModal, setShowNotSupportedModal] = useState(false);
@@ -79,7 +77,7 @@ export default function TutorialPromptPage() {
             console.log(`>> `, success, detail);
 
             if (!success) {
-                console.error("지원하지 않는 플랫폼입니다.");
+                console.log("지원하지 않는 플랫폼입니다.");
                 setShowNotSupportedModal(true);
                 setPrompt(data.full_prompt);
                 return;
@@ -98,7 +96,7 @@ export default function TutorialPromptPage() {
             navigate(-1);
         },
         onError: (error) => {
-            console.error(error.message);
+            console.log(error.message);
         },
     });
 
@@ -116,7 +114,7 @@ export default function TutorialPromptPage() {
             const ai_platform = getAIPlatformType(url);
 
             if (ai_platform === AIPlatformType.NONE) {
-                console.error("지원하지 않는 플랫폼입니다.");
+                console.log("지원하지 않는 플랫폼입니다.");
                 setShowNotSupportedModal(true);
                 return;
             }

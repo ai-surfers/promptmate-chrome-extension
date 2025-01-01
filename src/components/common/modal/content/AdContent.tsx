@@ -1,6 +1,6 @@
+import { openUrlInNewTab } from "@/service/chrome/tabs";
 import { Button } from "antd";
 import styled from "styled-components";
-import { openUrlInNewTab } from "../../../../service/chrome/utils";
 import { AdType } from "../../../../hooks/mutations/prompt/usePostPromptExecute";
 
 interface AdContentProps {
