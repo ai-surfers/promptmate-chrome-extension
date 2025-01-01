@@ -45,7 +45,7 @@ export default function PromptPage() {
             console.log(`>> `, success, detail);
 
             if (!success) {
-                console.error("지원하지 않는 플랫폼입니다.");
+                console.log("지원하지 않는 플랫폼입니다.");
                 openUrlInNewTab("https://chatgpt.com/");
                 setShowNotSupportedModal(true);
                 setPrompt(data.full_prompt);
@@ -70,7 +70,7 @@ export default function PromptPage() {
             queryClient.invalidateQueries({ queryKey: PROMPT_KEYS.detail(id) });
         },
         onError: (error) => {
-            console.error(error.message);
+            console.log(error.message);
         },
     });
 
@@ -86,7 +86,7 @@ export default function PromptPage() {
         }
 
         if (!id) {
-            console.error("Id가 없습니다.");
+            console.log("Id가 없습니다.");
             return;
         }
 

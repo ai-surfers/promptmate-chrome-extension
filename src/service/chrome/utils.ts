@@ -23,7 +23,7 @@ export const insertPromptToDOMInput = (text: string) => {
             if (sendButton) {
                 (sendButton as HTMLElement).click();
             } else {
-                console.error("Send button not found");
+                console.log("Send button not found");
             }
         };
 
@@ -118,7 +118,7 @@ export const insertPromptToDOMInput = (text: string) => {
         ) {
             func = insertValue;
         } else {
-            console.error("* 지원하지 않는 플랫폼입니다.");
+            console.log("* 지원하지 않는 플랫폼입니다.");
             return;
         }
 
@@ -129,7 +129,7 @@ export const insertPromptToDOMInput = (text: string) => {
                     func: func,
                     args: [text],
                 });
-            else console.error("* 처리할 탭이 없습니다. ");
+            else console.log("* 처리할 탭이 없습니다. ");
         });
     });
 };

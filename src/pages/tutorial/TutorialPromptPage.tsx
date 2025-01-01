@@ -77,7 +77,7 @@ export default function TutorialPromptPage() {
             console.log(`>> `, success, detail);
 
             if (!success) {
-                console.error("지원하지 않는 플랫폼입니다.");
+                console.log("지원하지 않는 플랫폼입니다.");
                 setShowNotSupportedModal(true);
                 setPrompt(data.full_prompt);
                 return;
@@ -96,7 +96,7 @@ export default function TutorialPromptPage() {
             navigate(-1);
         },
         onError: (error) => {
-            console.error(error.message);
+            console.log(error.message);
         },
     });
 
@@ -114,7 +114,7 @@ export default function TutorialPromptPage() {
             const ai_platform = getAIPlatformType(url);
 
             if (ai_platform === AIPlatformType.NONE) {
-                console.error("지원하지 않는 플랫폼입니다.");
+                console.log("지원하지 않는 플랫폼입니다.");
                 setShowNotSupportedModal(true);
                 return;
             }

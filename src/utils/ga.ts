@@ -36,6 +36,6 @@ export function sendGAEvent(
         console.log("[sendGAEvent] ", eventName, params);
         (window as any).gtag("event", eventName, params);
     } else {
-        console.error("GA is not initialized yet.");
+        console.log("GA is not initialized yet.");
     }
 }
