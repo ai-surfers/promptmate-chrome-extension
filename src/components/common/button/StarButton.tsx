@@ -17,7 +17,7 @@ export default function StarButton({ id, isFavorite }: StarButtonProps) {
     ) {
         e.stopPropagation();
         if (!id) {
-            console.error("No id");
+            console.log("No id");
             return;
         }
 
@@ -30,7 +30,7 @@ export default function StarButton({ id, isFavorite }: StarButtonProps) {
             const { success, detail } = res;
 
             if (!success) {
-                console.error(`${detail}`);
+                console.log(`${detail}`);
                 alert(`${detail}`);
                 return;
             }
@@ -39,7 +39,7 @@ export default function StarButton({ id, isFavorite }: StarButtonProps) {
             queryClient.invalidateQueries({ queryKey: PROMPT_KEYS.lists() });
         },
         onError: (error) => {
-            console.error(error.message);
+            console.log(error.message);
         },
     });
 
@@ -48,7 +48,7 @@ export default function StarButton({ id, isFavorite }: StarButtonProps) {
             const { success, detail } = res;
 
             if (!success) {
-                console.error(`${detail}`);
+                console.log(`${detail}`);
                 alert(`${detail}`);
                 return;
             }
@@ -57,7 +57,7 @@ export default function StarButton({ id, isFavorite }: StarButtonProps) {
             queryClient.invalidateQueries({ queryKey: PROMPT_KEYS.lists() });
         },
         onError: (error) => {
-            console.error(error.message);
+            console.log(error.message);
         },
     });
 

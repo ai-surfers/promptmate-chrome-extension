@@ -92,7 +92,7 @@ export default function LoginPage() {
                 jsonData = data;
             }
         } catch (error) {
-            console.error("Invalid JSON format", error);
+            console.log("Invalid JSON format", error);
             return;
         }
 
@@ -139,7 +139,7 @@ export default function LoginPage() {
     };
 
     const handleError = (msg: string) => {
-        console.error(msg);
+        console.log(msg);
         openAlert({
             content: msg,
         });
