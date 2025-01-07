@@ -62,7 +62,7 @@ export default function StarButton({ id, isFavorite }: StarButtonProps) {
     });
 
     return (
-        <Tooltip title="favorite">
+        <Tooltip title="즐겨찾기">
             <Button
                 shape="circle"
                 icon={isFavorite ? <StarFilled /> : <StarOutlined />}
