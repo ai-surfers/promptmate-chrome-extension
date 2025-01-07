@@ -45,7 +45,7 @@ interface InfoButtonProps {
 }
 export const InfoButton = ({ onInformationClick }: InfoButtonProps) => {
     return (
-        <Tooltip title="information">
+        <Tooltip title="자세히 보기">
             <Button
                 shape="circle"
                 icon={<InfoOutlined />}
@@ -71,7 +71,7 @@ export const ModifyButton = ({ id }: ModifyButtonProps) => {
     }
 
     return (
-        <Tooltip title="modify">
+        <Tooltip title="수정하기">
             <Button
                 shape="circle"
                 icon={<EditOutlined />}
@@ -91,8 +91,6 @@ export const DeleteButton = ({ id }: { id: string }) => {
 
     const { mutate: deletePrompt } = useDeletePrompt({
         onSuccess(res) {
-            console.log(">>", res);
-
             const { success, detail } = res;
 
             if (!success) {
@@ -117,7 +115,7 @@ export const DeleteButton = ({ id }: { id: string }) => {
             });
         },
         onError(e) {
-            console.log(">");
+            alert(`${e.message}`);
         },
     });
 
@@ -131,7 +129,7 @@ export const DeleteButton = ({ id }: { id: string }) => {
     };
 
     return (
-        <Tooltip title="delete">
+        <Tooltip title="삭제하기">
             <Button
                 shape="circle"
                 icon={<DeleteOutlined />}
