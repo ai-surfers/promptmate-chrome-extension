@@ -2,7 +2,7 @@
 // https://developer.chrome.com/docs/extensions/reference/api/identity
 // https://developer.chrome.com/docs/extensions/reference/api/scripting
 
-import { openUrlInNewTab } from "@/service/chrome/tabs";
+import { getCurrentTabUrl, openUrlInNewTab } from "@/service/chrome/tabs";
 import { AIPlatformType } from "../../core/Prompt";
 import { getAIPlatformType } from "../../utils";
 import { getFromStorage } from "./storage";

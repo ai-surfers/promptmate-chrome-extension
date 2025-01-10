@@ -4,7 +4,7 @@ name: Discord Notification
 
 on:
     pull_request:
-        types: [opened, synchronize]
+        types: [opened]
         branches: [main]
     workflow_dispatch:
 
@@ -50,9 +50,9 @@ jobs:
                   }" \
                   ${{ secrets.DISCORD_WEBHOOK_URL }}
 
-            # 6. Discord 알림 전송 (synchronized 시)
-            - name: Send Discord notification for PR synchronized
-              if: github.event.action == 'synchronize'
+            # 6. Discord 알림 전송 (직접 실행 시)
+            - name: Send Discord notification for workflow_dispatch
+              if: github.event_name == 'workflow_dispatch'
               run: |
                   PR_TITLE="${{ github.event.pull_request.title }}"
                   curl -X POST -H 'Content-type:application/json' \
