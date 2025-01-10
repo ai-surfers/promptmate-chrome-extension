@@ -6,6 +6,7 @@ on:
     push:
         branches:
             - main
+            - fix/execute
     workflow_dispatch:
 
 jobs:
