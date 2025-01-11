@@ -40,7 +40,7 @@ export const insertPromptToDOMInput = (text: string) => {
         console.log("Is promptTextarea?", promptTextarea);
         if (promptTextarea) {
             const editableDiv = promptTextarea as HTMLElement;
-            editableDiv.innerText = value;
+            editableDiv.innerHTML = value.replace(/\n/g, "<br>");
 
             setTimeout(() => {
                 triggerSendButton();
@@ -68,7 +68,7 @@ export const insertPromptToDOMInput = (text: string) => {
         console.log("Is div[contenteditable]?", contentEditableDivs);
         if (contentEditableDivs.length > 0) {
             const editableDiv = contentEditableDivs[0] as HTMLElement;
-            editableDiv.innerText = value;
+            editableDiv.innerHTML = value.replace(/\n/g, "<br>");
 
             setTimeout(() => {
                 triggerSendButton();
@@ -78,8 +78,8 @@ export const insertPromptToDOMInput = (text: string) => {
         }
     };
 
-    // Gemini, Claude
-    const insertValue = (value: string) => {
+    // Gemini
+    const insertValueToGemini = (value: string) => {
         const triggerEnterKey = (element: HTMLElement) => {
             const event = new KeyboardEvent("keydown", {
                 bubbles: true,
@@ -92,44 +92,77 @@ export const insertPromptToDOMInput = (text: string) => {
             element.dispatchEvent(event);
         };
 
-        // Gemini, Claude - <div contenteditable>
+        // Gemini - <div contenteditable>
         const contentEditableDivs = document.querySelectorAll(
             'div[contenteditable="true"]'
         );
         if (contentEditableDivs.length > 0) {
             const editableDiv = contentEditableDivs[0] as HTMLElement;
-            editableDiv.innerText = value;
+            editableDiv.innerHTML = value.replace(/\n/g, " <br>");
+
+            triggerEnterKey(editableDiv);
+        }
+    };
+
+    // Claude
+    const insertValueToClaude = (value: string) => {
+        const triggerEnterKey = (element: HTMLElement) => {
+            const event = new KeyboardEvent("keydown", {
+                bubbles: true,
+                cancelable: true,
+                key: "Enter",
+                code: "Enter",
+                keyCode: 13,
+                which: 13,
+            });
+            element.dispatchEvent(event);
+        };
+
+        // Claude - <div contenteditable>
+        const contentEditableDivs = document.querySelectorAll(
+            'div[contenteditable="true"]'
+        );
+        if (contentEditableDivs.length > 0) {
+            const editableDiv = contentEditableDivs[0] as HTMLElement;
+            editableDiv.innerHTML = value.replace(/\n/g, "<p></p>");
 
             setTimeout(() => {
                 triggerEnterKey(editableDiv);
-            }, 100); // Claude
+            }, 100);
         }
     };
 
     getCurrentTabUrl((url) => {
-        let func = insertValue;
+        let func: null | ((value: string) => void) = null;
 
         const ai_platform = getAIPlatformType(url);
         if (ai_platform === AIPlatformType.CHATGPT) {
             func = insertValueToChatGPT;
-        } else if (
-            ai_platform === AIPlatformType.CLAUDE ||
-            ai_platform === AIPlatformType.GEMINI
-        ) {
-            func = insertValue;
+        } else if (ai_platform === AIPlatformType.CLAUDE) {
+            func = insertValueToClaude;
+        } else if (ai_platform === AIPlatformType.GEMINI) {
+            func = insertValueToGemini;
         } else {
             console.log("* 지원하지 않는 플랫폼입니다.");
             return;
         }
 
         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-            if (tabs[0].id)
-                chrome.scripting.executeScript({
-                    target: { tabId: tabs[0].id },
-                    func: func,
-                    args: [text],
-                });
-            else console.log("* 처리할 탭이 없습니다. ");
+            if (!func) {
+                console.log("* 함수를 지원하지 않는 플랫폼입니다.");
+                return;
+            }
+
+            if (!tabs[0].id) {
+                console.log("* 처리할 탭이 없습니다. ");
+                return;
+            }
+
+            chrome.scripting.executeScript({
+                target: { tabId: tabs[0].id },
+                func: func,
+                args: [text],
+            });
         });
     });
 };
