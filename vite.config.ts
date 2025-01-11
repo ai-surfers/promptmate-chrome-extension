@@ -22,6 +22,7 @@ export default defineConfig(({ mode }) => {
         resolve: {
             alias: {
                 "@": path.resolve(__dirname, "./src"),
+                "styled-system": path.resolve(__dirname, "./styled-system"),
             },
         },
 

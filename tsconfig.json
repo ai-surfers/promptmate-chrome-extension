@@ -18,8 +18,9 @@
         "jsx": "react-jsx",
         "baseUrl": ".",
         "paths": {
-            "@/*": ["./src/*"]
+            "@/*": ["./src/*"],
+            "styled-system": ["./styled-system"]
         }
     },
-    "include": ["src", "src/components/login/GoogleButton.tsx"]
+    "include": ["src", "src/components/login/GoogleButton.tsx", "styled-system"]
 }
