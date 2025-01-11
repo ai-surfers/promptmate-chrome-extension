@@ -37,11 +37,7 @@ export default function ResultPrompt({ prompt }: ResultPromptProps) {
                             />
                         </Title>
                     ),
-                    children: (
-                        <>
-                            <Item>{prompt}</Item>
-                        </>
-                    ),
+                    children: <Item>{prompt}</Item>,
                 },
             ]}
         ></Collapse>
@@ -56,5 +52,6 @@ const Title = styled.div`
 const Item = styled.p`
     ${({ theme }) => theme.fonts.input};
 
+    white-space: pre-wrap;
     cursor: pointer;
 `;
