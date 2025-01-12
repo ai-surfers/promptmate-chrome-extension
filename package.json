@@ -33,7 +33,7 @@
     },
     "scripts": {
         "prepare": "panda codegen",
-        "start": "vite",
+        "start": "vite && panda --watch",
         "start:prod": "vite --mode=production",
         "build:dev": "vite build --mode=development",
         "build:prod": "vite build --mode=production",
@@ -61,6 +61,7 @@
         "@pandacss/dev": "^0.51.1",
         "@tanstack/eslint-plugin-query": "^5.51.12",
         "@vitejs/plugin-react": "^4.3.4",
-        "vite": "^6.0.3"
+        "vite": "^6.0.3",
+        "vite-tsconfig-paths": "^5.1.4"
     }
 }
