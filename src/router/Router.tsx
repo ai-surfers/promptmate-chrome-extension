@@ -16,30 +16,24 @@ const routes = [
     },
     {
         path: "/",
-        element: <HeaderLayout />,
+        element: <Layout />,
         children: [
             {
                 path: "/home",
                 element: <HomePage />,
             },
-        ],
-    },
-    {
-        path: "/",
-        element: <Layout />,
-        children: [
-            {
-                path: "/new-prompt",
-                element: <NewPromptPage />,
-            },
+            // {
+            //     path: "/new-prompt",
+            //     element: <NewPromptPage />,
+            // },
             {
                 path: "/prompt/:id",
                 element: <PromptPage />,
             },
-            {
-                path: "/prompt/:id/modify",
-                element: <ModifyPromptPage />,
-            },
+            // {
+            //     path: "/prompt/:id/modify",
+            //     element: <ModifyPromptPage />,
+            // },
             {
                 path: "/tutorial",
                 element: <TutorialPage />,

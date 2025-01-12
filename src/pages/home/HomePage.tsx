@@ -6,6 +6,7 @@ import { CustomerServiceOutlined } from "@ant-design/icons";
 import VOCModal from "../../components/common/modal/VOCModal";
 import { useState } from "react";
 import { openPocketPromptInNewTab } from "../../service/chrome/utils";
+import Header from "@/components/common/header/Header";
 
 export default function HomePage() {
     const [showVOC, setShowVOC] = useState(false);
@@ -30,32 +31,38 @@ export default function HomePage() {
     );
 
     return (
-        <HomePageContainer>
-            <Tabs
-                tabBarExtraContent={operation}
-                items={Object.entries(TabList).map(([key, value], idx) => {
-                    return {
-                        label: `${value}`,
-                        key: `${key}`,
-                        children: components[idx],
-                    };
-                })}
-                activeKey={tab}
-                onChange={(key) => {
-                    setTab(key);
-                }}
-            />
+        <>
+            <Header />
+            <HomePageContainer>
+                <Tabs
+                    tabBarExtraContent={operation}
+                    items={Object.entries(TabList).map(([key, value], idx) => {
+                        return {
+                            label: `${value}`,
+                            key: `${key}`,
+                            children: components[idx],
+                        };
+                    })}
+                    activeKey={tab}
+                    onChange={(key) => {
+                        setTab(key);
+                    }}
+                />
 
-            <FloatButton
-                shape="circle"
-                type="primary"
-                style={{ right: 24 }}
-                icon={<CustomerServiceOutlined />}
-                onClick={() => setShowVOC(true)}
-            />
+                <FloatButton
+                    shape="circle"
+                    type="primary"
+                    style={{ right: 24 }}
+                    icon={<CustomerServiceOutlined />}
+                    onClick={() => setShowVOC(true)}
+                />
 
-            <VOCModal isOpen={showVOC} closeModal={() => setShowVOC(false)} />
-        </HomePageContainer>
+                <VOCModal
+                    isOpen={showVOC}
+                    closeModal={() => setShowVOC(false)}
+                />
+            </HomePageContainer>
+        </>
     );
 }
 
@@ -66,6 +73,11 @@ const HomePageContainer = styled.div`
 
     .ant-tabs-nav {
         padding: 0 40px;
+        background: white;
+        position: sticky;
+        top: 60px;
+        z-index: 1;
+        background: white;
 
         .ant-tabs-tab {
             padding: 15px 0;

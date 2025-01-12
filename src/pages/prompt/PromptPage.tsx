@@ -2,7 +2,6 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import { useRef, useState } from "react";
 
-import Header from "../../components/common/header/AHeader";
 import { Wrapper } from "../../layouts/Layout";
 import Property, { PropertyRef } from "../../components/prompt/Property";
 import { insertPromptToDOMInput } from "../../service/chrome/utils";
@@ -26,6 +25,7 @@ import { PROMPT_KEYS } from "../../hooks/queries/QueryKeys";
 import NotSupportedModal from "../../components/common/modal/NotSupportedModal";
 import ResultPrompt from "../../components/prompt/ResultPrompt";
 import { getCurrentTabUrl, openUrlInNewTab } from "@/service/chrome/tabs";
+import Header from "@/components/common/header/PromptHeader";
 
 export default function PromptPage() {
     const { id = "" } = useParams();
@@ -113,7 +113,7 @@ export default function PromptPage() {
     if (isLoading) {
         return (
             <>
-                <Header title="프롬프트 사용하기" canGoBack={true} />
+                <Header />
                 <FullWrapper>
                     <Spin tip="Loading">
                         <div style={{ padding: 50 }} />
@@ -126,7 +126,7 @@ export default function PromptPage() {
     if (isError) {
         return (
             <>
-                <Header title="프롬프트 사용하기" canGoBack={true} />
+                <Header />
                 <FullWrapper>
                     <Result
                         status="warning"
@@ -139,7 +139,7 @@ export default function PromptPage() {
 
     return (
         <>
-            <Header title="프롬프트 사용하기" canGoBack={true} />
+            <Header />
             <Wrapper>
                 {data?.data && (
                     <>

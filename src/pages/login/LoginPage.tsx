@@ -10,7 +10,7 @@ import { ACCESS_TOKEN, ONBOARING } from "../../service/chrome/storage.keys";
 import { useAlert } from "../../hooks/useAlert";
 import { useEffect } from "react";
 import { useUser } from "../../hooks/useUser";
-import CustomHeader from "@/components/common/header/AHeader";
+import Header from "@/components/common/header/Header";
 
 export default function LoginPage() {
     const navigate = useNavigate();
@@ -156,7 +156,7 @@ export default function LoginPage() {
 
     return (
         <LoginPageContainer>
-            <CustomHeader title="Pocket Prompt" />
+            <Header />
             <IframeContainer>
                 <iframe
                     src="https://prompt-mate-d3b25.web.app"
