@@ -163,8 +163,6 @@ if (allowedSites.includes(url)) {
                 buttonClientY,
             } = result;
             const currentSite = window.location.hostname;
-            console.log("result", result);
-            console.log("currentSite", currentSite);
 
             if (hideButtonGlobally) {
                 hideButton();
@@ -229,7 +227,6 @@ if (allowedSites.includes(url)) {
             offsetY = button.getBoundingClientRect().bottom - e.clientY;
             buttonContainer.classList.add("dragging");
             buttonContainer.style.transition = "none";
-            console.log("mousedown", offsetY);
         },
         true
     );
@@ -238,7 +235,6 @@ if (allowedSites.includes(url)) {
         "mouseup",
         () => {
             isDragging = false;
-            console.log("mouseup");
             buttonContainer.classList.remove("dragging");
             buttonContainer.style.transition = "all 0.3s ease";
 
@@ -274,39 +270,6 @@ if (allowedSites.includes(url)) {
      */
     // [메시지 수신 Listener]
     chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-        console.log("***Message received", request, sender);
+        console.log("[Content] Message received", request, sender);
     });
 }
-
-/**
- * 미사용 코드
- */
-
-// // 버튼 강조, 해제 함수
-// function emphasizeButton() {
-//     console.log("emphasize!");
-//     const button = document.getElementById("float-btn");
-//     if (button) {
-//         button.classList.add("emphasized");
-
-//         // 툴팁 추가 (이미 있으면 추가하지 않음)
-//         if (!button.querySelector(".tooltip")) {
-//             const tooltip = document.createElement("div");
-//             tooltip.className = "tooltip";
-//             tooltip.textContent = "사이드 패널 열기";
-//             button.insertBefore(tooltip, button.firstChild);
-//         }
-//     }
-// }
-
-// function deemphasizeButton() {
-//     console.log("deemphasize!");
-//     const button = document.getElementById("float-btn");
-//     if (button) {
-//         button.classList.remove("emphasized");
-//         const tooltip = button.querySelector(".tooltip");
-//         if (tooltip) {
-//             tooltip.remove();
-//         }
-//     }
-// }
