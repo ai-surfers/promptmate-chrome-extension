@@ -30,10 +30,19 @@ export const insertPromptToDOMInput = (text: string): void => {
                 }
             };
 
+            const formatText = (text: string): string => {
+                return text
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .split("\n")
+                    .map((line) => `<p>${line}</p>`)
+                    .join("");
+            };
+
             const promptTextarea = document.getElementById("prompt-textarea");
             if (promptTextarea) {
                 const editableDiv = promptTextarea as HTMLElement;
-                editableDiv.innerHTML = value.replace(/\n/g, "<p></p>");
+                editableDiv.innerHTML = formatText(value);
                 setTimeout(triggerSendButton, 100);
                 return;
             }
@@ -52,7 +61,7 @@ export const insertPromptToDOMInput = (text: string): void => {
             );
             if (contentEditableDivs.length > 0) {
                 const editableDiv = contentEditableDivs[0] as HTMLElement;
-                editableDiv.innerHTML = value.replace(/\n/g, "<p></p>");
+                editableDiv.innerHTML = formatText(value);
                 setTimeout(triggerSendButton, 100);
             }
         },
@@ -70,11 +79,20 @@ export const insertPromptToDOMInput = (text: string): void => {
                 element.dispatchEvent(event);
             };
 
+            const formatText = (text: string): string => {
+                return text
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .split("\n")
+                    .map((line) => `<p>${line}</p>`)
+                    .join("");
+            };
+
             const contentEditableDiv = document.querySelector(
                 'div[contenteditable="true"]'
             ) as HTMLElement | null;
             if (contentEditableDiv) {
-                contentEditableDiv.innerHTML = value.replace(/\n/g, "<p></p>");
+                contentEditableDiv.innerHTML = formatText(value);
                 triggerEnterKey(contentEditableDiv);
             }
         },
@@ -92,11 +110,20 @@ export const insertPromptToDOMInput = (text: string): void => {
                 element.dispatchEvent(event);
             };
 
+            const formatText = (text: string): string => {
+                return text
+                    .replace(/</g, "&lt;")
+                    .replace(/>/g, "&gt;")
+                    .split("\n")
+                    .map((line) => `<p>${line}</p>`)
+                    .join("");
+            };
+
             const contentEditableDiv = document.querySelector(
                 'div[contenteditable="true"]'
             ) as HTMLElement | null;
             if (contentEditableDiv) {
-                contentEditableDiv.innerHTML = value.replace(/\n/g, "<p></p>");
+                contentEditableDiv.innerHTML = formatText(value);
                 setTimeout(() => triggerEnterKey(contentEditableDiv), 100);
             }
         },
