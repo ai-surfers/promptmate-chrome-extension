@@ -1,5 +1,4 @@
 import { ThemeProvider } from 'styled-components';
-import GlobalStyle from './GlobalStyle';
 import theme from './theme';
 import { ConfigProvider } from 'antd';
 
@@ -17,10 +16,7 @@ const Styles = ({ children }: StylesProps) => {
 				},
 			}}
 		>
-			<ThemeProvider theme={theme}>
-				<GlobalStyle />
-				{children}
-			</ThemeProvider>
+			<ThemeProvider theme={theme}>{children}</ThemeProvider>
 		</ConfigProvider>
 	);
 };

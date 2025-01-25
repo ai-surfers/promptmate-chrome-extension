@@ -3,56 +3,53 @@
 import plugin from 'tailwindcss/plugin';
 
 export default {
-    darkMode: ['class'],
-    content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
+	darkMode: ['class'],
+	content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
 	theme: {
-    	extend: {
-    		fontFamily: {
-    			pretendard: [
-    				'Pretendard',
-    				'sans-serif'
-    			]
-    		},
-    		colors: {
-    			black: '#000000',
-    			white: '#ffffff',
-    			primary: {
-    				'5': '#F8F8FE',
-    				'10': '#F2F3FD',
-    				'20': '#E3E6FB',
-    				'30': '#D6D9F9',
-    				'40': '#C8CCF7',
-    				'50': '#BBC0F5',
-    				'60': '#ACB3F2',
-    				'70': '#9FA7F1',
-    				'80': '#9199EE',
-    				'90': '#838DED',
-    				'100': '#7580EA',
-    				dark: '#535DBF',
-    				default: '#7580EA',
-    				light: '#9EADFC',
-    				xlight: '#CEDEFF'
-    			},
-    			gray: {
-    				'50': '#F7F8F9',
-    				'100': '#F1F2F6',
-    				'200': '#DEE0E8',
-    				'300': '#AFB1C1',
-    				'400': '#818491',
-    				'500': '#5B5F70',
-    				'600': '#3E4151',
-    				'700': '#2E3040',
-    				'800': '#202232',
-    				'900': '#181B29'
-    			}
-    		},
-    		borderRadius: {
-    			lg: 'var(--radius)',
-    			md: 'calc(var(--radius) - 2px)',
-    			sm: 'calc(var(--radius) - 4px)'
-    		}
-    	}
-    },
+		extend: {
+			fontFamily: {
+				pretendard: ['Pretendard', 'sans-serif'],
+			},
+			colors: {
+				black: '#000000',
+				white: '#ffffff',
+				primary: {
+					5: '#F8F8FE',
+					10: '#F2F3FD',
+					20: '#E3E6FB',
+					30: '#D6D9F9',
+					40: '#C8CCF7',
+					50: '#BBC0F5',
+					60: '#ACB3F2',
+					70: '#9FA7F1',
+					80: '#9199EE',
+					90: '#838DED',
+					100: '#7580EA',
+					dark: '#535DBF',
+					normal: '#7580EA',
+					light: '#9EADFC',
+					xlight: '#CEDEFF',
+				},
+				gray: {
+					50: '#F7F8F9',
+					100: '#F1F2F6',
+					200: '#DEE0E8',
+					300: '#AFB1C1',
+					400: '#818491',
+					500: '#5B5F70',
+					600: '#3E4151',
+					700: '#2E3040',
+					800: '#202232',
+					900: '#181B29',
+				},
+			},
+			borderRadius: {
+				lg: 'var(--radius)',
+				md: 'calc(var(--radius) - 2px)',
+				sm: 'calc(var(--radius) - 4px)',
+			},
+		},
+	},
 	plugins: [
 		plugin(function ({ addUtilities, e }) {
 			const typography = {
@@ -244,6 +241,6 @@ export default {
 			});
 			addUtilities(typographyUtilities);
 		}),
-        require("tailwindcss-animate")
-    ],
+		require('tailwindcss-animate'),
+	],
 };
