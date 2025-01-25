@@ -2,7 +2,6 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import { useRef, useState } from 'react';
 
-import Header from '../../components/common/header/AHeader';
 import { Wrapper } from '../../layouts/Layout';
 import Property, { PropertyRef } from '../../components/prompt/Property';
 import { insertPromptToDOMInput } from '../../service/chrome/utils';
@@ -24,6 +23,7 @@ import { PROMPT_KEYS } from '../../hooks/queries/QueryKeys';
 import NotSupportedModal from '../../components/common/modal/NotSupportedModal';
 import ResultPrompt from '../../components/prompt/ResultPrompt';
 import { getCurrentTabUrl, openUrlInNewTab } from '@/service/chrome/tabs';
+import PromptHeader from '@/components/common/header/PromptHeader';
 
 export default function PromptPage() {
 	const { id = '' } = useParams();
@@ -111,7 +111,7 @@ export default function PromptPage() {
 	if (isLoading) {
 		return (
 			<>
-				<Header title="프롬프트 사용하기" canGoBack={true} />
+				<PromptHeader />
 				<FullWrapper>
 					<Spin tip="Loading">
 						<div style={{ padding: 50 }} />
@@ -124,7 +124,7 @@ export default function PromptPage() {
 	if (isError) {
 		return (
 			<>
-				<Header title="프롬프트 사용하기" canGoBack={true} />
+				<PromptHeader />
 				<FullWrapper>
 					<Result status="warning" title="There are some problems with your operation." />
 				</FullWrapper>
@@ -134,16 +134,16 @@ export default function PromptPage() {
 
 	return (
 		<>
-			<Header title="프롬프트 사용하기" canGoBack={true} />
+			<PromptHeader prompt={data?.data} />
 			<Wrapper>
 				{data?.data && (
 					<>
-						<TopBox
+						{/* <TopBox
 							id={id}
 							isFavorite={data?.data.is_starred_by_user}
 							author={data.data.author_nickname}
 							onInformationClick={() => setOpen(true)}
-						/>
+						/> */}
 
 						<Title>{data?.data.title}</Title>
 						<Description>{data?.data.description}</Description>

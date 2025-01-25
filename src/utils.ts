@@ -48,3 +48,13 @@ export function getAIPlatformType(url: string) {
 export function copyClipboard(text: string) {
 	return navigator.clipboard.writeText(text);
 }
+
+/**
+ * 포켓 프롬프트 웹버전 URL 가져오는 함수
+ * @param path
+ */
+export const getPocketPromptWebUrl = (path: string) => {
+	const baseUrl = import.meta.env.VITE_WEB_URL;
+	const url = `${baseUrl}/${path}`;
+	return url;
+};

@@ -12,7 +12,7 @@ const buttonVariants = cva(
 				primary:
 					'bg-primary-normal text-white hover:shadow-[0px_2px_16px_0px_#7580EA] active:bg-primary-dark',
 				secondary: 'bg-white border border-primary-normal text-primary-normal hover:bg-primary-10',
-				normal: 'bg-priamry-10 text-primary-normal hover:bg-primary-20',
+				normal: 'bg-primary-10 text-primary-normal hover:bg-primary-20',
 				disabled: 'bg-gray-100 text-gray-300 pointer-events-none',
 			},
 			size: {

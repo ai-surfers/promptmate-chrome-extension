@@ -1,9 +1,9 @@
-import { StarOutlined, StarFilled } from '@ant-design/icons';
 import { useQueryClient } from '@tanstack/react-query';
-import { Button, Tooltip } from 'antd';
 import { usePostStar } from '../../../hooks/mutations/star/usePostStar';
 import { useDeleteStar } from '../../../hooks/mutations/star/useDeleteStar';
 import { PROMPT_KEYS } from '../../../hooks/queries/QueryKeys';
+import BookMark from '@/assets/BookMark';
+import { Button } from '@/components/ui/button';
 
 interface StarButtonProps {
 	id: string;
@@ -60,12 +60,13 @@ export default function StarButton({ id, isFavorite }: StarButtonProps) {
 	});
 
 	return (
-		<Tooltip title="즐겨찾기">
-			<Button
-				shape="circle"
-				icon={isFavorite ? <StarFilled /> : <StarOutlined />}
-				onClick={handleOnFavoriteClick}
-			/>
-		</Tooltip>
+		<Button
+			variant={isFavorite ? 'primary' : 'normal'}
+			size={44}
+			className="p-0 w-[40px] h-[40px] rounded-[8px]"
+			onClick={handleOnFavoriteClick}
+		>
+			<BookMark stroke={isFavorite ? '#fff' : '#7580EA'} height={20} />
+		</Button>
 	);
 }
