@@ -1,24 +1,14 @@
-import styled from "styled-components";
-import { ChangeEvent } from "react";
+import styled from 'styled-components';
+import { ChangeEvent } from 'react';
 
 interface TextAreaProps {
-    placeholder?: string;
-    value: string;
-    onChange: (event: ChangeEvent<HTMLTextAreaElement>) => void;
+	placeholder?: string;
+	value: string;
+	onChange: (event: ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
-export default function TextArea({
-    placeholder,
-    value,
-    onChange,
-}: TextAreaProps) {
-    return (
-        <TextAreaBox
-            value={value}
-            placeholder={placeholder}
-            onChange={onChange}
-        />
-    );
+export default function TextArea({ placeholder, value, onChange }: TextAreaProps) {
+	return <TextAreaBox value={value} placeholder={placeholder} onChange={onChange} />;
 }
 
 const TextAreaBox = styled.textarea`

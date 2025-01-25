@@ -1,28 +1,28 @@
-import styled from "styled-components";
-import Button from "../button/Button";
-import { useAlert } from "../../../hooks/useAlert";
+import styled from 'styled-components';
+import Button from '../button/Button';
+import { useAlert } from '../../../hooks/useAlert';
 
 const Alert = () => {
-    const { alertData, closeAlert } = useAlert();
+	const { alertData, closeAlert } = useAlert();
 
-    function handleOnClick() {
-        if (alertData.callBack) alertData.callBack();
-        else closeAlert();
-    }
+	function handleOnClick() {
+		if (alertData.callBack) alertData.callBack();
+		else closeAlert();
+	}
 
-    return (
-        <>
-            {alertData.isOpen && (
-                <>
-                    <Overlay />
-                    <AlertContainer>
-                        <AlertContent>{alertData.content}</AlertContent>
-                        <Button title="확인" onClick={handleOnClick} />
-                    </AlertContainer>
-                </>
-            )}
-        </>
-    );
+	return (
+		<>
+			{alertData.isOpen && (
+				<>
+					<Overlay />
+					<AlertContainer>
+						<AlertContent>{alertData.content}</AlertContent>
+						<Button title="확인" onClick={handleOnClick} />
+					</AlertContainer>
+				</>
+			)}
+		</>
+	);
 };
 
 export default Alert;
@@ -38,7 +38,7 @@ const Overlay = styled.div`
 `;
 
 const AlertContainer = styled.div`
-    ${({ theme }) => theme.mixins.flexBox("column", "flex-end", "center")};
+    ${({ theme }) => theme.mixins.flexBox('column', 'flex-end', 'center')};
     ${({ theme }) => theme.fonts.modal};
 
     width: 18.7rem;

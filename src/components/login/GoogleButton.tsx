@@ -1,16 +1,16 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 interface GoogleButtonProps {
-    onClick?: () => void;
+	onClick?: () => void;
 }
 
 export default function GoogleLoginButton({ onClick }: GoogleButtonProps) {
-    return (
-        <ButtonContainer onClick={onClick}>
-            <img src="/images/logo_google.svg" alt="google" />
-            Continue with Google
-        </ButtonContainer>
-    );
+	return (
+		<ButtonContainer onClick={onClick}>
+			<img src="/images/logo_google.svg" alt="google" />
+			Continue with Google
+		</ButtonContainer>
+	);
 }
 
 const ButtonContainer = styled.button`

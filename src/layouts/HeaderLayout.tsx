@@ -1,16 +1,16 @@
-import { Outlet } from "react-router-dom";
-import styled from "styled-components";
-import CustomHeader from "../components/common/header/AHeader";
+import { Outlet } from 'react-router-dom';
+import styled from 'styled-components';
+import CustomHeader from '../components/common/header/AHeader';
 
 export default function HeaderLayout() {
-    return (
-        <Container>
-            <CustomHeader title="Pocket Prompt" />
-            <Wrapper>
-                <Outlet />
-            </Wrapper>
-        </Container>
-    );
+	return (
+		<Container>
+			<CustomHeader title="Pocket Prompt" />
+			<Wrapper>
+				<Outlet />
+			</Wrapper>
+		</Container>
+	);
 }
 
 const Container = styled.div`

@@ -1,44 +1,44 @@
-import styled from "styled-components";
-import dummies from "../dummies.json";
-import { InfoBoxWrapper, InfoButton } from "../../prompt/TopBox";
-import { InputFormat } from "../../../hooks/mutations/prompt/usePostPrompt";
-import { forwardRef, useImperativeHandle, useRef, useState } from "react";
-import { Button, Tooltip, Tour, TourProps } from "antd";
-import { StarOutlined } from "@ant-design/icons";
-import { populateTemplate } from "../../../utils";
-import { insertPromptToDOMInput } from "../../../service/chrome/utils";
+import styled from 'styled-components';
+import dummies from '../dummies.json';
+import { InfoBoxWrapper, InfoButton } from '../../prompt/TopBox';
+import { InputFormat } from '../../../hooks/mutations/prompt/usePostPrompt';
+import { forwardRef, useImperativeHandle, useRef, useState } from 'react';
+import { Button, Tooltip, Tour, TourProps } from 'antd';
+import { StarOutlined } from '@ant-design/icons';
+import { populateTemplate } from '../../../utils';
+import { insertPromptToDOMInput } from '../../../service/chrome/utils';
 
 const data = dummies.data;
 
 interface FakePromptProps {
-    onNext: () => void;
+	onNext: () => void;
 }
 
 export default function FakePrompt({ onNext }: FakePromptProps) {
-    const ref1 = useRef<HTMLDivElement>(null);
-    const ref2 = useRef<HTMLButtonElement>(null); // Ref for the button
-    const propertyRefs = useRef<Record<string, PropertyRef>>({});
+	const ref1 = useRef<HTMLDivElement>(null);
+	const ref2 = useRef<HTMLButtonElement>(null); // Ref for the button
+	const propertyRefs = useRef<Record<string, PropertyRef>>({});
 
-    return (
-        <>
-            <FakeTopBox />
+	return (
+		<>
+			<FakeTopBox />
 
-            <Title>{data.title}</Title>
-            <Description>{data.description}</Description>
+			<Title>{data.title}</Title>
+			<Description>{data.description}</Description>
 
-            <div ref={ref1}>
-                {data.user_input_format.map((option, index) => (
-                    <FakeProperty
-                        key={option.name}
-                        option={option as InputFormat}
-                        ref={(el) => {
-                            if (el) propertyRefs.current[option.name] = el;
-                        }}
-                    />
-                ))}
-            </div>
-        </>
-    );
+			<div ref={ref1}>
+				{data.user_input_format.map((option, index) => (
+					<FakeProperty
+						key={option.name}
+						option={option as InputFormat}
+						ref={(el) => {
+							if (el) propertyRefs.current[option.name] = el;
+						}}
+					/>
+				))}
+			</div>
+		</>
+	);
 }
 
 const Title = styled.h2`
@@ -53,28 +53,24 @@ const Description = styled.h2`
 `;
 
 export interface PropertyProps {
-    option: InputFormat;
+	option: InputFormat;
 }
 
 export interface PropertyRef {
-    fill: () => void;
+	fill: () => void;
 }
 
-const FakeProperty = forwardRef<PropertyRef, PropertyProps>(
-    ({ option }, ref) => {
-        return (
-            <PropertyContainer>
-                <PropertyTitle>{option.name}</PropertyTitle>
+const FakeProperty = forwardRef<PropertyRef, PropertyProps>(({ option }, ref) => {
+	return (
+		<PropertyContainer>
+			<PropertyTitle>{option.name}</PropertyTitle>
 
-                {option.type === "text" && (
-                    <FakeTextArea>
-                        {option.placeholder.replace("ex. ", "")}
-                    </FakeTextArea>
-                )}
-            </PropertyContainer>
-        );
-    }
-);
+			{option.type === 'text' && (
+				<FakeTextArea>{option.placeholder.replace('ex. ', '')}</FakeTextArea>
+			)}
+		</PropertyContainer>
+	);
+});
 
 const PropertyContainer = styled.div`
     margin: 30px 0;
@@ -110,12 +106,12 @@ const FakeTextArea = styled.div`
     transition: all 0.2s;
 `;
 const FakeTopBox = () => {
-    return (
-        <InfoBoxWrapper>
-            <Tooltip title="favorite">
-                <Button shape="circle" icon={<StarOutlined />} />
-            </Tooltip>
-            <InfoButton onInformationClick={() => {}} />
-        </InfoBoxWrapper>
-    );
+	return (
+		<InfoBoxWrapper>
+			<Tooltip title="favorite">
+				<Button shape="circle" icon={<StarOutlined />} />
+			</Tooltip>
+			<InfoButton onInformationClick={() => {}} />
+		</InfoBoxWrapper>
+	);
 };

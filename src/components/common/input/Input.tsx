@@ -1,16 +1,14 @@
-import styled from "styled-components";
-import { ChangeEvent } from "react";
+import styled from 'styled-components';
+import { ChangeEvent } from 'react';
 
 interface InputProps {
-    placeholder?: string;
-    value: string;
-    onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+	placeholder?: string;
+	value: string;
+	onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export default function Input({ placeholder, value, onChange }: InputProps) {
-    return (
-        <InputBox placeholder={placeholder} value={value} onChange={onChange} />
-    );
+	return <InputBox placeholder={placeholder} value={value} onChange={onChange} />;
 }
 
 const InputBox = styled.input`

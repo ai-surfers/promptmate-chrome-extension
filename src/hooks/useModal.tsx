@@ -1,6 +1,6 @@
-import { useRecoilState } from "recoil";
-import { modalState } from "../states/modalState";
-import { useCallback } from "react";
+import { useRecoilState } from 'recoil';
+import { modalState } from '../states/modalState';
+import { useCallback } from 'react';
 
 /**
  * useModal Hook
@@ -9,34 +9,34 @@ import { useCallback } from "react";
  * @props callback - 확인 클릭 시 실행될 함수
  */
 interface ModalProps {
-    title?: string;
-    content?: JSX.Element | string;
-    footer?: JSX.Element;
-    callback?: () => any;
+	title?: string;
+	content?: JSX.Element | string;
+	footer?: JSX.Element;
+	callback?: () => any;
 }
 
 export const useModal = () => {
-    const [modalData, setModalData] = useRecoilState(modalState);
+	const [modalData, setModalData] = useRecoilState(modalState);
 
-    const closeModal = useCallback(() => {
-        setModalData((prev) => ({
-            ...prev,
-            isOpen: false,
-        }));
-    }, [setModalData]);
+	const closeModal = useCallback(() => {
+		setModalData((prev) => ({
+			...prev,
+			isOpen: false,
+		}));
+	}, [setModalData]);
 
-    const openModal = useCallback(
-        ({ title, content, footer, callback }: ModalProps) => {
-            setModalData({
-                title: title,
-                isOpen: true,
-                content: content,
-                footer: footer,
-                callBack: callback,
-            });
-        },
-        [setModalData]
-    );
+	const openModal = useCallback(
+		({ title, content, footer, callback }: ModalProps) => {
+			setModalData({
+				title: title,
+				isOpen: true,
+				content: content,
+				footer: footer,
+				callBack: callback,
+			});
+		},
+		[setModalData]
+	);
 
-    return { modalData, closeModal, openModal };
+	return { modalData, closeModal, openModal };
 };

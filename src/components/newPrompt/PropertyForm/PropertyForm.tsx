@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
-import styled from "styled-components";
+import { useRef, useState } from 'react';
+import styled from 'styled-components';
 
 /**
  *
@@ -8,46 +8,46 @@ import styled from "styled-components";
  * 미사용
  */
 export default function PropertyForm() {
-    const editorRef = useRef<HTMLDivElement>(null);
-    const [content, setContent] = useState<string>("");
+	const editorRef = useRef<HTMLDivElement>(null);
+	const [content, setContent] = useState<string>('');
 
-    const handleInput = () => {
-        if (editorRef.current) {
-            const content = editorRef.current.innerText;
+	const handleInput = () => {
+		if (editorRef.current) {
+			const content = editorRef.current.innerText;
 
-            // 기존 HTML에서 highlight 처리된 부분을 제외한 나머지 부분만 처리
-            const updatedHtml = content.replace(
-                /(?<!<span class="highlight">)\{\{(.*?)\}\}(?!<\/span>)/g,
-                '<span class="highlight">{{$1}}</span>'
-            );
+			// 기존 HTML에서 highlight 처리된 부분을 제외한 나머지 부분만 처리
+			const updatedHtml = content.replace(
+				/(?<!<span class="highlight">)\{\{(.*?)\}\}(?!<\/span>)/g,
+				'<span class="highlight">{{$1}}</span>'
+			);
 
-            // HTML 업데이트
-            editorRef.current.innerHTML = updatedHtml;
-            setContent(updatedHtml); // 업데이트된 내용을 상태로 저장
+			// HTML 업데이트
+			editorRef.current.innerHTML = updatedHtml;
+			setContent(updatedHtml); // 업데이트된 내용을 상태로 저장
 
-            // 입력 후 포커스 및 텍스트 선택
-            const range = document.createRange();
-            const sel = window.getSelection();
-            if (sel) {
-                range.selectNodeContents(editorRef.current);
-                range.collapse(false);
-                sel.removeAllRanges();
-                sel.addRange(range);
-                editorRef.current.focus();
-            }
-        }
-    };
+			// 입력 후 포커스 및 텍스트 선택
+			const range = document.createRange();
+			const sel = window.getSelection();
+			if (sel) {
+				range.selectNodeContents(editorRef.current);
+				range.collapse(false);
+				sel.removeAllRanges();
+				sel.addRange(range);
+				editorRef.current.focus();
+			}
+		}
+	};
 
-    return (
-        <Wrapper>
-            <EditableDiv
-                ref={editorRef}
-                contentEditable
-                onInput={handleInput}
-                suppressContentEditableWarning
-            />
-        </Wrapper>
-    );
+	return (
+		<Wrapper>
+			<EditableDiv
+				ref={editorRef}
+				contentEditable
+				onInput={handleInput}
+				suppressContentEditableWarning
+			/>
+		</Wrapper>
+	);
 }
 
 const EditableDiv = styled.div`
