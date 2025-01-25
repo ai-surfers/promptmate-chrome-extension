@@ -46,11 +46,11 @@ const TabsList = React.forwardRef<
 	}, []);
 
 	return (
-		<div className="relative" ref={tabsListRef}>
+		<div className={className} ref={tabsListRef}>
 			<TabsPrimitive.List
 				ref={ref}
 				className={cn(
-					'inline-flex items-center justify-centerbg-white px-5 py-2 text-gray-400 gap-8 border-b-gray-100 border-b w-full box-border'
+					'inline-flex items-center justify-centerbg-white px-5 py-2 text-gray-400 gap-8 border-b-gray-100 border-b w-full'
 				)}
 				{...props}
 			/>

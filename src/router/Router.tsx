@@ -16,18 +16,12 @@ const routes = [
 	},
 	{
 		path: '/',
-		element: <HeaderLayout />,
+		element: <Layout />,
 		children: [
 			{
 				path: '/home',
 				element: <HomePage />,
 			},
-		],
-	},
-	{
-		path: '/',
-		element: <Layout />,
-		children: [
 			{
 				path: '/new-prompt',
 				element: <NewPromptPage />,

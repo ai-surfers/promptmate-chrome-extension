@@ -1,4 +1,3 @@
-import styled from 'styled-components';
 import { FloatButton } from 'antd';
 import { TabList } from '../../core/Tab';
 import List from '../../components/main/List';
@@ -7,6 +6,7 @@ import VOCModal from '../../components/common/modal/VOCModal';
 import { useState } from 'react';
 import { openPocketPromptInNewTab } from '../../service/chrome/utils';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import Header from '@/components/common/header/Header';
 
 export default function HomePage() {
 	const [showVOC, setShowVOC] = useState(false);
@@ -25,9 +25,11 @@ export default function HomePage() {
 	};
 
 	return (
-		<HomePageContainer>
-			<Tabs value={tab}>
-				<TabsList className="w-full justify-start">
+		<>
+			<Header />
+
+			<Tabs value={tab} className="relative">
+				<TabsList className="sticky top-[60px] z-10 bg-white w-full">
 					{Object.entries(TabList).map(([key, value]) => (
 						<TabsTrigger key={key} value={key} onClick={() => handleOnChangeTab(key)} className="">
 							{value}
@@ -50,24 +52,6 @@ export default function HomePage() {
 			/>
 
 			<VOCModal isOpen={showVOC} closeModal={() => setShowVOC(false)} />
-		</HomePageContainer>
+		</>
 	);
 }
-
-const HomePageContainer = styled.div`
-    position: relative;
-    width: 100%;
-    height: 100%;
-
-    .ant-tabs-nav {
-        padding: 0 40px;
-
-        .ant-tabs-tab {
-            padding: 15px 0;
-        }
-    }
-
-    .ant-tabs-content-holder {
-        padding: 0 40px;
-    }
-`;
