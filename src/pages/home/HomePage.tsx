@@ -1,11 +1,12 @@
 import styled from 'styled-components';
-import { Button, FloatButton, Tabs } from 'antd';
+import { FloatButton } from 'antd';
 import { TabList } from '../../core/Tab';
 import List from '../../components/main/List';
 import { CustomerServiceOutlined } from '@ant-design/icons';
 import VOCModal from '../../components/common/modal/VOCModal';
 import { useState } from 'react';
 import { openPocketPromptInNewTab } from '../../service/chrome/utils';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 export default function HomePage() {
 	const [showVOC, setShowVOC] = useState(false);
@@ -14,8 +15,8 @@ export default function HomePage() {
 
 	const handleOnChangeTab = (tab: string) => setTab(tab);
 	const components = [
-		<List type="starred" onChangeTab={handleOnChangeTab} />,
 		<List type="open" />,
+		<List type="starred" onChangeTab={handleOnChangeTab} />,
 		<List type="my" />,
 	];
 
@@ -23,28 +24,22 @@ export default function HomePage() {
 		openPocketPromptInNewTab('prompt-new');
 	};
 
-	const operation = (
-		<Button type="primary" onClick={handleNewPrompt}>
-			+
-		</Button>
-	);
-
 	return (
 		<HomePageContainer>
-			<Tabs
-				tabBarExtraContent={operation}
-				items={Object.entries(TabList).map(([key, value], idx) => {
-					return {
-						label: `${value}`,
-						key: `${key}`,
-						children: components[idx],
-					};
-				})}
-				activeKey={tab}
-				onChange={(key) => {
-					setTab(key);
-				}}
-			/>
+			<Tabs value={tab}>
+				<TabsList className="w-full justify-start">
+					{Object.entries(TabList).map(([key, value]) => (
+						<TabsTrigger key={key} value={key} onClick={() => handleOnChangeTab(key)} className="">
+							{value}
+						</TabsTrigger>
+					))}
+				</TabsList>
+				{Object.entries(TabList).map(([key, value], idx) => (
+					<TabsContent value={key} className="py-4 px-5">
+						{components[idx]}
+					</TabsContent>
+				))}
+			</Tabs>
 
 			<FloatButton
 				shape="circle"
