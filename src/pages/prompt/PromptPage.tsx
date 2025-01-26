@@ -1,6 +1,5 @@
-import { useNavigate, useParams } from 'react-router-dom';
-import { Suspense, useRef, useState } from 'react';
-import { PropertyRef } from '../../components/prompt/Property';
+import { useParams } from 'react-router-dom';
+import { Suspense, useState } from 'react';
 import { insertPromptToDOMInput } from '../../service/chrome/utils';
 import { copyClipboard, getAIPlatformType, populateTemplate } from '../../utils';
 import { useGetPrompt } from '../../hooks/queries/prompt/useGetPrompt';
@@ -23,11 +22,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 import { Categories } from '@/core/Prompt';
-import { Spin } from 'antd';
 import { Controller, useForm } from 'react-hook-form';
 import { useOverlay } from '@toss/use-overlay';
-import { ErrorBoundary, FallbackRender } from '@sentry/react';
-
+import { ErrorBoundary } from '@sentry/react';
+import PromptPageSkeleton from '../../components/skeleton/PromptPageSkeleton';
+import PromptPageError from '../../components/error/PromptPageError';
 const PromptPage = () => {
 	return (
 		<ErrorBoundary fallback={<PromptPageError />}>
@@ -38,31 +37,7 @@ const PromptPage = () => {
 	);
 };
 
-export default PromptPage;
-
-const PromptPageSkeleton = () => {
-	return (
-		<div className="w-full h-[100vh] flex items-center justify-center">
-			<Spin />
-		</div>
-	);
-};
-
-const PromptPageError = () => {
-	const navigation = useNavigate();
-
-	return (
-		<div className="w-full h-[100vh] flex flex-col items-center justify-center bg-white gap-8">
-			<h3 className="b1_18_med text-gray-700">프롬프트를 불러올 수 없습니다</h3>
-
-			<Button size={44} variant="normal" onClick={() => navigation(-1)}>
-				홈으로 돌아가기
-			</Button>
-		</div>
-	);
-};
-
-const TabList = {
+export const TabList = {
 	use: '프롬프트 사용하기',
 	templete: '프롬프트 템플릿',
 };
@@ -70,7 +45,7 @@ const TabList = {
 const PromptPageContainer = () => {
 	const { id = '' } = useParams();
 
-	const [tab, setTab] = useState<keyof typeof TabList>('use');
+	const [tab, setTab] = useState('use');
 
 	const { openModal, closeModal } = useModal();
 	const overlay = useOverlay();
@@ -173,7 +148,7 @@ const PromptPageContainer = () => {
 				<div className="h1_24_semi text-gray-800">{data.data.title} </div>
 				<div className="b3_14_reg text-gray-400 mt-1">{data.data.description}</div>
 
-				<div className="rounded-[12px] bg-gray-50 p-3 flex flex-col justify-start gap-2 mt-4">
+				<div className="rounded-[12px] bg-gray-50 p-3 flex flex-col justify-start gap-2">
 					<div className="flex gap-2 flex-wrap">
 						{data.data.categories.map((category) => (
 							<Chip color="gray" size={24}>
@@ -276,3 +251,5 @@ const PromptPageContainer = () => {
 		</div>
 	);
 };
+
+export default PromptPage;
