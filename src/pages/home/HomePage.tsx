@@ -1,8 +1,5 @@
-import { FloatButton } from 'antd';
 import { TabList } from '../../core/Tab';
 import List from '../../components/main/List';
-import { CustomerServiceOutlined } from '@ant-design/icons';
-import VOCModal from '../../components/common/modal/VOCModal';
 import { useState } from 'react';
 import { openPocketPromptInNewTab } from '../../service/chrome/utils';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -11,8 +8,6 @@ import { Button } from '@/components/ui/button';
 import { ArrowRight2 } from 'iconsax-react';
 
 export default function HomePage() {
-	const [showVOC, setShowVOC] = useState(false);
-
 	const [tab, setTab] = useState(Object.keys(TabList)[0]);
 
 	const handleOnChangeTab = (tab: string) => setTab(tab);
@@ -46,16 +41,6 @@ export default function HomePage() {
 						</TabsContent>
 					))}
 				</Tabs>
-
-				<FloatButton
-					shape="circle"
-					type="primary"
-					style={{ right: 24 }}
-					icon={<CustomerServiceOutlined />}
-					onClick={() => setShowVOC(true)}
-				/>
-
-				<VOCModal isOpen={showVOC} closeModal={() => setShowVOC(false)} />
 
 				<PromptNewButton />
 			</div>
