@@ -150,8 +150,8 @@ const PromptPageContainer = () => {
 					<p className="b3_14_reg text-gray-400 mt-1">{data.data.description}</p>
 				</div>
 
-				<div className="rounded-[12px] bg-gray-50 p-3 flex flex-col justify-start gap-2">
-					<div className="flex gap-5 flex-wrap">
+				<div className="rounded-[12px] bg-gray-50 p-3 flex flex-col justify-start">
+					<div className="flex justify-between flex-wrap gap-2">
 						<div className="flex gap-2 flex-wrap">
 							{data.data.categories.map((category) => (
 								<Chip color="gray" size={24}>
@@ -186,7 +186,7 @@ const PromptPageContainer = () => {
 			</section>
 
 			<Tabs value={tab} className="relative w-full bg-white min-h-[calc(100%-110px)]">
-				<TabsList className="sticky top-[60px] z-10 bg-white w-full h-[50px]">
+				<TabsList className="sticky top-[60px] z-10 bg-white w-full">
 					{Object.entries(TabList).map(([key, value]) => (
 						<TabsTrigger key={key} value={key} onClick={() => setTab(key)} className="">
 							{value}
@@ -194,7 +194,10 @@ const PromptPageContainer = () => {
 					))}
 				</TabsList>
 
-				<TabsContent value="use" className="py-4 px-5">
+				<TabsContent
+					value="use"
+					className="py-4 px-5 [box-shadow:inset_0px_4px_4px_0px_rgba(31,34,61,0.015)]"
+				>
 					<div className="b1_18_semi text-gray-800 mb-2">프롬프트 사용하기</div>
 
 					<form>
@@ -225,7 +228,10 @@ const PromptPageContainer = () => {
 					</form>
 				</TabsContent>
 
-				<TabsContent value="templete" className="py-4 px-5">
+				<TabsContent
+					value="templete"
+					className="py-4 px-5 [box-shadow:inset_0px_4px_4px_0px_rgba(31,34,61,0.015)]"
+				>
 					<div className="b1_18_semi text-gray-800 mb-2">프롬프트 템플릿</div>
 					<div className="bg-white border border-primary-20 p-4 rounded-[8px] b3_14_med text-gray-700">
 						{data.data.prompt_template}
