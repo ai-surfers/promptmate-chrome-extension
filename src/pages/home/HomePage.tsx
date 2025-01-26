@@ -36,7 +36,7 @@ export default function HomePage() {
 						))}
 					</TabsList>
 					{Object.entries(TabList).map(([key, value], idx) => (
-						<TabsContent value={key} className="py-4 px-5 min-h-[100vh]">
+						<TabsContent value={key} className="py-4 px-5">
 							{components[idx]}
 						</TabsContent>
 					))}

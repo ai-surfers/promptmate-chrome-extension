@@ -8,8 +8,10 @@ import { Button } from '@/components/ui/button';
 interface StarButtonProps {
 	id: string;
 	isFavorite: boolean;
+	type?: 'normal' | 'list';
 }
-export default function StarButton({ id, isFavorite }: StarButtonProps) {
+
+export default function StarButton({ id, isFavorite, type = 'normal' }: StarButtonProps) {
 	const queryClient = useQueryClient();
 
 	function handleOnFavoriteClick(e: React.MouseEvent<HTMLElement, MouseEvent>) {
@@ -58,6 +60,17 @@ export default function StarButton({ id, isFavorite }: StarButtonProps) {
 			console.log(error.message);
 		},
 	});
+
+	if (type === 'list') {
+		return (
+			<button
+				className="bg-gray-100 w-[44px] h-[44px] flex items-center justify-center absolute top-0 right-0 rounded-tr-[12px] rounded-bl-[12px] hover:bg-gray-200"
+				onClick={handleOnFavoriteClick}
+			>
+				{isFavorite ? <BookMark stroke="#7580EA" fill="#7580EA" /> : <BookMark />}
+			</button>
+		);
+	}
 
 	return (
 		<Button

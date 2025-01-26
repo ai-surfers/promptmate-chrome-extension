@@ -66,40 +66,37 @@ export default function List({ type, onChangeTab }: ListProps) {
 	}, [type, onChangeTab]);
 
 	return (
-		<ListContainer>
-			<Search onEnter={handleOnEnter} onClear={handleOnClear} />
-			<FilterContainer>
-				<FilterSelectBox onChange={(values) => setCategories(values)} />
-				<SortSelectBox
-					onSelect={(value) => {
-						setSortBy(value);
-					}}
-				/>
-			</FilterContainer>
+		<div className="-mx-5 -my-4">
+			<div className="bg-white px-5 py-4 flex flex-col gap-2.5">
+				<Search onEnter={handleOnEnter} onClear={handleOnClear} />
+				<FilterContainer>
+					<FilterSelectBox onChange={(values) => setCategories(values)} />
+					<SortSelectBox
+						onSelect={(value) => {
+							setSortBy(value);
+						}}
+					/>
+				</FilterContainer>
+			</div>
 
 			{!promptListData?.data.page_meta_data.total_count && <>{EmptyResult}</>}
 
-			{promptListData?.data.prompt_info_list.map((pt) => (
-				<ListItem key={pt.id} prompt={pt} onClick={() => navigate(`/prompt/${pt.id}`)} />
-			))}
+			<div className="flex flex-col gap-2.5 px-5 py-4 bg-gray-50">
+				{promptListData?.data.prompt_info_list.map((pt) => (
+					<ListItem key={pt.id} prompt={pt} onClick={() => navigate(`/prompt/${pt.id}`)} />
+				))}
 
-			<Pagination
-				total={promptListData?.data.page_meta_data.total_count}
-				pageSize={10}
-				onChange={handleOnChange}
-				showSizeChanger={false}
-			/>
-		</ListContainer>
+				<Pagination
+					className="w-full items-center justify-center"
+					total={promptListData?.data.page_meta_data.total_count}
+					pageSize={10}
+					onChange={handleOnChange}
+					showSizeChanger={false}
+				/>
+			</div>
+		</div>
 	);
 }
-
-const ListContainer = styled.div`
-    flex: 1;
-    ${({ theme }) => theme.mixins.flexBox('column', 'flex-end', 'center')};
-    gap: 10px;
-
-    padding-bottom: 20px;
-`;
 
 const FilterContainer = styled.div`
     width: 100%;

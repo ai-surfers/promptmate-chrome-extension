@@ -1,7 +1,9 @@
-import { Card } from 'antd';
 import { GetPromptResponse } from '../../hooks/queries/prompt/useGetPrompt';
+
+import { Eye, Play } from 'iconsax-react';
+import BookMark from '@/assets/BookMark';
+import { MouseEvent, useMemo } from 'react';
 import StarButton from '../common/button/StarButton';
-import styled from 'styled-components';
 
 interface ListItemProps {
 	prompt: GetPromptResponse;
@@ -10,48 +12,33 @@ interface ListItemProps {
 
 export default function ListItem({ prompt, onClick }: ListItemProps) {
 	return (
-		<ListItemContainer onClick={onClick}>
-			<Card
-				key={prompt.id}
-				style={{ width: '100%' }}
-				extra={<StarButton id={prompt.id!!} isFavorite={prompt.is_starred_by_user} />}
-				title={prompt.title}
-			>
-				<Description>{prompt.description}</Description>
-				<UseButton>사용하기</UseButton>
-			</Card>
-		</ListItemContainer>
+		<div
+			className="bg-white rounded-[12px] border border-gray-100 p-4 flex flex-col gap-3 cursor-pointer hover:shadow-sm relative"
+			onClick={onClick}
+		>
+			<h3 className="b1_18_semi text-gray-600">{prompt.title}</h3>
+			<p className="b3_14_reg text-gray-400 line-clamp-3">{prompt.description}</p>
+
+			<hr className="border border-gray-100" />
+
+			<div className="w-full flex justify-end gap-5">
+				<div className="flex gap-1 items-center c1_12_reg text-gray-400">
+					<Eye size={16} />
+					<span>{prompt.views}</span>
+				</div>
+
+				<div className="flex gap-1 items-center c1_12_reg text-gray-400">
+					<Play size={16} />
+					<span>{prompt.usages}</span>
+				</div>
+
+				<div className="flex gap-1 items-center c1_12_reg text-gray-400">
+					<BookMark width={16} height={16} />
+					<span>{prompt.star}</span>
+				</div>
+			</div>
+
+			<StarButton type="list" id={prompt.id} isFavorite={prompt.is_starred_by_user} />
+		</div>
 	);
 }
-
-const ListItemContainer = styled.div`
-    width: 100%;
-    cursor: pointer;
-
-    .ant-card-head-title {
-        white-space: pre-wrap;
-    }
-
-    .ant-card-body {
-        display: flex;
-        flex-direction: column;
-        align-items: flex-start;
-    }
-`;
-
-const Description = styled.div`
-    width: 100%;
-    color: #727272;
-
-    overflow: hidden;
-    display: -webkit-box;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 3;
-`;
-
-const UseButton = styled.button`
-    background: none;
-    padding: 0;
-    color: #1677ff;
-    align-self: flex-end;
-`;
