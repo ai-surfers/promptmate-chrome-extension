@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { GET } from '../../../service/client';
 import { CreatePromptRequest, InputFormat } from '../../mutations/prompt/usePostPrompt';
 import { PROMPT_KEYS } from '../QueryKeys';
@@ -28,7 +28,7 @@ const getPrompt = async (prompt_id: string) => {
 export const useGetPrompt = (prompt_id: string) => {
 	const QUERY_KEY = PROMPT_KEYS.detail(prompt_id);
 
-	const { data, isLoading, isError, refetch } = useQuery({
+	const { data, isLoading, isError, refetch } = useSuspenseQuery({
 		queryKey: QUERY_KEY,
 		queryFn: () => getPrompt(prompt_id).then((res) => res),
 	});

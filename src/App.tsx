@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import { initializeGA } from './utils/ga';
 import { initializeSentry } from '@/utils/sentry';
 import { ErrorBoundary } from '@sentry/react';
+import { OverlayProvider } from '@toss/use-overlay';
 
 const TRACKING_ID = import.meta.env.VITE_GA_MEASUREMENT_ID;
 const SENTRY_DSN = import.meta.env.VITE_SENTRY_DSN;
@@ -23,13 +24,15 @@ function App() {
 
 	return (
 		<ErrorBoundary>
-			<QueryClientProvider client={queryClient}>
-				<RecoilRoot>
-					<RouterProvider router={router} />
-					<AModal />
-					<Alert />
-				</RecoilRoot>
-			</QueryClientProvider>
+			<OverlayProvider>
+				<QueryClientProvider client={queryClient}>
+					<RecoilRoot>
+						<RouterProvider router={router} />
+						<AModal />
+						<Alert />
+					</RecoilRoot>
+				</QueryClientProvider>
+			</OverlayProvider>
 		</ErrorBoundary>
 	);
 }
