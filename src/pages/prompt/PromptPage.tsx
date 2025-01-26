@@ -144,42 +144,46 @@ const PromptPageContainer = () => {
 		<div className="w-full h-[calc(100vh-60px)]">
 			<PromptHeader prompt={data?.data} />
 
-			<div className="w-full px-5 py-2 flex flex-col gap-4">
-				<div className="h1_24_semi text-gray-800">{data.data.title} </div>
-				<div className="b3_14_reg text-gray-400 mt-1">{data.data.description}</div>
+			<section className="w-full px-5 py-2 flex flex-col gap-4">
+				<div>
+					<h1 className="h1_24_semi text-gray-800">{data.data.title} </h1>
+					<p className="b3_14_reg text-gray-400 mt-1">{data.data.description}</p>
+				</div>
 
 				<div className="rounded-[12px] bg-gray-50 p-3 flex flex-col justify-start gap-2">
-					<div className="flex gap-2 flex-wrap">
-						{data.data.categories.map((category) => (
-							<Chip color="gray" size={24}>
-								{Categories[category].ko}
-							</Chip>
-						))}
-					</div>
-
-					<div className="flex gap-4">
-						<div className="flex gap-1 items-center c1_12_reg text-gray-400">
-							<Eye size={16} />
-							<span>{data.data.views}</span>
+					<div className="flex gap-5 flex-wrap">
+						<div className="flex gap-2 flex-wrap">
+							{data.data.categories.map((category) => (
+								<Chip color="gray" size={24}>
+									{Categories[category].ko}
+								</Chip>
+							))}
 						</div>
 
-						<div className="flex gap-1 items-center c1_12_reg text-gray-400">
-							<Play size={16} />
-							<span>{data.data.usages}</span>
-						</div>
+						<div className="flex gap-4">
+							<div className="flex gap-1 items-center c1_12_reg text-gray-400">
+								<Eye size={16} />
+								<span>{data.data.views}</span>
+							</div>
 
-						<div className="flex gap-1 items-center c1_12_reg text-gray-400">
-							<BookMark width={16} height={16} />
-							<span>{data.data.star}</span>
-						</div>
+							<div className="flex gap-1 items-center c1_12_reg text-gray-400">
+								<Play size={16} />
+								<span>{data.data.usages}</span>
+							</div>
 
-						<div className="flex gap-1 items-center c1_12_reg text-gray-400">
-							<Profile size={16} />
-							<span>{data.data.author_nickname}</span>
+							<div className="flex gap-1 items-center c1_12_reg text-gray-400">
+								<BookMark width={16} height={16} />
+								<span>{data.data.star}</span>
+							</div>
+
+							<div className="flex gap-1 items-center c1_12_reg text-gray-400">
+								<Profile size={16} />
+								<span>{data.data.author_nickname}</span>
+							</div>
 						</div>
 					</div>
 				</div>
-			</div>
+			</section>
 
 			<Tabs value={tab} className="relative w-full bg-white min-h-[calc(100%-110px)]">
 				<TabsList className="sticky top-[60px] z-10 bg-white w-full h-[50px]">
@@ -233,7 +237,8 @@ const PromptPageContainer = () => {
 				<Button
 					size={56}
 					className="w-[56px] p-0"
-					variant={isDisabled ? 'disabled' : 'normal'}
+					disabled={isDisabled}
+					variant="normal"
 					onClick={handleCopy}
 				>
 					<Copy size={20} />
@@ -241,7 +246,8 @@ const PromptPageContainer = () => {
 				<Button
 					size={56}
 					className="b2_16_semi flex items-center flex-1"
-					variant={isDisabled ? 'disabled' : 'primary'}
+					variant="primary"
+					disabled={isDisabled}
 					onClick={handleUsePrompt}
 				>
 					<div className="flex-grow">프롬프트 사용하기</div>
