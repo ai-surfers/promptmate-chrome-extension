@@ -10,6 +10,7 @@ import { initializeGA } from './utils/ga';
 import { initializeSentry } from '@/utils/sentry';
 import { ErrorBoundary } from '@sentry/react';
 import { OverlayProvider } from '@toss/use-overlay';
+import { Toaster } from './components/ui/toaster';
 
 const TRACKING_ID = import.meta.env.VITE_GA_MEASUREMENT_ID;
 const SENTRY_DSN = import.meta.env.VITE_SENTRY_DSN;
@@ -30,6 +31,7 @@ function App() {
 						<RouterProvider router={router} />
 						<AModal />
 						<Alert />
+						<Toaster />
 					</RecoilRoot>
 				</QueryClientProvider>
 			</OverlayProvider>
