@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import { GET } from '../../../service/client';
 import { GetPromptResponse } from './useGetPrompt';
 import { PROMPT_KEYS } from '../QueryKeys';
@@ -41,7 +41,7 @@ const getPromptList = async (request: GetPromptListRequest) => {
 export const useGetPromptList = (request: GetPromptListRequest) => {
 	const QUERY_KEY = PROMPT_KEYS.list(request);
 
-	const { data, isLoading, isError, refetch } = useQuery({
+	const { data, isLoading, isError, refetch } = useSuspenseQuery({
 		queryKey: QUERY_KEY,
 		queryFn: () => getPromptList(request).then((res) => res),
 	});

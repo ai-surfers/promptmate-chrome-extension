@@ -7,43 +7,33 @@ import Header from '@/components/common/header/Header';
 import { Button } from '@/components/ui/button';
 import { ArrowRight2 } from 'iconsax-react';
 
-export default function HomePage() {
-	const [tab, setTab] = useState(Object.keys(TabList)[0]);
+export type TabType = keyof typeof TabList;
 
-	const handleOnChangeTab = (tab: string) => setTab(tab);
-	const components = [
-		<List type="open" />,
-		<List type="starred" onChangeTab={handleOnChangeTab} />,
-		<List type="my" />,
-	];
+export default function HomePage() {
+	const [tab, setTab] = useState<TabType>('open');
+
+	const handleOnChangeTab = (tab: TabType) => setTab(tab);
 
 	return (
-		<div>
+		<div className="h-[calc(100%-60px-100px)] pt-[60px]">
 			<Header />
 
-			<div className="relative">
-				<Tabs value={tab} className="relative">
-					<TabsList className="sticky top-[60px] z-10 bg-white w-full">
-						{Object.entries(TabList).map(([key, value]) => (
-							<TabsTrigger
-								key={key}
-								value={key}
-								onClick={() => handleOnChangeTab(key)}
-								className=""
-							>
-								{value}
-							</TabsTrigger>
-						))}
-					</TabsList>
-					{Object.entries(TabList).map(([key, value], idx) => (
-						<TabsContent value={key} className="py-4 px-5">
-							{components[idx]}
-						</TabsContent>
+			<Tabs value={tab} className="h-full">
+				<TabsList className="sticky top-[60px] z-10 bg-white w-full">
+					{Object.entries(TabList).map(([key, value]) => (
+						<TabsTrigger key={key} value={key} onClick={() => handleOnChangeTab(key as TabType)}>
+							{value}
+						</TabsTrigger>
 					))}
-				</Tabs>
+				</TabsList>
+				{Object.entries(TabList).map(([key, value], idx) => (
+					<TabsContent value={key} className="py-4 px-5 h-full overflow-scroll">
+						<List type={key} onChangeTab={handleOnChangeTab} />
+					</TabsContent>
+				))}
+			</Tabs>
 
-				<PromptNewButton />
-			</div>
+			<PromptNewButton />
 		</div>
 	);
 }
@@ -55,7 +45,7 @@ const PromptNewButton = () => {
 
 	return (
 		<div
-			className="sticky bottom-0 right-0 left-0 px-5 pt-3 pb-9 bg-white"
+			className="absolute bottom-0 right-0 left-0 px-5 pt-3 pb-9 bg-white"
 			onClick={handleNewPrompt}
 		>
 			<Button className="b2_16_semi flex items-center w-full">

@@ -2,7 +2,6 @@ import { GetPromptResponse } from '../../hooks/queries/prompt/useGetPrompt';
 
 import { Eye, Play } from 'iconsax-react';
 import BookMark from '@/assets/BookMark';
-import { MouseEvent, useMemo } from 'react';
 import StarButton from '../common/button/StarButton';
 
 interface ListItemProps {
@@ -16,8 +15,8 @@ export default function ListItem({ prompt, onClick }: ListItemProps) {
 			className="bg-white rounded-[12px] border border-gray-100 p-4 flex flex-col gap-3 cursor-pointer hover:shadow-sm relative"
 			onClick={onClick}
 		>
-			<h3 className="b1_18_semi text-gray-600">{prompt.title}</h3>
-			<p className="b3_14_reg text-gray-400 line-clamp-3">{prompt.description}</p>
+			<h3 className="b1_18_semi text-gray-600 pr-[44px]">{prompt.title}</h3>
+			<p className="b3_14_reg text-gray-400 line-clamp-2">{prompt.description}</p>
 
 			<hr className="border border-gray-100" />
 
