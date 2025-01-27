@@ -5,8 +5,9 @@ const CategoriesOptions = Object.entries(Categories);
 
 interface FilterSelectBoxProps {
 	onChange: (values: string | undefined) => void;
+	onClear: () => void;
 }
-export default function FilterSelectBox({ onChange }: FilterSelectBoxProps) {
+export default function FilterSelectBox({ onChange, onClear }: FilterSelectBoxProps) {
 	return (
 		<Select
 			style={{ minWidth: '100px' }}
@@ -14,8 +15,8 @@ export default function FilterSelectBox({ onChange }: FilterSelectBoxProps) {
 			mode="multiple"
 			maxCount={3}
 			placeholder="필터"
-			onSelect={(value) => onChange(value)}
-			onClear={() => onChange(undefined)}
+			onSelect={onChange}
+			onClear={onClear}
 		>
 			{CategoriesOptions.map(([key, value]) => (
 				<Select.Option key={value.en} value={key}>
