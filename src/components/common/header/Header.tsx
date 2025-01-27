@@ -25,7 +25,7 @@ const Header = () => {
 	}
 
 	return (
-		<header className="flex px-5 py-2.5 justify-between items-center absolute top-0 z-10 bg-white h-[60px]">
+		<header className="flex px-5 py-2.5 justify-between items-center absolute top-0 z-10 bg-white h-[60px] w-full">
 			<div className="flex items-center shrink-0">
 				<img src="/images/logo_icon.png" className="w-[40px] h-[40px] " />
 			</div>
