@@ -1,6 +1,6 @@
+import { Button } from '@/components/ui/button';
+import { Dialog, DialogContent, DialogDescription, DialogTitle } from '@/components/ui/dialog';
 import { openUrlInNewTab } from '@/service/chrome/tabs';
-import { Button, Modal } from 'antd';
-import styled from 'styled-components';
 
 export interface NotSupportedModalProps {
 	isOpen: boolean;
@@ -8,77 +8,33 @@ export interface NotSupportedModalProps {
 	closeModal: () => void;
 }
 
-export default function NotSupportedModal({ prompt, isOpen, closeModal }: NotSupportedModalProps) {
-	const Footer = () => {
-		function handleCopy() {
-			if (!prompt) {
-				alert('복사할 프롬프트가 없습니다.');
-				return;
-			}
-
-			navigator.clipboard
-				.writeText(prompt)
-				.then(() => {
-					alert('프롬프트가 클립보드에 복사되었습니다.');
-					closeModal();
-				})
-				.catch((err) => {
-					console.log('클립보드 복사 실패:', err);
-					alert('클립보드 복사에 실패했습니다.');
-				});
-		}
-
-		return (
-			<FooterContainer>
-				<Button type="primary" onClick={() => closeModal()}>
-					확인
-				</Button>
-			</FooterContainer>
-		);
-	};
-
+export default function NotSupportedModal({ isOpen, closeModal }: NotSupportedModalProps) {
 	function handleGoToPlatform(url: string) {
 		openUrlInNewTab(url);
 		closeModal();
 	}
 
+	function handleOnOpenChange(isOpen: boolean) {
+		if (!isOpen) {
+			closeModal();
+		}
+	}
+
 	return (
-		<Modal open={isOpen} onClose={closeModal} onCancel={closeModal} footer={<Footer />}>
-			<Title>플랫폼 안내</Title>
-			<Text>
-				원클릭 프롬프트 실행을 위해
-				<br /> ChatGPT로 이동합니다.
-			</Text>
-		</Modal>
+		<Dialog open={isOpen} onOpenChange={handleOnOpenChange}>
+			<DialogContent showCloseButton={false}>
+				<DialogTitle>
+					원클릭 프롬프트 실행을 위해
+					<br /> ChatGPT로 이동합니다
+				</DialogTitle>
+				<DialogDescription className="text-center">
+					chatGPT, Claude, Gemini에서 <br /> 프롬프트를 사용해 보세요!
+				</DialogDescription>
+
+				<Button onClick={closeModal} size={44} className="mt-4">
+					확인
+				</Button>
+			</DialogContent>
+		</Dialog>
 	);
 }
-
-const Title = styled.h1`
-    ${({ theme }) => theme.fonts.subtitle};
-    color: ${({ theme }) => theme.colors.main};
-    margin-bottom: 20px;
-`;
-
-const Text = styled.div`
-    ${({ theme }) => theme.fonts.modal};
-    color: ${({ theme }) => theme.colors.deep_gray};
-
-    b {
-        font-weight: 600;
-    }
-`;
-
-const Link = styled.span`
-    text-decoration: underline;
-    cursor: pointer;
-`;
-
-const FooterContainer = styled.div`
-    ${({ theme }) => theme.mixins.flexBox('column')};
-    gap: 10px;
-    margin-top: 30px;
-
-    button {
-        width: 100%;
-    }
-`;
