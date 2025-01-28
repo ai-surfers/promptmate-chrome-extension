@@ -27,6 +27,7 @@ import { useOverlay } from '@toss/use-overlay';
 import { ErrorBoundary } from '@sentry/react';
 import PromptPageSkeleton from '../../components/skeleton/PromptPageSkeleton';
 import PromptPageError from '../../components/error/PromptPageError';
+import { useToast } from '@/hooks/use-toast';
 const PromptPage = () => {
 	return (
 		<ErrorBoundary fallback={<PromptPageError />}>
@@ -48,6 +49,7 @@ const PromptPageContainer = () => {
 	const [tab, setTab] = useState('use');
 
 	const { openModal, closeModal } = useModal();
+	const { toast } = useToast();
 	const overlay = useOverlay();
 
 	const queryClient = useQueryClient();
@@ -119,7 +121,12 @@ const PromptPageContainer = () => {
 
 				copyClipboard(prompt)
 					.then(() => {
-						alert('프롬프트가 클립보드에 복사되었습니다.');
+						toast({
+							title: '프롬프트 템플릿이 복사되었습니다',
+							description: '원하는 곳에 붙여넣어(Ctrl+V) 사용해 보세요',
+							variant: 'dark',
+							duration: 1000,
+						});
 					})
 					.catch((err) => {
 						console.log('클립보드 복사 실패:', err);

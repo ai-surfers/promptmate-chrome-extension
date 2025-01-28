@@ -20,6 +20,7 @@ import { copyClipboard, getPocketPromptWebUrl } from '@/utils';
 import { useUser } from '@/hooks/useUser';
 import { MenuOutlined } from '@ant-design/icons';
 import MenuDrawer from '@/components/prompt/MenuDrawer';
+import { useToast } from '@/hooks/use-toast';
 
 type Props = {
 	prompt?: GetPromptResponse;
@@ -27,6 +28,8 @@ type Props = {
 const PromptHeader = ({ prompt }: Props) => {
 	const navigate = useNavigate();
 	const { userData } = useUser();
+
+	const { toast } = useToast();
 
 	const handleSend = () => {
 		if (!prompt?.id) {
@@ -37,7 +40,12 @@ const PromptHeader = ({ prompt }: Props) => {
 		const url = getPocketPromptWebUrl(`prompt/${prompt.id}`);
 		copyClipboard(url)
 			.then(() => {
-				alert('프롬프트 링크를 복사하였습니다.');
+				toast({
+					title: '프롬프트 링크를 복사하였습니다',
+					description: '다른 사람들과 공유해 보세요',
+					variant: 'dark',
+					duration: 1000,
+				});
 			})
 			.catch((e) => {});
 	};
