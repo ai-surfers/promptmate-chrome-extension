@@ -122,8 +122,7 @@ const PromptPageContainer = () => {
 				copyClipboard(prompt)
 					.then(() => {
 						toast({
-							title: '프롬프트 템플릿이 복사되었습니다',
-							description: '원하는 곳에 붙여넣어(Ctrl+V) 사용해 보세요',
+							description: '프롬프트 템플릿이 복사되었습니다',
 							variant: 'dark',
 							duration: 1000,
 						});

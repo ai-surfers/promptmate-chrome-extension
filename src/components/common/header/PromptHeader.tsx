@@ -41,8 +41,7 @@ const PromptHeader = ({ prompt }: Props) => {
 		copyClipboard(url)
 			.then(() => {
 				toast({
-					title: '프롬프트 링크를 복사하였습니다',
-					description: '다른 사람들과 공유해 보세요',
+					description: '프롬프트 링크를 복사하였습니다',
 					variant: 'dark',
 					duration: 1000,
 				});

@@ -41,7 +41,9 @@ export default function MenuDrawer({ info }: MenuDrawerProps) {
 			}
 
 			toast({
-				description: `${info.id}가 성공적으로 삭제되었습니다`,
+				description: '프롬프트 삭제가 완료되었습니다',
+				variant: 'dark',
+				duration: 1000,
 			});
 
 			queryClient.invalidateQueries({
