@@ -96,10 +96,10 @@ const VOCDialog = () => {
 				</form>
 
 				<DialogFooter className="flex flex-row w-full gap-3">
-					<TextButton variant="normal" className="flex-1" onClick={handleClose}>
+					<TextButton variant="normal" className="flex-1" onClick={handleClose} size={52}>
 						닫기
 					</TextButton>
-					<Button className="flex-1" onClick={handleOnSubmit}>
+					<Button className="flex-1" onClick={handleOnSubmit} size={52}>
 						제출하기
 					</Button>
 				</DialogFooter>

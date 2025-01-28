@@ -17,12 +17,12 @@ const textButtonVariants = cva(
 				underline: 'text-gray-600 underline hover:bg-gray-100',
 			},
 			size: {
-				56: 'b1-18-semi h-[56px] px-4 py-2 rounded-[12px]',
-				52: 'b2-16-semi h-[52px] px-4 py-2 rounded-[12px]',
-				44: 'b2-16-semi h-[44px] px-4 py-2 rounded-[8px]',
-				36: 'b3-14-semi h-[36px] px-3 py-2 rounded-[8px]',
-				32: 'b3-14-semi h-[32px] px-3 py-2 rounded-[8px]',
-				26: 'b1-12-semi h-[26px] px-2 py-2 rounded-[6px]',
+				56: 'b1_18_semi h-[56px] px-4 py-2 rounded-[12px]',
+				52: 'b2_16_semi h-[52px] px-4 py-2 rounded-[12px]',
+				44: 'b2_16_semi h-[44px] px-4 py-2 rounded-[8px]',
+				36: 'b3_14_semi h-[36px] px-3 py-2 rounded-[8px]',
+				32: 'b3_14_semi h-[32px] px-3 py-2 rounded-[8px]',
+				26: 'b1_12_semi h-[26px] px-2 py-2 rounded-[6px]',
 			},
 		},
 		defaultVariants: {
