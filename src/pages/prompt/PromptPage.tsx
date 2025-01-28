@@ -160,7 +160,7 @@ const PromptPageContainer = () => {
 					<div className="flex justify-between flex-wrap gap-2">
 						<div className="flex gap-2 flex-wrap">
 							{data.data.categories.map((category) => (
-								<Chip color="gray" size={24}>
+								<Chip color="gray" size={24} key={category}>
 									{Categories[category].ko}
 								</Chip>
 							))}

@@ -27,8 +27,8 @@ export default function HomePage() {
 					))}
 				</TabsList>
 				{Object.entries(TabList).map(([key, value], idx) => (
-					<TabsContent value={key} className="py-4 px-5 h-full overflow-scroll">
-						<List type={key} onChangeTab={handleOnChangeTab} />
+					<TabsContent key={key} value={key} className="py-4 px-5 h-full overflow-scroll">
+						<List type={key as TabType} onChangeTab={handleOnChangeTab} />
 					</TabsContent>
 				))}
 			</Tabs>
