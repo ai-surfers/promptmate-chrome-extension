@@ -12,7 +12,6 @@ export default function FilterSelectBox({ onChange, onClear }: FilterSelectBoxPr
 		<Select
 			style={{ minWidth: '100px' }}
 			allowClear
-			mode="multiple"
 			maxCount={3}
 			placeholder="필터"
 			onSelect={onChange}
