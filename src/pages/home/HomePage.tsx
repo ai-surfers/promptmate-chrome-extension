@@ -5,7 +5,7 @@ import { openPocketPromptInNewTab } from '../../service/chrome/utils';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Header from '@/components/common/header/Header';
 import { Button } from '@/components/ui/button';
-import { ArrowRight2 } from 'iconsax-react';
+import ArrowUpRight from '@/assets/ArrowUpRight';
 
 export type TabType = keyof typeof TabList;
 
@@ -50,7 +50,7 @@ const PromptNewButton = () => {
 		>
 			<Button className="b2_16_semi flex items-center w-full">
 				<div className="flex-grow">프롬프트 등록하러 가기</div>
-				<ArrowRight2 />
+				<ArrowUpRight width={24} height={24} />
 			</Button>
 		</div>
 	);

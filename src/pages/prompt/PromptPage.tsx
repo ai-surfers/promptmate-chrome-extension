@@ -16,7 +16,7 @@ import NotSupportedModal from '../../components/common/modal/NotSupportedModal';
 import { getCurrentTabUrl, openUrlInNewTab } from '@/service/chrome/tabs';
 import PromptHeader from '@/components/common/header/PromptHeader';
 import { Chip } from '@/components/ui/chip';
-import { ArrowRight2, Copy, Eye, Play, Profile } from 'iconsax-react';
+import { Copy, Eye, Play, Profile } from 'iconsax-react';
 import BookMark from '@/assets/BookMark';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
@@ -28,6 +28,7 @@ import { ErrorBoundary } from '@sentry/react';
 import PromptPageSkeleton from '../../components/skeleton/PromptPageSkeleton';
 import PromptPageError from '../../components/error/PromptPageError';
 import { useToast } from '@/hooks/use-toast';
+import ArrowUpRight from '@/assets/ArrowUpRight';
 const PromptPage = () => {
 	return (
 		<ErrorBoundary fallback={<PromptPageError />}>
@@ -263,7 +264,7 @@ const PromptPageContainer = () => {
 					onClick={handleUsePrompt}
 				>
 					<div className="flex-grow">프롬프트 사용하기</div>
-					<ArrowRight2 />
+					<ArrowUpRight width={24} height={24} stroke={isDisabled ? '#AFB1C1' : '#fff'} />
 				</Button>
 			</div>
 		</div>
