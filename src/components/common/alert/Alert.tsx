@@ -1,6 +1,5 @@
-import styled from 'styled-components';
-import Button from '../button/Button';
 import { useAlert } from '../../../hooks/useAlert';
+import { Button } from '@/components/ui/button';
 
 const Alert = () => {
 	const { alertData, closeAlert } = useAlert();
@@ -14,11 +13,15 @@ const Alert = () => {
 		<>
 			{alertData.isOpen && (
 				<>
-					<Overlay />
-					<AlertContainer>
-						<AlertContent>{alertData.content}</AlertContent>
-						<Button title="확인" onClick={handleOnClick} />
-					</AlertContainer>
+					<div className="absolute top-0 left-0 right-0 bottom-0 bg-black opacity-50 z-10" />
+					<div className="bg-white absolute top-0 left-0 right-0 bottom-0 m-auto z-10 p-5 rounded-[12px] w-fit h-fit min-w-[18.7rem]">
+						<p className="text-gray-900 b3_14_med p-4 whitespace-pre-wrap text-center">
+							{alertData.content}
+						</p>
+						<Button onClick={handleOnClick} className="w-full mt-4" size={44}>
+							확인
+						</Button>
+					</div>
 				</>
 			)}
 		</>
@@ -26,37 +29,3 @@ const Alert = () => {
 };
 
 export default Alert;
-
-const Overlay = styled.div`
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 999;
-`;
-
-const AlertContainer = styled.div`
-    ${({ theme }) => theme.mixins.flexBox('column', 'flex-end', 'center')};
-    ${({ theme }) => theme.fonts.modal};
-
-    width: 18.7rem;
-    padding: 3.3rem 3.5rem 1rem 3.5rem;
-
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-
-    border-radius: 12px;
-    gap: 2.8rem;
-    flex-shrink: 0;
-    background-color: ${({ theme }) => theme.colors.white};
-    z-index: 1000;
-`;
-
-const AlertContent = styled.div`
-    ${({ theme }) => theme.mixins.flexBox()};
-    white-space: pre-wrap;
-`;
