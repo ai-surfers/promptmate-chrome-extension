@@ -12,6 +12,8 @@ import ListEmpty from './ListEmpty';
 import { TabType } from '@/pages/home/HomePage';
 import { ErrorBoundary } from '@sentry/react';
 import ListError from './ListError';
+import VOCDialog from '../common/dialog/VOCDialog';
+import KindSelectBox from '../prompt/KindSelectBox';
 
 interface ListProps {
 	type: TabType;
@@ -22,6 +24,7 @@ export default function List({ type, onChangeTab }: ListProps) {
 	const [query, setQuery] = useState<string | undefined>();
 	const [sortBy, setSortBy] = useState<string>(Object.keys(SortBy)[0]);
 	const [categories, setCategories] = useState<string>();
+	const [kind, setKind] = useState<'text' | 'image'>('text');
 
 	// 페이지 변경 시,
 	function handleOnChange(page: number, pageSize: number) {
@@ -40,6 +43,11 @@ export default function List({ type, onChangeTab }: ListProps) {
 		setPage(1);
 	}
 
+	// 프롬프트 종류 변경 시,
+	function handleOnKindChange(kind: 'text' | 'image') {
+		setKind(kind);
+	}
+
 	function handleOnClear() {
 		setQuery(undefined);
 		setPage(1);
@@ -48,6 +56,10 @@ export default function List({ type, onChangeTab }: ListProps) {
 
 	return (
 		<div className="-mx-5 -my-4 h-full">
+			<div className="px-5 py-3 flex justify-between items-center">
+				<KindSelectBox kind={kind} onChange={handleOnKindChange} />
+				<VOCDialog />
+			</div>
 			<div className="bg-white px-5 py-4 flex flex-col gap-2.5">
 				<Search onEnter={handleOnEnter} onClear={handleOnClear} />
 				<div className="flex gap-2.5 justify-end items-center w-full">

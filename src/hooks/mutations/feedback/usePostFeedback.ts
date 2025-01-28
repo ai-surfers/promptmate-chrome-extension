@@ -2,9 +2,9 @@ import { useMutation } from '@tanstack/react-query';
 import { BaseResponse, POST } from '../../../service/client';
 
 export interface AddFeedBackRequest {
-	category: string;
+	category?: string;
 	content: string;
-	rating: number;
+	rating?: number;
 }
 interface AddFeedBackResponse {
 	feedback_id: string;
