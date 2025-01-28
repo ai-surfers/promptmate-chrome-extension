@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import styles from '../tutorial.styles';
 import FakePrompt from './FakePrompt';
-import Button from '../../common/button/Button';
+import { Button } from '@/components/ui/button';
 
 interface Tutorial3Props {
 	onNext: () => void;
@@ -20,7 +20,9 @@ export default function Tutorial3({ onNext }: Tutorial3Props) {
 				<FakePrompt onNext={onNext} />
 			</PromptContainer>
 
-			<Button title="다음" onClick={onNext} />
+			<Button onClick={onNext} className="w-full">
+				다음
+			</Button>
 		</styles.Container2>
 	);
 }

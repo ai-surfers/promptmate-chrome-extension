@@ -1,5 +1,6 @@
+import { Button } from '@/components/ui/button';
 import styles from '../tutorial.styles';
-import Button from '../../common/button/Button';
+import pocketPromptSVG from '@/assets/svg/pocket-prompt.svg';
 
 interface Tutorial5Props {
 	onNext: () => void;
@@ -12,7 +13,7 @@ export default function Tutorial4({ onNext }: Tutorial5Props) {
 				<styles.Subtitle></styles.Subtitle>
 			</styles.Wrapper>
 
-			<img src="/images/img_hero.svg" alt="ic_back" />
+			<img src={pocketPromptSVG} />
 
 			<styles.Wrapper>
 				<styles.Content>
@@ -21,7 +22,9 @@ export default function Tutorial4({ onNext }: Tutorial5Props) {
 					당신의 AI에 날개를 달아주세요!
 				</styles.Content>
 
-				<Button title="시작하기" onClick={onNext} />
+				<Button onClick={onNext} className="w-full">
+					시작하기
+				</Button>
 			</styles.Wrapper>
 		</styles.Container>
 	);

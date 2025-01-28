@@ -21,8 +21,6 @@ export default function FakePrompt({ onNext }: FakePromptProps) {
 
 	return (
 		<>
-			<FakeTopBox />
-
 			<Title>{data.title}</Title>
 			<Description>{data.description}</Description>
 
@@ -97,7 +95,6 @@ const FakeTextArea = styled.div`
     font-size: 14px;
     line-height: 1.5714285714285714;
     list-style: none;
-    font-family: Suit;
     position: relative;
     display: inline-block;
     width: 100%;

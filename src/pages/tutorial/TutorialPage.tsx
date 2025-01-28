@@ -20,10 +20,8 @@ type TUTORIAL_STEP_VALUES = (typeof TUTORIAL_STEPS)[keyof typeof TUTORIAL_STEPS]
 const steps = Object.values(TUTORIAL_STEPS);
 
 export default function TutorialPage() {
-	const { Funnel, Step, nextStep, currentStep, currentIndex } = useFunnel<TUTORIAL_STEP_VALUES>(
-		steps,
-		0
-	);
+	const { Funnel, Step, nextStep, currentStep, currentIndex, setStepIndex } =
+		useFunnel<TUTORIAL_STEP_VALUES>(steps, 0);
 
 	const navigate = useNavigate();
 	function onFinish() {
@@ -37,7 +35,7 @@ export default function TutorialPage() {
 		<TutorialContainer>
 			<DotConatiner>
 				{steps.map((step, idx) => (
-					<Dot $active={step === currentStep} key={idx} />
+					<Dot $active={step === currentStep} key={idx} onClick={() => setStepIndex(idx)} />
 				))}
 
 				{currentStep !== TUTORIAL_STEPS.FINISH && <SkipButton onClick={onFinish}>skip</SkipButton>}
@@ -99,7 +97,7 @@ const Dot = styled.div<{ $active?: boolean }>`
     width: 8px;
     height: 8px;
     border-radius: 6px;
-    background: ${({ theme, $active }) => ($active ? '#4FB8E7' : '#e1e2e1')};
+    background: ${({ theme, $active }) => ($active ? '#7580EA' : '#DEE0E8')};
 `;
 
 const TutorialContainer = styled.div`

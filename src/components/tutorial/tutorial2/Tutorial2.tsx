@@ -1,6 +1,6 @@
 import { openUrlInNewTab } from '@/service/chrome/tabs';
-import Button from '../../common/button/Button';
 import styles from '../tutorial.styles';
+import { Button } from '@/components/ui/button';
 
 interface Tutorial2Props {
 	onNext: () => void;
@@ -29,7 +29,9 @@ export default function Tutorial2({ onNext }: Tutorial2Props) {
 					다양한 AI 플랫폼을 지원합니다
 				</styles.Content>
 
-				<Button title="chatGPT로 이동" onClick={handleGoGPT} />
+				<Button onClick={handleGoGPT} className="w-full">
+					chatGPT로 이동
+				</Button>
 			</styles.Wrapper>
 		</styles.Container>
 	);

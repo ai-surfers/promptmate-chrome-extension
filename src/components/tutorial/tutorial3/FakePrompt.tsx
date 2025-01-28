@@ -20,8 +20,6 @@ export default function FakePrompt({ onNext }: FakePromptProps) {
 
 	return (
 		<>
-			<FakeTopBox />
-
 			<Title>{data.title}</Title>
 			<Description>{data.description}</Description>
 

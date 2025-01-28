@@ -1,7 +1,6 @@
 import styled from 'styled-components';
 import { useRef, useState } from 'react';
 
-import Header from '../../components/common/header/AHeader';
 import { Wrapper } from '../../layouts/Layout';
 import Property, { PropertyRef } from '../../components/prompt/Property';
 import { insertPromptToDOMInput } from '../../service/chrome/utils';
@@ -22,6 +21,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { AIPlatformType } from '../../core/Prompt';
 import { getCurrentTabUrl } from '@/service/chrome/tabs';
+import Header from '@/components/common/header/Header';
 
 export default function TutorialPromptPage() {
 	const [showNotSupportedModal, setShowNotSupportedModal] = useState(false);
@@ -139,7 +139,7 @@ export default function TutorialPromptPage() {
 
 	return (
 		<>
-			<Header title="프롬프트 사용하기" canGoBack={true} />
+			<Header />
 			<Wrapper>
 				{data && (
 					<>

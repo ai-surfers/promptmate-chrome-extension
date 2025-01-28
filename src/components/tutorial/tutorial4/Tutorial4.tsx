@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 import styles from '../tutorial.styles';
 import FakePrompt from './FakePrompt';
-import Button from '../../common/button/Button';
 import { populateTemplate } from '../../../utils';
 import { insertPromptToDOMInput } from '../../../service/chrome/utils';
 import dummies from '../dummies.json';
+import { Button } from '@/components/ui/button';
 const data = dummies.data;
 
 interface Tutorial4Props {
@@ -40,7 +40,9 @@ export default function Tutorial4({ onNext }: Tutorial4Props) {
 				<FakePrompt onNext={onNext} />
 			</PromptContainer>
 
-			<Button title="사용" onClick={handleUsePrompt} />
+			<Button onClick={handleUsePrompt} className="w-full">
+				사용
+			</Button>
 		</styles.Container2>
 	);
 }

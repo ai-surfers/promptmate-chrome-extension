@@ -11,8 +11,8 @@ const Styles = ({ children }: StylesProps) => {
 		<ConfigProvider
 			theme={{
 				token: {
-					colorPrimary: '#7580EA', //#4A7DFF
-					fontFamily: 'Suit',
+					colorPrimary: '#7580EA',
+					fontFamily: 'Pretendard',
 				},
 				components: {
 					Select: {

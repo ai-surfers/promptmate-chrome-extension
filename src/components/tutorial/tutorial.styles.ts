@@ -26,7 +26,7 @@ const styles = {
 	Wrapper: styled.div`
         width: 100%;
         ${({ theme }) => theme.mixins.flexBox('column')};
-        gap: 20px;
+        gap: 40px;
     `,
 
 	ButtonContainer: styled.div`

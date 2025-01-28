@@ -1,10 +1,10 @@
 import { useNavigate } from 'react-router-dom';
 import { useAlert } from '../../hooks/useAlert';
-import Header from '../../components/common/header/AHeader';
 import { Wrapper } from '../../layouts/Layout';
 import PromptForm from '../../components/newPrompt/PromptForm';
 import { CreatePromptRequest, usePostPrompt } from '../../hooks/mutations/prompt/usePostPrompt';
 import { useQueryClient } from '@tanstack/react-query';
+import Header from '@/components/common/header/Header';
 
 export default function NewPromptPage() {
 	const navigate = useNavigate();
@@ -38,7 +38,7 @@ export default function NewPromptPage() {
 
 	return (
 		<>
-			<Header title="프롬프트 추가하기" canGoBack={true} />
+			<Header />
 			<Wrapper>
 				<PromptForm onSubmit={savePrompt} />
 			</Wrapper>
