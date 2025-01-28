@@ -11,12 +11,12 @@ import TutorialPage from '../pages/tutorial/TutorialPage';
 const routes = [
 	{
 		path: '/',
-		element: <LoginPage />,
-	},
-	{
-		path: '/',
 		element: <Layout />,
 		children: [
+			{
+				path: '/',
+				element: <LoginPage />,
+			},
 			{
 				path: '/home',
 				element: <HomePage />,

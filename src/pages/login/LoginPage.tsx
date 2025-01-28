@@ -6,7 +6,7 @@ import { ACCESS_TOKEN, ONBOARING } from '../../service/chrome/storage.keys';
 import { useAlert } from '../../hooks/useAlert';
 import { useEffect } from 'react';
 import { useUser } from '../../hooks/useUser';
-import CustomHeader from '@/components/common/header/AHeader';
+import Header from '@/components/common/header/Header';
 
 export default function LoginPage() {
 	const navigate = useNavigate();
@@ -151,9 +151,10 @@ export default function LoginPage() {
 	}, []);
 
 	return (
-		<LoginPageContainer>
-			<CustomHeader title="Pocket Prompt" />
-			<IframeContainer>
+		<div className="h-[calc(100%-60px)] pt-[60px]">
+			<Header />
+
+			<div className="w-full h-full">
 				<iframe
 					src="https://prompt-mate-d3b25.web.app"
 					title="Google Login"
@@ -161,31 +162,8 @@ export default function LoginPage() {
 					height="100%"
 					style={{ border: 'none' }}
 					sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
-				></iframe>
-			</IframeContainer>
-		</LoginPageContainer>
+				/>
+			</div>
+		</div>
 	);
 }
-
-const LoginPageContainer = styled.section`
-    max-width: 452px;
-
-    width: 100vw;
-    height: 100vh;
-
-    background: #fff;
-
-    margin: 0 auto;
-    overflow: scroll;
-
-    position: relative;
-
-    ${({ theme }) => theme.mixins.flexBox('column', 'center', 'center')};
-`;
-
-const IframeContainer = styled.div`
-    max-width: 452px;
-    width: 100vw;
-    height: calc(100% - 60px);
-    ${({ theme }) => theme.mixins.flexBox('column', 'center', 'center')};
-`;
