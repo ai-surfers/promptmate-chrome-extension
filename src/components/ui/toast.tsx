@@ -111,7 +111,7 @@ const ToastDescription = React.forwardRef<
 	<ToastPrimitives.Description
 		ref={ref}
 		className={cn(
-			'b3_14_reg',
+			'b3_14_reg whitespace-pre-wrap',
 			'group-[.light]:text-gray-400',
 			'group-[.dark]:text-gray-300',
 			className

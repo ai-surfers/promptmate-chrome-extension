@@ -6,9 +6,12 @@ export interface TextareaProps extends React.ComponentProps<'textarea'> {
 }
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
-	({ className, count, value = '', onChange, ...props }, ref) => {
+	({ className, count, onChange, ...props }, ref) => {
+		const [length, setLength] = React.useState(0);
+
 		const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 			const currentValue = e.target.value;
+			setLength(currentValue.length);
 			if (count && currentValue.length > count) return;
 			if (onChange) onChange(e);
 		};
@@ -18,7 +21,7 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
 				className={cn(
 					'relative flex flex-col gap-1 rounded-[8px] border border-primary-20 p-3 transition-all',
 					'min-h-min max-h-[300px]',
-					value && value.toString().length > 0 ? 'bg-primary-10' : 'bg-white',
+					length > 0 ? 'bg-primary-10' : 'bg-white',
 					'hover:bg-primary-10 focus-within:bg-primary-10 focus-within:border-primary-60',
 					props.disabled && 'bg-gray-100 border-gray-100 pointer-events-none',
 					className
@@ -32,19 +35,13 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
 						'disabled:resize-none disabled:text-gray-300 disabled:placeholder-gray-300',
 						className
 					)}
-					value={value}
 					onChange={handleChange}
 					{...props}
 				/>
 				{count && (
 					<span className="self-end c1_12_reg text-gray-300">
-						<b
-							className={cn(
-								'c1_12_semi',
-								value && value.toString().length > 0 ? 'text-primary' : 'text-gray-300'
-							)}
-						>
-							{value ? value.toString().length : 0}
+						<b className={cn('c1_12_semi', length > 0 ? 'text-primary' : 'text-gray-300')}>
+							{length > 0 ? length : 0}
 						</b>
 						/{count}
 					</span>
