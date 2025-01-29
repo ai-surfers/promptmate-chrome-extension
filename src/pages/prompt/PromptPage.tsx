@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { Suspense, useState } from 'react';
+import { Suspense, useMemo, useState } from 'react';
 import { insertPromptToDOMInput } from '../../service/chrome/utils';
 import { copyClipboard, getAIPlatformType, populateTemplate } from '../../utils';
 import { useGetPrompt } from '../../hooks/queries/prompt/useGetPrompt';
@@ -47,14 +47,23 @@ export const TabList = {
 const PromptPageContainer = () => {
 	const { id = '' } = useParams();
 
-	const [tab, setTab] = useState('use');
-
 	const { openModal, closeModal } = useModal();
 	const { toast } = useToast();
 	const overlay = useOverlay();
 
 	const queryClient = useQueryClient();
 	const { data } = useGetPrompt(id);
+
+	const [tabIdx, setTabIdx] = useState(0);
+	const tabs = useMemo(() => {
+		let tabs = Object.entries(TabList);
+
+		if (data.data.user_input_format.length === 0) {
+			return tabs.filter(([key]) => key !== 'use');
+		}
+
+		return tabs;
+	}, [data]);
 
 	const form = useForm();
 	const { control, formState } = form;
@@ -192,10 +201,10 @@ const PromptPageContainer = () => {
 				</div>
 			</section>
 
-			<Tabs value={tab} className="relative w-full bg-white min-h-[calc(100%-110px)]">
+			<Tabs value={tabs[tabIdx][0]} className="relative w-full bg-white min-h-[calc(100%-110px)]">
 				<TabsList className="sticky top-[60px] z-10 bg-white w-full">
-					{Object.entries(TabList).map(([key, value]) => (
-						<TabsTrigger key={key} value={key} onClick={() => setTab(key)} className="">
+					{tabs.map(([key, value], idx) => (
+						<TabsTrigger key={key} value={key} onClick={() => setTabIdx(idx)}>
 							{value}
 						</TabsTrigger>
 					))}
@@ -205,8 +214,6 @@ const PromptPageContainer = () => {
 					value="use"
 					className="py-4 px-5 [box-shadow:inset_0px_4px_4px_0px_rgba(31,34,61,0.015)]"
 				>
-					<div className="b1_18_semi text-gray-800 mb-2">프롬프트 사용하기</div>
-
 					<form>
 						<div className="flex flex-col gap-6">
 							{data?.data.user_input_format.map((opt) => (
@@ -239,7 +246,6 @@ const PromptPageContainer = () => {
 					value="templete"
 					className="py-4 px-5 [box-shadow:inset_0px_4px_4px_0px_rgba(31,34,61,0.015)]"
 				>
-					<div className="b1_18_semi text-gray-800 mb-2">프롬프트 템플릿</div>
 					<div className="bg-white border border-primary-20 p-4 rounded-[8px] b3_14_med text-gray-700">
 						{data.data.prompt_template}
 					</div>
