@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { Suspense, useState } from 'react';
+import { Suspense, useMemo, useState } from 'react';
 import { insertPromptToDOMInput } from '../../service/chrome/utils';
 import { copyClipboard, getAIPlatformType, populateTemplate } from '../../utils';
 import { useGetPrompt } from '../../hooks/queries/prompt/useGetPrompt';
@@ -47,14 +47,23 @@ export const TabList = {
 const PromptPageContainer = () => {
 	const { id = '' } = useParams();
 
-	const [tab, setTab] = useState('use');
-
 	const { openModal, closeModal } = useModal();
 	const { toast } = useToast();
 	const overlay = useOverlay();
 
 	const queryClient = useQueryClient();
 	const { data } = useGetPrompt(id);
+
+	const [tabIdx, setTabIdx] = useState(0);
+	const tabs = useMemo(() => {
+		let tabs = Object.entries(TabList);
+
+		if (data.data.user_input_format.length === 0) {
+			return tabs.filter(([key]) => key !== 'use');
+		}
+
+		return tabs;
+	}, [data]);
 
 	const form = useForm();
 	const { control, formState } = form;
@@ -152,7 +161,7 @@ const PromptPageContainer = () => {
 			<PromptHeader prompt={data?.data} />
 
 			<div className="h-full overflow-y-scroll flex flex-col">
-				<section className="px-5 py-2 flex flex-col gap-4">
+				<section className="w-full px-5 py-2 flex flex-col gap-4">
 					<div>
 						<h1 className="h1_24_semi text-gray-800">{data.data.title} </h1>
 						<p className="b3_14_reg text-gray-400 mt-1">{data.data.description}</p>
@@ -193,10 +202,10 @@ const PromptPageContainer = () => {
 					</div>
 				</section>
 
-				<Tabs value={tab} className="relative w-full bg-white min-h-full">
+				<Tabs value={tabs[tabIdx][0]} className="relative w-full bg-white min-h-full">
 					<TabsList className="sticky top-0 z-10 bg-white w-full">
-						{Object.entries(TabList).map(([key, value]) => (
-							<TabsTrigger key={key} value={key} onClick={() => setTab(key)} className="">
+						{tabs.map(([key, value], idx) => (
+							<TabsTrigger key={key} value={key} onClick={() => setTabIdx(idx)}>
 								{value}
 							</TabsTrigger>
 						))}
