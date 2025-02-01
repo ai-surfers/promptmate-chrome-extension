@@ -16,13 +16,14 @@ export default function Layout() {
 }
 
 const Container = styled.div`
-    max-width: 452px;
     margin: 0 auto;
 
     background: #fff;
 
-	width: 100%;
-	height: 100vh;
+    max-width: 452px;
+    min-width: 344px;
+    width: 100vw;
+    height: 100vh;
 
     position: relative;
 `;
