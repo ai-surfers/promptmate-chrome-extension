@@ -15,11 +15,11 @@ export default function HomePage() {
 	const handleOnChangeTab = (tab: TabType) => setTab(tab);
 
 	return (
-		<div className="h-[calc(100%-60px-100px)] pt-[60px]">
+		<div className="h-full pt-[60px] pb-[80px] relative">
 			<Header />
 
 			<Tabs value={tab} className="h-full">
-				<TabsList className="sticky top-[60px] z-10 bg-white w-full">
+				<TabsList className="sticky top-[60px] z-10 bg-white w-full h-[40px]">
 					{Object.entries(TabList).map(([key, value]) => (
 						<TabsTrigger key={key} value={key} onClick={() => handleOnChangeTab(key as TabType)}>
 							{value}
@@ -27,7 +27,7 @@ export default function HomePage() {
 					))}
 				</TabsList>
 				{Object.entries(TabList).map(([key, value], idx) => (
-					<TabsContent key={key} value={key} className="py-4 px-5 h-full overflow-scroll">
+					<TabsContent key={key} value={key} className="h-[calc(100%-40px)] overflow-scroll">
 						<List type={key as TabType} onChangeTab={handleOnChangeTab} />
 					</TabsContent>
 				))}
@@ -44,13 +44,10 @@ const PromptNewButton = () => {
 	};
 
 	return (
-		<div
-			className="absolute bottom-0 right-0 left-0 px-5 pt-3 pb-9 bg-white"
-			onClick={handleNewPrompt}
-		>
+		<div className="absolute bottom-0 right-0 left-0 px-5 py-3 bg-white" onClick={handleNewPrompt}>
 			<Button className="b2_16_semi flex items-center w-full">
-				<div className="flex-grow">프롬프트 등록하러 가기</div>
-				<ArrowUpRight width={24} height={24} />
+				<div className="flex-1">프롬프트 등록하러 가기</div>
+				<ArrowUpRight width={24} height={24} className="flex-shrink-0" />
 			</Button>
 		</div>
 	);

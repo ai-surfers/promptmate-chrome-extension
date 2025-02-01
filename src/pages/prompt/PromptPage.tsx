@@ -148,105 +148,107 @@ const PromptPageContainer = () => {
 	}
 
 	return (
-		<div className="w-full h-[calc(100vh-60px)]">
+		<div className="h-full pt-[60px] pb-[80px] relative">
 			<PromptHeader prompt={data?.data} />
 
-			<section className="w-full px-5 py-2 flex flex-col gap-4">
-				<div>
-					<h1 className="h1_24_semi text-gray-800">{data.data.title} </h1>
-					<p className="b3_14_reg text-gray-400 mt-1">{data.data.description}</p>
-				</div>
-
-				<div className="rounded-[12px] bg-gray-50 p-3 flex flex-col justify-start">
-					<div className="flex justify-between flex-wrap gap-2">
-						<div className="flex gap-2 flex-wrap">
-							{data.data.categories.map((category) => (
-								<Chip color="gray" size={24} key={category}>
-									{Categories[category].ko}
-								</Chip>
-							))}
-						</div>
-
-						<div className="flex gap-4">
-							<div className="flex gap-1 items-center c1_12_reg text-gray-400">
-								<Eye size={16} />
-								<span>{data.data.views}</span>
-							</div>
-
-							<div className="flex gap-1 items-center c1_12_reg text-gray-400">
-								<Play size={16} />
-								<span>{data.data.usages}</span>
-							</div>
-
-							<div className="flex gap-1 items-center c1_12_reg text-gray-400">
-								<BookMark width={16} height={16} />
-								<span>{data.data.star}</span>
-							</div>
-
-							<div className="flex gap-1 items-center c1_12_reg text-gray-400">
-								<Profile size={16} />
-								<span>{data.data.author_nickname}</span>
-							</div>
-						</div>
+			<div className="h-full overflow-y-scroll flex flex-col">
+				<section className="px-5 py-2 flex flex-col gap-4">
+					<div>
+						<h1 className="h1_24_semi text-gray-800">{data.data.title} </h1>
+						<p className="b3_14_reg text-gray-400 mt-1">{data.data.description}</p>
 					</div>
-				</div>
-			</section>
 
-			<Tabs value={tab} className="relative w-full bg-white min-h-[calc(100%-110px)]">
-				<TabsList className="sticky top-[60px] z-10 bg-white w-full">
-					{Object.entries(TabList).map(([key, value]) => (
-						<TabsTrigger key={key} value={key} onClick={() => setTab(key)} className="">
-							{value}
-						</TabsTrigger>
-					))}
-				</TabsList>
+					<div className="rounded-[12px] bg-gray-50 p-3 flex flex-col justify-start">
+						<div className="flex justify-between flex-wrap gap-2">
+							<div className="flex gap-2 flex-wrap">
+								{data.data.categories.map((category) => (
+									<Chip color="gray" size={24} key={category}>
+										{Categories[category].ko}
+									</Chip>
+								))}
+							</div>
 
-				<TabsContent
-					value="use"
-					className="py-4 px-5 [box-shadow:inset_0px_4px_4px_0px_rgba(31,34,61,0.015)]"
-				>
-					<div className="b1_18_semi text-gray-800 mb-2">프롬프트 사용하기</div>
-
-					<form>
-						<div className="flex flex-col gap-6">
-							{data?.data.user_input_format.map((opt) => (
-								<div className="flex flex-col gap-2" key={opt.name}>
-									<div className="flex gap-3 items-center">
-										<div className="b2_16_semi text-gray-800">{opt.name}</div>
-										<div className="c1_12_semi text-primary-100">필수</div>
-									</div>
-									<Controller
-										name={opt.name}
-										control={control}
-										rules={{
-											required: `${opt.name}를 입력해 주세요!`,
-										}}
-										render={({ field }) => (
-											<Textarea
-												{...field}
-												placeholder={opt.placeholder || '입력 값을 입력해 주세요.'}
-												className="h-[28px]"
-											/>
-										)}
-									/>
+							<div className="flex gap-4">
+								<div className="flex gap-1 items-center c1_12_reg text-gray-400">
+									<Eye size={16} />
+									<span>{data.data.views}</span>
 								</div>
-							))}
+
+								<div className="flex gap-1 items-center c1_12_reg text-gray-400">
+									<Play size={16} />
+									<span>{data.data.usages}</span>
+								</div>
+
+								<div className="flex gap-1 items-center c1_12_reg text-gray-400">
+									<BookMark width={16} height={16} />
+									<span>{data.data.star}</span>
+								</div>
+
+								<div className="flex gap-1 items-center c1_12_reg text-gray-400">
+									<Profile size={16} />
+									<span>{data.data.author_nickname}</span>
+								</div>
+							</div>
 						</div>
-					</form>
-				</TabsContent>
-
-				<TabsContent
-					value="templete"
-					className="py-4 px-5 [box-shadow:inset_0px_4px_4px_0px_rgba(31,34,61,0.015)]"
-				>
-					<div className="b1_18_semi text-gray-800 mb-2">프롬프트 템플릿</div>
-					<div className="bg-white border border-primary-20 p-4 rounded-[8px] b3_14_med text-gray-700">
-						{data.data.prompt_template}
 					</div>
-				</TabsContent>
-			</Tabs>
+				</section>
 
-			<div className="sticky bottom-0 right-0 left-0 px-5 pt-3 pb-9 bg-white flex gap-3">
+				<Tabs value={tab} className="relative w-full bg-white min-h-full">
+					<TabsList className="sticky top-0 z-10 bg-white w-full">
+						{Object.entries(TabList).map(([key, value]) => (
+							<TabsTrigger key={key} value={key} onClick={() => setTab(key)} className="">
+								{value}
+							</TabsTrigger>
+						))}
+					</TabsList>
+
+					<TabsContent
+						value="use"
+						className="py-4 px-5 [box-shadow:inset_0px_4px_4px_0px_rgba(31,34,61,0.015)]"
+					>
+						<div className="b1_18_semi text-gray-800 mb-2">프롬프트 사용하기</div>
+
+						<form>
+							<div className="flex flex-col gap-6">
+								{data?.data.user_input_format.map((opt) => (
+									<div className="flex flex-col gap-2" key={opt.name}>
+										<div className="flex gap-3 items-center">
+											<div className="b2_16_semi text-gray-800">{opt.name}</div>
+											<div className="c1_12_semi text-primary-100">필수</div>
+										</div>
+										<Controller
+											name={opt.name}
+											control={control}
+											rules={{
+												required: `${opt.name}를 입력해 주세요!`,
+											}}
+											render={({ field }) => (
+												<Textarea
+													{...field}
+													placeholder={opt.placeholder || '입력 값을 입력해 주세요.'}
+													className="h-[28px]"
+												/>
+											)}
+										/>
+									</div>
+								))}
+							</div>
+						</form>
+					</TabsContent>
+
+					<TabsContent
+						value="templete"
+						className="py-4 px-5 [box-shadow:inset_0px_4px_4px_0px_rgba(31,34,61,0.015)]"
+					>
+						<div className="b1_18_semi text-gray-800 mb-2">프롬프트 템플릿</div>
+						<div className="bg-white border border-primary-20 p-4 rounded-[8px] b3_14_med text-gray-700">
+							{data.data.prompt_template}
+						</div>
+					</TabsContent>
+				</Tabs>
+			</div>
+
+			<div className="absolute bottom-0 right-0 left-0 px-5 py-3 bg-white flex gap-3">
 				<Button
 					size={56}
 					className="w-[56px] p-0"

@@ -52,7 +52,7 @@ const PromptHeader = ({ prompt }: Props) => {
 	const isMyPrompt = prompt?.author_nickname === userData?.user?.nickname;
 
 	return (
-		<div className="flex justify-between items-center sticky top-0 left-0 right-0 z-10 w-full h-[60px] bg-white px-5 py-2.5">
+		<header className="flex justify-between items-center absolute top-0 left-0 right-0 z-10 w-full h-[60px] bg-white px-5 py-2.5">
 			<div className="flex gap-4 text-gra800 b2_16_med">
 				<ArrowLeft
 					size={24}
@@ -81,7 +81,7 @@ const PromptHeader = ({ prompt }: Props) => {
 					)}
 				</>
 			)}
-		</div>
+		</header>
 	);
 };
 

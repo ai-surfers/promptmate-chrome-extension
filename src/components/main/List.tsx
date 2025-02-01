@@ -55,7 +55,7 @@ export default function List({ type, onChangeTab }: ListProps) {
 	}
 
 	return (
-		<div className="-mx-5 -my-4 h-full">
+		<div className="pt-4 h-full flex flex-col">
 			<div className="px-5 py-3 flex justify-between items-center">
 				<KindSelectBox kind={kind} onChange={handleOnKindChange} />
 				<VOCDialog />
@@ -123,7 +123,7 @@ const ListContainer = ({
 	}
 
 	return (
-		<div className="flex flex-col gap-2.5 px-5 py-4 bg-gray-50 min-h-[calc(100%-80px)] justify-between">
+		<div className="flex flex-col gap-2.5 px-5 pt-4 pb-8 bg-gray-50 justify-between flex-1">
 			<div className="flex flex-col gap-2.5">
 				{promptListData.data.prompt_info_list.map((pt) => (
 					<ListItem key={pt.id} prompt={pt} onClick={() => navigate(`/prompt/${pt.id}`)} />
