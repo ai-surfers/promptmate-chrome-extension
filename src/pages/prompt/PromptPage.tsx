@@ -1,212 +1,285 @@
-import { useParams } from "react-router-dom";
-import styled from "styled-components";
-import { useRef, useState } from "react";
-
-import Header from "../../components/common/header/AHeader";
-import { Wrapper } from "../../layouts/Layout";
-import Property, { PropertyRef } from "../../components/prompt/Property";
-import { insertPromptToDOMInput } from "../../service/chrome/utils";
-
-import { Button, Result, Spin } from "antd";
-import TopBox from "../../components/prompt/TopBox";
-import InfoDrawer from "../../components/prompt/InfoDrawer";
-import { getAIPlatformType } from "../../utils";
-import { useGetPrompt } from "../../hooks/queries/prompt/useGetPrompt";
-import { useModal } from "../../hooks/useModal";
-import AdContent, {
-    AdFooter,
-} from "../../components/common/modal/content/AdContent";
+import { useParams } from 'react-router-dom';
+import { Suspense, useMemo, useState } from 'react';
+import { insertPromptToDOMInput } from '../../service/chrome/utils';
+import { copyClipboard, getAIPlatformType, populateTemplate } from '../../utils';
+import { useGetPrompt } from '../../hooks/queries/prompt/useGetPrompt';
+import { useModal } from '../../hooks/useModal';
+import AdContent, { AdFooter } from '../../components/common/modal/content/AdContent';
 import {
-    AdType,
-    ExecutePrompt,
-    usePostPromptExecute,
-} from "../../hooks/mutations/prompt/usePostPromptExecute";
-import { useQueryClient } from "@tanstack/react-query";
-import { PROMPT_KEYS } from "../../hooks/queries/QueryKeys";
-import NotSupportedModal from "../../components/common/modal/NotSupportedModal";
-import ResultPrompt from "../../components/prompt/ResultPrompt";
-import { getCurrentTabUrl, openUrlInNewTab } from "@/service/chrome/tabs";
+	AdType,
+	ExecutePrompt,
+	usePostPromptExecute,
+} from '../../hooks/mutations/prompt/usePostPromptExecute';
+import { useQueryClient } from '@tanstack/react-query';
+import { PROMPT_KEYS } from '../../hooks/queries/QueryKeys';
+import NotSupportedModal from '../../components/common/modal/NotSupportedModal';
+import { getCurrentTabUrl, openUrlInNewTab } from '@/service/chrome/tabs';
+import PromptHeader from '@/components/common/header/PromptHeader';
+import { Chip } from '@/components/ui/chip';
+import { Copy, Eye, Play, Profile } from 'iconsax-react';
+import BookMark from '@/assets/BookMark';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Textarea } from '@/components/ui/textarea';
+import { Button } from '@/components/ui/button';
+import { Categories } from '@/core/Prompt';
+import { Controller, useForm } from 'react-hook-form';
+import { useOverlay } from '@toss/use-overlay';
+import { ErrorBoundary } from '@sentry/react';
+import PromptPageSkeleton from '../../components/skeleton/PromptPageSkeleton';
+import PromptPageError from '../../components/error/PromptPageError';
+import { useToast } from '@/hooks/use-toast';
+import ArrowUpRight from '@/assets/ArrowUpRight';
+const PromptPage = () => {
+	return (
+		<ErrorBoundary fallback={<PromptPageError />}>
+			<Suspense fallback={<PromptPageSkeleton />}>
+				<PromptPageContainer />
+			</Suspense>
+		</ErrorBoundary>
+	);
+};
 
-export default function PromptPage() {
-    const { id = "" } = useParams();
-    const { openModal, closeModal } = useModal();
+export const TabList = {
+	use: '프롬프트 사용하기',
+	templete: '프롬프트 템플릿',
+};
 
-    const [showNotSupportedModal, setShowNotSupportedModal] = useState(false);
-    const [prompt, setPrompt] = useState("");
+const PromptPageContainer = () => {
+	const { id = '' } = useParams();
 
-    const [open, setOpen] = useState(false);
-    const propertyRefs = useRef<Record<string, PropertyRef>>({});
+	const { openModal, closeModal } = useModal();
+	const { toast } = useToast();
+	const overlay = useOverlay();
 
-    const queryClient = useQueryClient();
-    const { data, isError, isLoading } = useGetPrompt(id);
-    const { mutate } = usePostPromptExecute({
-        onSuccess: (res) => {
-            const { success, detail, data } = res;
-            console.log(`>> `, success, detail);
+	const queryClient = useQueryClient();
+	const { data } = useGetPrompt(id);
 
-            if (!success) {
-                console.log("지원하지 않는 플랫폼입니다.");
-                openUrlInNewTab("https://chatgpt.com/");
-                setShowNotSupportedModal(true);
-                setPrompt(data.full_prompt);
-                return;
-            }
+	const [tabIdx, setTabIdx] = useState(0);
+	const tabs = useMemo(() => {
+		let tabs = Object.entries(TabList);
 
-            setPrompt(data.full_prompt);
-            insertPromptToDOMInput(data.full_prompt);
+		if (data.data.user_input_format.length === 0) {
+			return tabs.filter(([key]) => key !== 'use');
+		}
 
-            // 광고 있는 경우, 광고 팝업 노출
-            if (data.ad) {
-                handleAd(data.ad);
-            }
+		return tabs;
+	}, [data]);
 
-            // 인풋 values 초기화
-            for (const key in propertyRefs.current) {
-                if (propertyRefs.current[key]) {
-                    propertyRefs.current[key].setValue("");
-                }
-            }
+	const form = useForm();
+	const { control, formState } = form;
 
-            queryClient.invalidateQueries({ queryKey: PROMPT_KEYS.detail(id) });
-        },
-        onError: (error) => {
-            console.log(error.message);
-        },
-    });
+	const isDisabled = formState.isSubmitting || !formState.isValid;
 
-    async function handleUsePrompt() {
-        setPrompt("");
+	const { mutate } = usePostPromptExecute({
+		onSuccess: (res) => {
+			const { success, detail, data } = res;
+			console.log(`>> `, success, detail);
 
-        const propertyValues: Record<string, string> = {};
+			if (!success) {
+				console.log('지원하지 않는 플랫폼입니다.');
+				openUrlInNewTab('https://chatgpt.com/');
 
-        for (const key in propertyRefs.current) {
-            if (propertyRefs.current[key]) {
-                propertyValues[key] = propertyRefs.current[key].getValue();
-            }
-        }
+				overlay.open(({ isOpen, close }) => (
+					<NotSupportedModal prompt={data.full_prompt} isOpen={isOpen} closeModal={close} />
+				));
+				return;
+			}
 
-        if (!id) {
-            console.log("Id가 없습니다.");
-            return;
-        }
+			insertPromptToDOMInput(data.full_prompt);
 
-        getCurrentTabUrl((url) => {
-            const ai_platform = getAIPlatformType(url);
+			// 광고 있는 경우, 광고 팝업 노출
+			if (data.ad) {
+				handleAd(data.ad);
+			}
 
-            const req: ExecutePrompt = {
-                context: propertyValues,
-                ai_platform: ai_platform,
-            };
+			queryClient.invalidateQueries({ queryKey: PROMPT_KEYS.detail(id) });
+		},
+		onError: (error) => {
+			console.log(error.message);
+		},
+	});
 
-            mutate({ prompt_id: id, request: req });
-        });
-    }
+	function handleUsePrompt() {
+		if (!id) {
+			console.log('Id가 없습니다.');
+			return;
+		}
 
-    function handleAd(ad: AdType) {
-        openModal({
-            title: ad.ad_product_name,
-            content: <AdContent ad={ad} />,
-            footer: <AdFooter closeModal={closeModal} ad={ad} />,
-        });
-    }
+		form.handleSubmit(
+			async (propertyValues) => {
+				getCurrentTabUrl((url) => {
+					const ai_platform = getAIPlatformType(url);
 
-    if (isLoading) {
-        return (
-            <>
-                <Header title="프롬프트 사용하기" canGoBack={true} />
-                <FullWrapper>
-                    <Spin tip="Loading">
-                        <div style={{ padding: 50 }} />
-                    </Spin>
-                </FullWrapper>
-            </>
-        );
-    }
+					const req: ExecutePrompt = {
+						context: propertyValues,
+						ai_platform: ai_platform,
+					};
 
-    if (isError) {
-        return (
-            <>
-                <Header title="프롬프트 사용하기" canGoBack={true} />
-                <FullWrapper>
-                    <Result
-                        status="warning"
-                        title="There are some problems with your operation."
-                    />
-                </FullWrapper>
-            </>
-        );
-    }
+					mutate({ prompt_id: id, request: req });
+				});
+			},
+			(error) => {
+				console.log(error);
+			}
+		)();
+	}
 
-    return (
-        <>
-            <Header title="프롬프트 사용하기" canGoBack={true} />
-            <Wrapper>
-                {data?.data && (
-                    <>
-                        <TopBox
-                            id={id}
-                            isFavorite={data?.data.is_starred_by_user}
-                            author={data.data.author_nickname}
-                            onInformationClick={() => setOpen(true)}
-                        />
+	function handleCopy(e: React.MouseEvent<HTMLElement>) {
+		form.handleSubmit(
+			async (propertyValues) => {
+				const prompt = populateTemplate(data.data.prompt_template, propertyValues);
 
-                        <Title>{data?.data.title}</Title>
-                        <Description>{data?.data.description}</Description>
+				copyClipboard(prompt)
+					.then(() => {
+						toast({
+							description: '프롬프트 템플릿이 복사되었습니다',
+							variant: 'dark',
+							duration: 1000,
+						});
+					})
+					.catch((err) => {
+						console.log('클립보드 복사 실패:', err);
+						alert('클립보드 복사에 실패했습니다.');
+					});
+			},
+			(error) => {
+				console.log(error);
+			}
+		)();
+	}
 
-                        {data?.data.user_input_format.map((opt) => (
-                            <Property
-                                key={opt.name}
-                                option={opt}
-                                ref={(el) => {
-                                    if (el) propertyRefs.current[opt.name] = el;
-                                }}
-                            />
-                        ))}
+	function handleAd(ad: AdType) {
+		openModal({
+			title: ad.ad_product_name,
+			content: <AdContent ad={ad} />,
+			footer: <AdFooter closeModal={closeModal} ad={ad} />,
+		});
+	}
 
-                        {prompt && <ResultPrompt prompt={prompt} />}
+	return (
+		<div className="h-full pt-[60px] pb-[80px] relative">
+			<PromptHeader prompt={data?.data} />
 
-                        <Button
-                            type="primary"
-                            style={{
-                                width: "100%",
-                                marginTop: "20px",
-                                marginBottom: "30px",
-                            }}
-                            onClick={handleUsePrompt}
-                        >
-                            사용
-                        </Button>
+			<div className="h-full overflow-y-scroll flex flex-col">
+				<section className="w-full px-5 py-2 flex flex-col gap-4">
+					<div>
+						<h1 className="h1_24_semi text-gray-800">{data.data.title} </h1>
+						<p className="b3_14_reg text-gray-400 mt-1">{data.data.description}</p>
+					</div>
 
-                        <InfoDrawer
-                            info={data.data}
-                            isOpen={open}
-                            onClose={() => setOpen(false)}
-                        />
-                    </>
-                )}
-            </Wrapper>
+					<div className="rounded-[12px] bg-gray-50 p-3 flex flex-col justify-start">
+						<div className="flex justify-between flex-wrap gap-2">
+							<div className="flex gap-2 flex-wrap">
+								{data.data.categories.map((category) => (
+									<Chip color="gray" size={24} key={category}>
+										{Categories[category].ko}
+									</Chip>
+								))}
+							</div>
 
-            <NotSupportedModal
-                isOpen={showNotSupportedModal}
-                prompt={prompt}
-                closeModal={() => setShowNotSupportedModal(false)}
-            />
-        </>
-    );
-}
+							<div className="flex gap-4">
+								<div className="flex gap-1 items-center c1_12_reg text-gray-400">
+									<Eye size={16} />
+									<span>{data.data.views}</span>
+								</div>
 
-const Title = styled.h2`
-    ${({ theme }) => theme.fonts.title};
-    margin: 10px 0;
-`;
+								<div className="flex gap-1 items-center c1_12_reg text-gray-400">
+									<Play size={16} />
+									<span>{data.data.usages}</span>
+								</div>
 
-const Description = styled.h2`
-    ${({ theme }) => theme.fonts.description};
-    color: ${({ theme }) => theme.colors.deep_gray};
-`;
+								<div className="flex gap-1 items-center c1_12_reg text-gray-400">
+									<BookMark width={16} height={16} />
+									<span>{data.data.star}</span>
+								</div>
 
-const FullWrapper = styled.div`
-    width: 100%;
-    height: 100%;
-    ${({ theme }) => theme.mixins.flexBox()};
-`;
+								<div className="flex gap-1 items-center c1_12_reg text-gray-400">
+									<Profile size={16} />
+									<span>{data.data.author_nickname}</span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<Tabs value={tabs[tabIdx][0]} className="relative w-full bg-white min-h-full">
+					<TabsList className="sticky top-0 z-10 bg-white w-full">
+						{tabs.map(([key, value], idx) => (
+							<TabsTrigger key={key} value={key} onClick={() => setTabIdx(idx)}>
+								{value}
+							</TabsTrigger>
+						))}
+					</TabsList>
+
+					<TabsContent
+						value="use"
+						className="py-4 px-5 [box-shadow:inset_0px_4px_4px_0px_rgba(31,34,61,0.015)]"
+					>
+						<div className="b1_18_semi text-gray-800 mb-2">프롬프트 사용하기</div>
+
+						<form>
+							<div className="flex flex-col gap-6">
+								{data?.data.user_input_format.map((opt) => (
+									<div className="flex flex-col gap-2" key={opt.name}>
+										<div className="flex gap-3 items-center">
+											<div className="b2_16_semi text-gray-800">{opt.name}</div>
+											<div className="c1_12_semi text-primary-100">필수</div>
+										</div>
+										<Controller
+											name={opt.name}
+											control={control}
+											rules={{
+												required: `${opt.name}를 입력해 주세요!`,
+											}}
+											render={({ field }) => (
+												<Textarea
+													{...field}
+													placeholder={opt.placeholder || '입력 값을 입력해 주세요.'}
+													className="h-[28px]"
+												/>
+											)}
+										/>
+									</div>
+								))}
+							</div>
+						</form>
+					</TabsContent>
+
+					<TabsContent
+						value="templete"
+						className="py-4 px-5 [box-shadow:inset_0px_4px_4px_0px_rgba(31,34,61,0.015)]"
+					>
+						<div className="b1_18_semi text-gray-800 mb-2">프롬프트 템플릿</div>
+						<div className="bg-white border border-primary-20 p-4 rounded-[8px] b3_14_med text-gray-700">
+							{data.data.prompt_template}
+						</div>
+					</TabsContent>
+				</Tabs>
+			</div>
+
+			<div className="absolute bottom-0 right-0 left-0 px-5 py-3 bg-white flex gap-3">
+				<Button
+					size={56}
+					className="w-[56px] p-0"
+					disabled={isDisabled}
+					variant="normal"
+					onClick={handleCopy}
+				>
+					<Copy size={20} />
+				</Button>
+				<Button
+					size={56}
+					className="b2_16_semi flex items-center flex-1"
+					variant="primary"
+					disabled={isDisabled}
+					onClick={handleUsePrompt}
+				>
+					<div className="flex-grow">프롬프트 사용하기</div>
+					<ArrowUpRight width={24} height={24} stroke={isDisabled ? '#AFB1C1' : '#fff'} />
+				</Button>
+			</div>
+		</div>
+	);
+};
+
+export default PromptPage;

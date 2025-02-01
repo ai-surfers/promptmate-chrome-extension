@@ -1,24 +1,29 @@
-import { Outlet } from "react-router-dom";
-import styled from "styled-components";
+import { useEffect } from 'react';
+import { Outlet, useLocation } from 'react-router-dom';
+import styled from 'styled-components';
 
 export default function Layout() {
-    return (
-        <Container>
-            <Outlet />
-        </Container>
-    );
+	const { pathname } = useLocation();
+	useEffect(() => {
+		window.scrollTo(0, 0);
+	}, [pathname]);
+
+	return (
+		<Container>
+			<Outlet />
+		</Container>
+	);
 }
 
 const Container = styled.div`
-    max-width: 452px;
-
-    width: 100vw;
-    height: 100vh;
+    margin: 0 auto;
 
     background: #fff;
 
-    margin: 0 auto;
-    overflow: scroll;
+    max-width: 452px;
+    min-width: 344px;
+    width: 100vw;
+    height: 100vh;
 
     position: relative;
 `;

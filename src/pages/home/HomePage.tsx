@@ -1,78 +1,54 @@
-import styled from "styled-components";
-import { Button, FloatButton, Tabs } from "antd";
-import { TabList } from "../../core/Tab";
-import List from "../../components/main/List";
-import { CustomerServiceOutlined } from "@ant-design/icons";
-import VOCModal from "../../components/common/modal/VOCModal";
-import { useState } from "react";
-import { openPocketPromptInNewTab } from "../../service/chrome/utils";
+import { TabList } from '../../core/Tab';
+import List from '../../components/main/List';
+import { useState } from 'react';
+import { openPocketPromptInNewTab } from '../../service/chrome/utils';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import Header from '@/components/common/header/Header';
+import { Button } from '@/components/ui/button';
+import ArrowUpRight from '@/assets/ArrowUpRight';
+
+export type TabType = keyof typeof TabList;
 
 export default function HomePage() {
-    const [showVOC, setShowVOC] = useState(false);
+	const [tab, setTab] = useState<TabType>('open');
 
-    const [tab, setTab] = useState(Object.keys(TabList)[0]);
+	const handleOnChangeTab = (tab: TabType) => setTab(tab);
 
-    const handleOnChangeTab = (tab: string) => setTab(tab);
-    const components = [
-        <List type="starred" onChangeTab={handleOnChangeTab} />,
-        <List type="open" />,
-        <List type="my" />,
-    ];
+	return (
+		<div className="h-full pt-[60px] pb-[80px] relative">
+			<Header />
 
-    const handleNewPrompt = () => {
-        openPocketPromptInNewTab("prompt-new");
-    };
+			<Tabs value={tab} className="h-full">
+				<TabsList className="sticky top-[60px] z-10 bg-white w-full h-[40px]">
+					{Object.entries(TabList).map(([key, value]) => (
+						<TabsTrigger key={key} value={key} onClick={() => handleOnChangeTab(key as TabType)}>
+							{value}
+						</TabsTrigger>
+					))}
+				</TabsList>
+				{Object.entries(TabList).map(([key, value], idx) => (
+					<TabsContent key={key} value={key} className="h-[calc(100%-40px)] overflow-scroll">
+						<List type={key as TabType} onChangeTab={handleOnChangeTab} />
+					</TabsContent>
+				))}
+			</Tabs>
 
-    const operation = (
-        <Button type="primary" onClick={handleNewPrompt}>
-            +
-        </Button>
-    );
-
-    return (
-        <HomePageContainer>
-            <Tabs
-                tabBarExtraContent={operation}
-                items={Object.entries(TabList).map(([key, value], idx) => {
-                    return {
-                        label: `${value}`,
-                        key: `${key}`,
-                        children: components[idx],
-                    };
-                })}
-                activeKey={tab}
-                onChange={(key) => {
-                    setTab(key);
-                }}
-            />
-
-            <FloatButton
-                shape="circle"
-                type="primary"
-                style={{ right: 24 }}
-                icon={<CustomerServiceOutlined />}
-                onClick={() => setShowVOC(true)}
-            />
-
-            <VOCModal isOpen={showVOC} closeModal={() => setShowVOC(false)} />
-        </HomePageContainer>
-    );
+			<PromptNewButton />
+		</div>
+	);
 }
 
-const HomePageContainer = styled.div`
-    position: relative;
-    width: 100%;
-    height: 100%;
+const PromptNewButton = () => {
+	const handleNewPrompt = () => {
+		openPocketPromptInNewTab('prompt-new');
+	};
 
-    .ant-tabs-nav {
-        padding: 0 40px;
-
-        .ant-tabs-tab {
-            padding: 15px 0;
-        }
-    }
-
-    .ant-tabs-content-holder {
-        padding: 0 40px;
-    }
-`;
+	return (
+		<div className="absolute bottom-0 right-0 left-0 px-5 py-3 bg-white" onClick={handleNewPrompt}>
+			<Button className="b2_16_semi flex items-center w-full">
+				<div className="flex-1">프롬프트 등록하러 가기</div>
+				<ArrowUpRight width={24} height={24} className="flex-shrink-0" />
+			</Button>
+		</div>
+	);
+};

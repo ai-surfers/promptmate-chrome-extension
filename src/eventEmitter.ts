@@ -1,15 +1,15 @@
 // eventEmitter.ts
-import { AxiosRequestHeaders } from "axios";
-import EventEmitter from "eventemitter3";
+import { AxiosRequestHeaders } from 'axios';
+import EventEmitter from 'eventemitter3';
 
 export const enum EventType {
-    Error = "error",
+	Error = 'error',
 }
 
 export interface ErrorArgs {
-    code: number;
-    message: string;
-    headers?: AxiosRequestHeaders;
+	code: number;
+	message: string;
+	headers?: AxiosRequestHeaders;
 }
 
 const eventEmitter = new EventEmitter();

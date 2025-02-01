@@ -8,11 +8,11 @@ const isLocalDevelopment = !chrome?.tabs;
  * @param url
  */
 export const openUrlInNewTab = (url: string) => {
-    if (isLocalDevelopment) {
-        window.open(url);
-    } else {
-        chrome.tabs.create({ url });
-    }
+	if (isLocalDevelopment) {
+		window.open(url);
+	} else {
+		chrome.tabs.create({ url });
+	}
 };
 
 /**
@@ -20,15 +20,15 @@ export const openUrlInNewTab = (url: string) => {
  * @param callback
  */
 export const getCurrentTabUrl = (callback: (url: string) => void) => {
-    if (isLocalDevelopment) {
-        const url = window.location.href;
-        callback(url);
-    } else {
-        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
-            const activeTab = tabs[0];
+	if (isLocalDevelopment) {
+		const url = window.location.href;
+		callback(url);
+	} else {
+		chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+			const activeTab = tabs[0];
 
-            if (activeTab.url) callback(activeTab.url);
-            else callback("");
-        });
-    }
+			if (activeTab.url) callback(activeTab.url);
+			else callback('');
+		});
+	}
 };

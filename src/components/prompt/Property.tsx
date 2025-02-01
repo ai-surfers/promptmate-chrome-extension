@@ -1,47 +1,47 @@
-import styled from "styled-components";
-import { forwardRef, useImperativeHandle, useState } from "react";
-import TextArea from "antd/es/input/TextArea";
-import { InputFormat } from "../../hooks/mutations/prompt/usePostPrompt";
+import styled from 'styled-components';
+import { forwardRef, useImperativeHandle, useState } from 'react';
+import TextArea from 'antd/es/input/TextArea';
+import { InputFormat } from '../../hooks/mutations/prompt/usePostPrompt';
 
 export interface PropertyProps {
-    option: InputFormat;
+	option: InputFormat;
 }
 
 export interface PropertyRef {
-    getValue: () => string;
-    setValue: (value: string) => void;
+	getValue: () => string;
+	setValue: (value: string) => void;
 }
 
 const Property = forwardRef<PropertyRef, PropertyProps>(({ option }, ref) => {
-    const [value, setValue] = useState("");
+	const [value, setValue] = useState('');
 
-    useImperativeHandle(ref, () => ({
-        getValue: () => value,
-        setValue: (value: string) => setValue(value),
-    }));
+	useImperativeHandle(ref, () => ({
+		getValue: () => value,
+		setValue: (value: string) => setValue(value),
+	}));
 
-    return (
-        <PropertyContainer>
-            <Title>{option.name}</Title>
+	return (
+		<PropertyContainer>
+			<Title>{option.name}</Title>
 
-            {option.type === "text" && (
-                <TextArea
-                    value={value}
-                    onChange={(e) => {
-                        setValue(e.target.value);
-                    }}
-                    placeholder={option.placeholder}
-                />
-            )}
+			{option.type === 'text' && (
+				<TextArea
+					value={value}
+					onChange={(e) => {
+						setValue(e.target.value);
+					}}
+					placeholder={option.placeholder}
+				/>
+			)}
 
-            {/* <AInput
+			{/* <AInput
                 value={value}
                 onChange={(e) => {
                     setValue(e.target.value);
                 }}
             /> */}
-        </PropertyContainer>
-    );
+		</PropertyContainer>
+	);
 });
 export default Property;
 

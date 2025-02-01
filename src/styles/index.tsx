@@ -1,28 +1,30 @@
-import { ThemeProvider } from "styled-components";
-import GlobalStyle from "./GlobalStyle";
-import theme from "./theme";
-import { ConfigProvider } from "antd";
+import { ThemeProvider } from 'styled-components';
+import theme from './theme';
+import { ConfigProvider } from 'antd';
 
 interface StylesProps {
-    children: React.ReactNode;
+	children: React.ReactNode;
 }
 
 const Styles = ({ children }: StylesProps) => {
-    return (
-        <ConfigProvider
-            theme={{
-                token: {
-                    colorPrimary: "#001529", //#4A7DFF
-                    fontFamily: "Suit",
-                },
-            }}
-        >
-            <ThemeProvider theme={theme}>
-                <GlobalStyle />
-                {children}
-            </ThemeProvider>
-        </ConfigProvider>
-    );
+	return (
+		<ConfigProvider
+			theme={{
+				token: {
+					colorPrimary: '#7580EA',
+					fontFamily: 'Pretendard',
+				},
+				components: {
+					Select: {
+						optionSelectedColor: '#7580EA',
+						optionSelectedBg: '#F2F3FD',
+					},
+				},
+			}}
+		>
+			<ThemeProvider theme={theme}>{children}</ThemeProvider>
+		</ConfigProvider>
+	);
 };
 
 export default Styles;

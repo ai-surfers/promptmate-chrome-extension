@@ -1,29 +1,21 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 interface SelectBoxProps {
-    selected: string | undefined;
-    options: readonly string[];
-    onChange: (value: string) => void;
+	selected: string | undefined;
+	options: readonly string[];
+	onChange: (value: string) => void;
 }
 
-export default function SelectBox({
-    selected,
-    options,
-    onChange,
-}: SelectBoxProps) {
-    return (
-        <SelectBoxContainer>
-            <Select
-                name="choice"
-                value={selected}
-                onChange={(e) => onChange(e.target.value)}
-            >
-                {options.map((opt) => (
-                    <option value={opt}>{opt}</option>
-                ))}
-            </Select>
-        </SelectBoxContainer>
-    );
+export default function SelectBox({ selected, options, onChange }: SelectBoxProps) {
+	return (
+		<SelectBoxContainer>
+			<Select name="choice" value={selected} onChange={(e) => onChange(e.target.value)}>
+				{options.map((opt) => (
+					<option value={opt}>{opt}</option>
+				))}
+			</Select>
+		</SelectBoxContainer>
+	);
 }
 
 const SelectBoxContainer = styled.div`
