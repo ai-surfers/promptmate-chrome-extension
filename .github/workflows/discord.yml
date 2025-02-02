@@ -34,7 +34,11 @@ jobs:
             - name: Create zip file link
               id: create_link
               run: |
-                  ZIP_LINK="https://github.com/${{ github.repository }}/blob/${{ github.ref }}/build/production/build-${VERSION}.zip"
+                  if [ "${{ github.event_name }}" == "pull_request" ]; then
+                      ZIP_LINK="https://github.com/${{ github.repository }}/blob/${{ github.head_ref }}/build/production/build-${VERSION}.zip"
+                  else
+                      ZIP_LINK="https://github.com/${{ github.repository }}/blob/${{ github.ref }}/build/production/build-${VERSION}.zip"
+                  fi
                   echo "Zip link: $ZIP_LINK"
                   echo "ZIP_LINK=$ZIP_LINK" >> $GITHUB_ENV
 
