@@ -247,7 +247,7 @@ const PromptPageContainer = () => {
 						value="templete"
 						className="py-4 px-5 [box-shadow:inset_0px_4px_4px_0px_rgba(31,34,61,0.015)]"
 					>
-						<div className="bg-white border border-primary-20 p-4 rounded-[8px] b3_14_med text-gray-700">
+						<div className="bg-white border border-primary-20 p-4 rounded-[8px] b3_14_med text-gray-700 whitespace-pre-wrap">
 							{data.data.prompt_template}
 						</div>
 					</TabsContent>
