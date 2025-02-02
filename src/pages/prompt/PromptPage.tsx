@@ -215,8 +215,6 @@ const PromptPageContainer = () => {
 						value="use"
 						className="py-4 px-5 [box-shadow:inset_0px_4px_4px_0px_rgba(31,34,61,0.015)]"
 					>
-						<div className="b1_18_semi text-gray-800 mb-2">프롬프트 사용하기</div>
-
 						<form>
 							<div className="flex flex-col gap-6">
 								{data?.data.user_input_format.map((opt) => (
@@ -249,7 +247,6 @@ const PromptPageContainer = () => {
 						value="templete"
 						className="py-4 px-5 [box-shadow:inset_0px_4px_4px_0px_rgba(31,34,61,0.015)]"
 					>
-						<div className="b1_18_semi text-gray-800 mb-2">프롬프트 템플릿</div>
 						<div className="bg-white border border-primary-20 p-4 rounded-[8px] b3_14_med text-gray-700">
 							{data.data.prompt_template}
 						</div>
