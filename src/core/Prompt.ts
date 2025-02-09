@@ -31,6 +31,7 @@ export enum AIPlatformType {
 	CHATGPT = 'ChatGPT',
 	CLAUDE = 'Claude',
 	GEMINI = 'Gemini',
+	PERPLEXITY = 'Perplexity',
 	NONE = 'Not Supported',
 }
 
