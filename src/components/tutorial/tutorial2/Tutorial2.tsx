@@ -21,7 +21,7 @@ export default function Tutorial2({ onNext }: Tutorial2Props) {
 				<styles.Subtitle>버튼을 눌러 chatGPT로 이동해 보세요</styles.Subtitle>
 			</styles.Wrapper>
 
-			<img src="/images/img_platform.svg" alt="ic_back" />
+			<img src="/images/img_platform.svg" alt="ic_back" className="h-[40%]" />
 
 			<styles.Wrapper>
 				<styles.Content>

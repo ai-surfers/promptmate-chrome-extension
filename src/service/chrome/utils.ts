@@ -118,10 +118,38 @@ export const insertPromptToDOMInput = (text: string): void => {
 				setTimeout(() => triggerEnterKey(contentEditableDiv), 100);
 			}
 		},
+		[AIPlatformType.PERPLEXITY]: (value: string): void => {
+			// [Perplexity] enter = 전송 / shift + enter = 줄바꿈
+			const triggerEnterKey = (element: HTMLElement): void => {
+				const event = new KeyboardEvent('keydown', {
+					bubbles: true,
+					cancelable: true,
+					key: 'Enter',
+					code: 'Enter',
+					keyCode: 13,
+					which: 13,
+				});
+				element.dispatchEvent(event);
+			};
+
+			const triggetInputEvent = (element: HTMLElement): void => {
+				const event = new Event('input', { bubbles: true });
+				element.dispatchEvent(event);
+			};
+
+			const textarea = document.querySelector('textarea') as HTMLTextAreaElement | null;
+			if (textarea) {
+				textarea.value = value;
+				triggetInputEvent(textarea);
+				setTimeout(() => triggerEnterKey(textarea), 100);
+				return;
+			}
+		},
 	};
 
 	getCurrentTabUrl((url: string): void => {
 		const platform = getAIPlatformType(url);
+		console.log('>> platform', url, platform);
 
 		if (platform === AIPlatformType.NONE) {
 			console.log('* 지원하지 않는 플랫폼입니다.');
