@@ -1,20 +1,33 @@
 import * as React from 'react';
 import { cn } from '@/lib/utils';
+import { mergeRefs } from '@/lib/mergeRefs';
 
 export interface TextareaProps extends React.ComponentProps<'textarea'> {
 	count?: number;
+	autoResize?: boolean;
 }
 
 const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
-	({ className, count, onChange, ...props }, ref) => {
+	({ className, count, autoResize, onChange, ...props }, ref) => {
 		const [length, setLength] = React.useState(0);
+		const textareaRef = React.useRef<HTMLTextAreaElement | null>(null);
 
 		const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
 			const currentValue = e.target.value;
 			setLength(currentValue.length);
 			if (count && currentValue.length > count) return;
 			if (onChange) onChange(e);
+
+			autoResize && adjustHeight();
 		};
+
+		const adjustHeight = React.useCallback(() => {
+			const textarea = textareaRef.current;
+			if (!textarea) return;
+
+			textarea.style.height = 'auto';
+			textarea.style.height = `${textarea.scrollHeight}px`;
+		}, []);
 
 		return (
 			<div
@@ -28,14 +41,15 @@ const Textarea = React.forwardRef<HTMLTextAreaElement, TextareaProps>(
 				)}
 			>
 				<textarea
-					ref={ref}
+					ref={mergeRefs(ref, textareaRef)}
 					className={cn(
-						'flex w-full h-full border-none bg-transparent outline-none resize-vertical',
+						'flex w-full min-h-[28px] h-full border-none bg-transparent outline-none resize-vertical',
 						'b3_14_med text-gray-700 placeholder:text-primary-60 placeholder:b3_14_reg focus:outline-none focus:ring-0',
 						'disabled:resize-none disabled:text-gray-300 disabled:placeholder-gray-300',
 						className
 					)}
 					onChange={handleChange}
+					rows={1}
 					{...props}
 				/>
 				{count && (

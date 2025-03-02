@@ -213,7 +213,8 @@ const PromptPageContainer = () => {
 
 					<TabsContent
 						value="use"
-						className="py-4 px-5 [box-shadow:inset_0px_4px_4px_0px_rgba(31,34,61,0.015)]"
+						className="data-[state=inactive]:hidden py-4 px-5 [box-shadow:inset_0px_4px_4px_0px_rgba(31,34,61,0.015)]"
+						forceMount
 					>
 						<form>
 							<div className="flex flex-col gap-6">
@@ -233,7 +234,7 @@ const PromptPageContainer = () => {
 												<Textarea
 													{...field}
 													placeholder={opt.placeholder || '입력 값을 입력해 주세요.'}
-													className="h-[28px]"
+													autoResize
 												/>
 											)}
 										/>
