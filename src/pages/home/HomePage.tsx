@@ -27,7 +27,12 @@ export default function HomePage() {
 					))}
 				</TabsList>
 				{Object.entries(TabList).map(([key, value], idx) => (
-					<TabsContent key={key} value={key} className="h-[calc(100%-40px)] overflow-scroll">
+					<TabsContent
+						key={key}
+						value={key}
+						className="data-[state=inactive]:hidden h-[calc(100%-40px)] overflow-scroll"
+						forceMount
+					>
 						<List type={key as TabType} onChangeTab={handleOnChangeTab} />
 					</TabsContent>
 				))}
