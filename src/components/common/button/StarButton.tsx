@@ -94,7 +94,7 @@ export default function StarButton({ id, isFavorite, type = 'normal' }: StarButt
 			size={44}
 			className={cn(
 				'p-0 w-[40px] h-[40px] rounded-[8px] border-primary-30',
-				isFavorite && 'bg-primary-10'
+				isFavorite ? 'bg-primary-10' : '!bg-white'
 			)}
 			onClick={handleOnFavoriteClick}
 		>
