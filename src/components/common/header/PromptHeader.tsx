@@ -68,14 +68,7 @@ const PromptHeader = ({ prompt }: Props) => {
 						<MenuDrawer info={prompt} />
 					) : (
 						<div className="flex gap-3">
-							<Button
-								variant="secondary"
-								className="p-0 w-[40px] h-[40px] rounded-[8px]"
-								onClick={handleSend}
-							>
-								<Send size={20} />
-							</Button>
-
+							<ShareButton onClick={handleSend}/>
 							<StarButton id={prompt.id} isFavorite={prompt.is_starred_by_user} />
 						</div>
 					)}
@@ -84,5 +77,15 @@ const PromptHeader = ({ prompt }: Props) => {
 		</header>
 	);
 };
+
+
+const ShareButton = ({onClick}: {onClick: () => void}) => {
+	return (
+		<Button variant="secondary" className="p-0 w-[40px] h-[40px] rounded-[8px]" onClick={onClick}>
+			<Send size={20} />
+		</Button>
+	);
+};	
+
 
 export default PromptHeader;
