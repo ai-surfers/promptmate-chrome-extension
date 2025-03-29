@@ -24,7 +24,7 @@ export function useLogger() {
 	}, [userData.user?.email]);
 
 	const track = useCallback(
-		async (type: EventType, name: string, params: Record<string, string>) => {
+		async (type: EventType, name: string, params: Record<string, any>) => {
 			const event_params = {
 				...getCommonParams(),
 				...params,
