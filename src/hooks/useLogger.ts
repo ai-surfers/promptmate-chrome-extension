@@ -1,9 +1,11 @@
+import eventSchema from '@/eventSchema';
 import { usePostEventTag, AddEventTagRequest } from '@/hooks/mutations/event-tag/usePostEventTag';
 import { useUser } from '@/hooks/useUser';
 import { useCallback } from 'react';
 // import qs from 'query-string';
 
 type EventType = 'click' | 'impression' | 'pageView';
+type EventName = keyof typeof eventSchema;
 
 export function useLogger() {
 	const { userData } = useUser();
@@ -24,8 +26,9 @@ export function useLogger() {
 	}, [userData.user?.email]);
 
 	const track = useCallback(
-		async (type: EventType, name: string, params: Record<string, any>) => {
+		async (type: EventType, name: EventName, params: Record<string, any>) => {
 			const event_params = {
+				description: eventSchema[name],
 				...getCommonParams(),
 				...params,
 			};
