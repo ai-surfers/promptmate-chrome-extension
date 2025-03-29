@@ -4,6 +4,9 @@ import { useDeleteStar } from '../../../hooks/mutations/star/useDeleteStar';
 import { PROMPT_KEYS } from '../../../hooks/queries/QueryKeys';
 import BookMark from '@/assets/BookMark';
 import { Button } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
+import { useToast } from '@/hooks/use-toast';
+import { useLogger } from '@/hooks/useLogger';
 
 interface StarButtonProps {
 	id: string;
@@ -13,6 +16,8 @@ interface StarButtonProps {
 
 export default function StarButton({ id, isFavorite, type = 'normal' }: StarButtonProps) {
 	const queryClient = useQueryClient();
+	const { toast } = useToast();
+	const { track } = useLogger();
 
 	function handleOnFavoriteClick(e: React.MouseEvent<HTMLElement, MouseEvent>) {
 		e.stopPropagation();
@@ -20,6 +25,11 @@ export default function StarButton({ id, isFavorite, type = 'normal' }: StarButt
 			console.log('No id');
 			return;
 		}
+
+		track('click', 'click_star_button', {
+			prompt_id: id,
+			is_favorite: String(!isFavorite),
+		});
 
 		if (isFavorite) deleteStar(id);
 		else postStar(id);
@@ -34,6 +44,12 @@ export default function StarButton({ id, isFavorite, type = 'normal' }: StarButt
 				alert(`${detail}`);
 				return;
 			}
+
+			toast({
+				description: '프롬프트가 저장되었습니다.',
+				variant: 'dark',
+				duration: 1000,
+			});
 
 			queryClient.invalidateQueries({ queryKey: PROMPT_KEYS.detail(id) });
 			queryClient.invalidateQueries({ queryKey: PROMPT_KEYS.lists() });
@@ -74,12 +90,15 @@ export default function StarButton({ id, isFavorite, type = 'normal' }: StarButt
 
 	return (
 		<Button
-			variant={isFavorite ? 'primary' : 'normal'}
+			variant="secondary"
 			size={44}
-			className="p-0 w-[40px] h-[40px] rounded-[8px]"
+			className={cn(
+				'p-0 w-[40px] h-[40px] rounded-[8px] border-primary-30',
+				isFavorite ? 'bg-primary-10' : '!bg-white'
+			)}
 			onClick={handleOnFavoriteClick}
 		>
-			<BookMark stroke={isFavorite ? '#fff' : '#7580EA'} height={20} />
+			<BookMark stroke="#7580EA" fill={isFavorite ? '#7580EA' : 'none'} height={20} />
 		</Button>
 	);
 }

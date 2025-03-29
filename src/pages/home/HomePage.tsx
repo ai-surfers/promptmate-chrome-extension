@@ -6,7 +6,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import Header from '@/components/common/header/Header';
 import { Button } from '@/components/ui/button';
 import ArrowUpRight from '@/assets/ArrowUpRight';
-
+import { useLogger } from '@/hooks/useLogger';
 export type TabType = keyof typeof TabList;
 
 export default function HomePage() {
@@ -44,7 +44,10 @@ export default function HomePage() {
 }
 
 const PromptNewButton = () => {
+	const { track } = useLogger();
+
 	const handleNewPrompt = () => {
+		track('click', 'click_new_prompt_button', {});
 		openPocketPromptInNewTab('prompt-new');
 	};
 

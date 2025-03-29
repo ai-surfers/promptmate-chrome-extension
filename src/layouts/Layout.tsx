@@ -1,11 +1,16 @@
 import { useEffect } from 'react';
 import { Outlet, useLocation } from 'react-router-dom';
 import styled from 'styled-components';
-
+import { useLogger } from '@/hooks/useLogger';
 export default function Layout() {
 	const { pathname } = useLocation();
+	const { track } = useLogger();
+
 	useEffect(() => {
 		window.scrollTo(0, 0);
+		track('pageView', 'pageView', {
+			pathname,
+		});
 	}, [pathname]);
 
 	return (

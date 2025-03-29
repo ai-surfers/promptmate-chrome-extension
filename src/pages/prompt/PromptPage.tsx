@@ -29,6 +29,7 @@ import PromptPageSkeleton from '../../components/skeleton/PromptPageSkeleton';
 import PromptPageError from '../../components/error/PromptPageError';
 import { useToast } from '@/hooks/use-toast';
 import ArrowUpRight from '@/assets/ArrowUpRight';
+import { useLogger } from '@/hooks/useLogger';
 const PromptPage = () => {
 	return (
 		<ErrorBoundary fallback={<PromptPageError />}>
@@ -45,6 +46,8 @@ export const TabList = {
 };
 
 const PromptPageContainer = () => {
+	const { track } = useLogger();
+
 	const { id = '' } = useParams();
 
 	const { openModal, closeModal } = useModal();
@@ -114,6 +117,11 @@ const PromptPageContainer = () => {
 						context: propertyValues,
 						ai_platform: ai_platform,
 					};
+
+					track('click', 'click_use_prompt_button', {
+						prompt_id: id,
+						...req,
+					});
 
 					mutate({ prompt_id: id, request: req });
 				});

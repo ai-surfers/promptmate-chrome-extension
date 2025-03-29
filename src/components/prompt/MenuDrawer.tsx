@@ -19,6 +19,7 @@ import { useQueryClient } from '@tanstack/react-query';
 import { PROMPT_KEYS } from '@/hooks/queries/QueryKeys';
 import { useNavigate } from 'react-router-dom';
 import DeleteDialog from '../common/dialog/DeleteDialog';
+import { Button } from '@/components/ui/button';
 
 interface MenuDrawerProps {
 	info: GetPromptResponse;
@@ -90,7 +91,9 @@ export default function MenuDrawer({ info }: MenuDrawerProps) {
 	return (
 		<Drawer>
 			<DrawerTrigger>
-				<MenuOutlined />
+				<Button variant='secondary' className="p-0 w-[40px] h-[40px] rounded-[8px] border-none" >
+					<MenuOutlined size={20}/>
+				</Button>
 			</DrawerTrigger>
 			<DrawerContent>
 				<DrawerTitle className="hidden" />
